@@ -19,7 +19,7 @@
             icon="ri-information-line"
             size="18"
             color="error"
-            class="pb-3"
+            class="mb-1"
           />
           Please Enable Location & reload</span
         >
@@ -29,9 +29,11 @@
 
     <div v-if="questions[currentIndex]">
       <div class="mb-2 p-3">
-        <h4 class="text-lg text-blue-900 font-medium mb-2">{{ questions[currentIndex].question }}</h4>
-        <p class="text-gray-600">Question {{ currentIndex + 1 }} of {{ questions.length }}</p>
-
+        <div class="question-container">
+          <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
+          <p class="text-gray-600">Question {{ currentIndex + 1 }} of {{ questions.length }}</p>
+          <!-- rest of the question content -->
+        </div>
         <div class="w-full border-dotted border-2 rounded h-60 relative my-4">
           <!-- Show picture image initially -->
           <div
@@ -44,7 +46,20 @@
               alt="Placeholder"
               class="w-10 h-10 object-cover"
             />
-            <div class="mt-2 font-bold">Live Capture</div>
+            <div>
+              <div
+                v-if="questions[currentIndex].live == 1"
+                class="mt-2 font-bold"
+              >
+                Live Capture
+              </div>
+              <div
+                v-else
+                class="mt-2 font-bold"
+              >
+                Live Capture <span class="text-error"> *</span>
+              </div>
+            </div>
           </div>
 
           <!-- Live Camera Feed -->
@@ -87,27 +102,41 @@
             Switch Camera
           </button> -->
         </div>
-
-        <textarea
-          id="message"
-          rows="3"
-          v-model="notes[currentIndex]"
-          placeholder="  Optional Message / Notes"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        ></textarea>
+        <div>
+          <div v-if="questions[currentIndex].message == 1">
+            <textarea
+              id="message"
+              rows="3"
+              v-model="notes[currentIndex]"
+              placeholder="  Optional Message / Notes "
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            ></textarea>
+          </div>
+          <div v-else>
+            <textarea
+              id="message"
+              rows="3"
+              v-model="notes[currentIndex]"
+              placeholder="  Optional Message / Notes * "
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            ></textarea>
+          </div>
+        </div>
       </div>
       <div class="flex justify-between p-3">
         <button
           @click="previousStep"
+          :disabled="currentIndex <= 0"
           class="border border-gray-500 text-gray-500 font-bold py-2 px-4 w-100 mr-2 rounded"
-          v-if="currentIndex > 0"
+          :class="{ 'bg-gray-200': currentIndex <= 0 }"
         >
           ← Previous
         </button>
         <button
           @click="nextStep"
           class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 w-100 rounded"
-          v-if="currentIndex < questions.length - 1"
+          :disabled="this.currentIndex >= this.questions.length - 1"
+          :class="{ 'bg-gray-200 hover:bg-gray-200': this.currentIndex >= this.questions.length - 1 }"
         >
           Next →
         </button>
@@ -139,6 +168,7 @@ export default {
       prev: null,
       next: null,
       capturedImages: [],
+      isLastQuestion: false,
     }
   },
   mounted() {
@@ -233,6 +263,7 @@ export default {
       }
     },
     nextStep() {
+      console.log(this.currentIndex, this.questions.length, 'questions.length')
       if (this.currentIndex < this.questions.length - 1) {
         this.currentIndex++
         this.showCamera = false
@@ -256,6 +287,12 @@ export default {
 
 
 <style scoped>
+.question-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 160px; /* adjust the height value as needed */
+}
 .relative {
   position: relative;
 }
