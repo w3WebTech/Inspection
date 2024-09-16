@@ -12,19 +12,18 @@
         :class="coordinates ? 'text-gray-500' : 'text-error'"
       >
         <span class="text-blue-900">GPS</span>
-        {{ coordinates ? `${coordinates.latitude}, ${coordinates.longitude}` : 'Unable to get location,  ' }}
-      </p>
-      <p
-        class="px-3 text-error"
-        v-if="!coordinates"
-      >
-        <VIcon
-          icon="ri-information-line"
-          size="20"
-          color="error"
-          class="pb-1"
-        />
-        Please Enable Location & reload
+        <span
+          class="px-3 text-error text-sm"
+          v-if="!coordinates"
+          ><VIcon
+            icon="ri-information-line"
+            size="18"
+            color="error"
+            class="pb-3"
+          />
+          Please Enable Location & reload</span
+        >
+        {{ coordinates ? `${coordinates.latitude}, ${coordinates.longitude}` : ' ' }}
       </p>
     </div>
 
@@ -37,7 +36,7 @@
           <!-- Show picture image initially -->
           <div
             class="absolute inset-0 flex flex-col justify-center items-center py-20"
-            v-if="!showCamera && !capturedImage"
+            v-if="!showCamera && !capturedImages[currentIndex]"
             @click="toggleCamera"
           >
             <img
@@ -58,9 +57,14 @@
           ></video>
 
           <!-- Captured Image -->
-          <img
+          <!-- <img
             v-if="capturedImage"
             :src="capturedImage"
+            class="absolute inset-0 w-full h-full object-cover"
+          /> -->
+          <img
+            v-if="capturedImages[currentIndex]"
+            :src="capturedImages[currentIndex]"
             class="absolute inset-0 w-full h-full object-cover"
           />
         </div>
@@ -96,12 +100,14 @@
         <button
           @click="previousStep"
           class="border border-gray-500 text-gray-500 font-bold py-2 px-4 w-100 mr-2 rounded"
+          v-if="currentIndex > 0"
         >
           ← Previous
         </button>
         <button
           @click="nextStep"
           class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 w-100 rounded"
+          v-if="currentIndex < questions.length - 1"
         >
           Next →
         </button>
@@ -226,18 +232,22 @@ export default {
       } finally {
       }
     },
-    previousStep() {
-      if (this.currentIndex > 0) {
-        this.currentIndex--
-      } else {
-        this.prev = null
-      }
-    },
     nextStep() {
       if (this.currentIndex < this.questions.length - 1) {
         this.currentIndex++
+        this.showCamera = false
+        this.capturedImage = null
       } else {
         this.next = null
+      }
+    },
+    previousStep() {
+      if (this.currentIndex > 0) {
+        this.currentIndex--
+        this.showCamera = false
+        this.capturedImage = null
+      } else {
+        this.prev = null
       }
     },
   },
