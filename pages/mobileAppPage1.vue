@@ -1,7 +1,7 @@
 <template>
   <div class="rounded-md shadow-md bg-white">
     <!-- Your page content here -->
-    <div class="flex justify-between items-center p-3">
+    <div class="flex justify-between items-center px-3 py-0.5">
       <h2 class="text-xl text-blue-900 font-bold">A101</h2>
     </div>
     <div class="border-b">
@@ -28,13 +28,13 @@
     </div>
 
     <div v-if="questions[currentIndex]">
-      <div class="mb-2 p-3">
+      <div class="mb-2 px-3">
         <div class="question-container">
           <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
           <p class="text-gray-600">Question {{ currentIndex + 1 }} of {{ questions.length }}</p>
           <!-- rest of the question content -->
         </div>
-        <div class="w-full border-dotted border-2 rounded h-60 relative my-4">
+        <div class="w-full border-dotted border-2 rounded h-40 relative my-4">
           <!-- Show picture image initially -->
           <div
             class="absolute inset-0 flex flex-col justify-center items-center py-20"
