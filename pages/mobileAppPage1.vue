@@ -31,7 +31,66 @@
       <div class="mb-2 px-3">
         <div class="question-container">
           <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
-          <p class="text-gray-600">Question {{ currentIndex + 1 }} of {{ questions.length }}</p>
+
+          <div class="flex justify-between mb-2">
+            <p class="text-gray-600">Question {{ currentIndex + 1 }} of {{ questions.length }}</p>
+            <!-- <div class="flex items-center">
+              <button
+                @click="toggleYesNo"
+                :class="{
+                  'bg-blue-900 text-white': yesNo === true,
+                  'bg-gray-200 text-gray-600': yesNo === null,
+                  'bg-red-900 text-white': yesNo === false,
+                }"
+                class="px-4 py-2 rounded"
+              >
+                {{ yesNo === true ? '  Yes  ' : yesNo === false ? '  No  ' : 'Neutral' }}
+              </button>
+            </div> -->
+            <!-- The toggle button -->
+            <div class="container">
+              <div class="switch">
+                <input
+                  id="switch-y"
+                  name="tripple"
+                  type="radio"
+                  value="Y"
+                  class="switch-input"
+                />
+                <label
+                  for="switch-y"
+                  class="switch-label switch-label-y"
+                  >Yes</label
+                >
+                <input
+                  id="switch-i"
+                  name="tripple"
+                  type="radio"
+                  value="I"
+                  class="switch-input"
+                  checked
+                />
+                <label
+                  for="switch-i"
+                  class="switch-label switch-label-i"
+                  >Neutral</label
+                >
+                <input
+                  id="switch-n"
+                  name="tripple"
+                  type="radio"
+                  value="N"
+                  class="switch-input"
+                />
+                <label
+                  for="switch-n"
+                  class="switch-label switch-label-n"
+                  >No</label
+                >
+                <span class="switch-selector"></span>
+              </div>
+            </div>
+          </div>
           <!-- rest of the question content -->
         </div>
         <div class="w-full border-dotted border-2 rounded h-40 relative my-4">
@@ -156,6 +215,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      yesNo: null,
       image: null,
       currentStream: null,
       facingMode: 'environment',
@@ -281,12 +341,119 @@ export default {
         this.prev = null
       }
     },
+    async postData() {
+      try {
+        // Prepare the data
+        const questions = this.questions.map((question, index) => {
+          return {
+            questionId: question.id,
+            question: question.question,
+            message: this.notes[index],
+            Image: this.capturedImages[index],
+            type: question.type,
+            EmpId: 'GUD001',
+            customerId: 'A101',
+            companyName: 'Finy Wealth',
+            state: 'Andhra Pradesh',
+            lat: this.coordinates.latitude,
+            lan: this.coordinates.longitude,
+            data: new Date().toISOString(),
+            time: new Date().toLocaleTimeString(),
+          }
+        })
+
+        // Make a POST request to the API
+        const response = await axios.post('https://your-api-url.com/submit-questions', {
+          questions,
+        })
+
+        console.log(response.data)
+      } catch (err) {
+        console.error('Error:', err)
+      }
+    },
+    toggleYesNo() {
+      if (this.yesNo === null) {
+        this.yesNo = true
+      } else if (this.yesNo === true) {
+        this.yesNo = false
+      } else {
+        this.yesNo = null
+      }
+    },
   },
 }
 </script>
 
 
 <style scoped>
+.container {
+  /* margin: 15px auto 0; */
+  color: white;
+  /* padding: 45px 0; */
+  width: 150px; /* reduced from 400px */
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.switch {
+  position: relative;
+  height: 22px; /* reduced from 32px */
+
+  /* margin: 10px auto; */
+  background: #f2f2f2;
+  background: #d7d7d7;
+  border-radius: 20px; /* reduced from 32px */
+}
+
+.switch-label {
+  font-weight: bold;
+  position: relative;
+  z-index: 2;
+  float: left;
+  width: 50px; /* reduced from 100px */
+  line-height: 20px; /* reduced from 32px */
+
+  font-size: 13px; /* reduced from 12px */
+  color: #676a6c;
+  text-align: center;
+  cursor: pointer;
+}
+
+.switch-input {
+  display: none;
+}
+
+.switch-input:checked + .switch-label {
+  color: #fff;
+  transition: 0.15s ease-out;
+  transition-property: color, text-shadow;
+}
+
+.switch-input:checked + .switch-label-y ~ .switch-selector {
+  transform: translateX(0%);
+  background-color: #1ab394;
+}
+.switch-input:checked + .switch-label-i ~ .switch-selector {
+  transform: translateX(100%);
+  background-color: #f8ac59;
+}
+.switch-input:checked + .switch-label-n ~ .switch-selector {
+  transform: translateX(200%);
+  background-color: #ed5565;
+}
+
+.switch-selector {
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 0px;
+  display: block;
+  width: 50px; /* reduced from 100px */
+  height: 20px; /* reduced from 32px */
+  border-radius: 20px; /* reduced from 32px */
+  background-color: #1ab394;
+  transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
 .question-container {
   display: flex;
   flex-direction: column;
