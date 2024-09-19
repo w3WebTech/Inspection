@@ -34,61 +34,38 @@
 
           <div class="flex justify-between mb-2">
             <p class="text-gray-600">Question {{ currentIndex + 1 }} of {{ questions.length }}</p>
-            <!-- <div class="flex items-center">
-              <button
-                @click="toggleYesNo"
-                :class="{
-                  'bg-blue-900 text-white': yesNo === true,
-                  'bg-gray-200 text-gray-600': yesNo === null,
-                  'bg-red-900 text-white': yesNo === false,
-                }"
-                class="px-4 py-2 rounded"
+            <div class="switch-toggle switch-3 switch-candy rounded-full h-7">
+              <input
+                id="on"
+                name="state-d"
+                class="green"
+                type="radio"
+                :value="true"
+                @input="updateYesNo($event, currentIndex)"
+                :checked="questions[currentIndex].yesNo === true"
+              />
+              <label
+                for="on"
+                class="green"
+                onclick=""
+                >Yes</label
               >
-                {{ yesNo === true ? '  Yes  ' : yesNo === false ? '  No  ' : 'Neutral' }}
-              </button>
-            </div> -->
-            <!-- The toggle button -->
-            <div class="container">
-              <div class="switch">
-                <input
-                  id="switch-y"
-                  name="tripple"
-                  type="radio"
-                  value="Y"
-                  class="switch-input"
-                />
-                <label
-                  for="switch-y"
-                  class="switch-label switch-label-y"
-                  >Yes</label
-                >
-                <input
-                  id="switch-i"
-                  name="tripple"
-                  type="radio"
-                  value="I"
-                  class="switch-input"
-                  checked
-                />
-                <label
-                  for="switch-i"
-                  class="switch-label switch-label-i"
-                  >Neutral</label
-                >
-                <input
-                  id="switch-n"
-                  name="tripple"
-                  type="radio"
-                  value="N"
-                  class="switch-input"
-                />
-                <label
-                  for="switch-n"
-                  class="switch-label switch-label-n"
-                  >No</label
-                >
-                <span class="switch-selector"></span>
-              </div>
+
+              <input
+                id="off"
+                name="state-d"
+                class="red"
+                type="radio"
+                :value="false"
+                @input="updateYesNo($event, currentIndex)"
+                :checked="questions[currentIndex].yesNo === false"
+              />
+              <label
+                for="off"
+                class="red"
+                onclick=""
+                >No</label
+              >
             </div>
           </div>
           <!-- rest of the question content -->
@@ -160,6 +137,17 @@
           >
             Switch Camera
           </button> -->
+        </div>
+        <div
+          v-if="capturedImages[currentIndex]"
+          class="py-3"
+        >
+          <button
+            @click="retake"
+            class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded w-100"
+          >
+            Retake
+          </button>
         </div>
         <div>
           <div v-if="questions[currentIndex].message == 1">
@@ -299,6 +287,12 @@ export default {
         console.error('Error getting location:', error)
       }
     },
+    retake() {
+      this.showCamera = true
+      this.capturedImage = null
+      this.capturedImages[this.currentIndex] = null
+      this.startCamera()
+    },
     async fetchData() {
       try {
         const response = await axios.get('https://g1.gwcindia.in/ap_inspection/get-questions.php')
@@ -321,6 +315,9 @@ export default {
         console.error('Error:', err)
       } finally {
       }
+    },
+    updateYesNo(event, index) {
+      this.questions[index].yesNo = event.target.value === 'true'
     },
     nextStep() {
       console.log(this.currentIndex, this.questions.length, 'questions.length')
@@ -372,87 +369,35 @@ export default {
         console.error('Error:', err)
       }
     },
-    toggleYesNo() {
-      if (this.yesNo === null) {
-        this.yesNo = true
-      } else if (this.yesNo === true) {
-        this.yesNo = false
-      } else {
-        this.yesNo = null
-      }
-    },
   },
 }
 </script>
 
 
 <style scoped>
-.container {
-  /* margin: 15px auto 0; */
-  color: white;
-  /* padding: 45px 0; */
-  width: 150px; /* reduced from 400px */
-  background-color: rgba(255, 255, 255, 1);
-}
-
-.switch {
-  position: relative;
-  height: 22px; /* reduced from 32px */
-
-  /* margin: 10px auto; */
-  background: #f2f2f2;
-  background: #d7d7d7;
-  border-radius: 20px; /* reduced from 32px */
-}
-
-.switch-label {
-  font-weight: bold;
-  position: relative;
-  z-index: 2;
+.switch-toggle {
   float: left;
-  width: 50px; /* reduced from 100px */
-  line-height: 20px; /* reduced from 32px */
-
-  font-size: 13px; /* reduced from 12px */
-  color: #676a6c;
-  text-align: center;
+  background: gray;
+}
+.switch-toggle input {
+  position: absolute;
+  opacity: 0;
+}
+.switch-toggle input + label {
+  padding: 3px 4px;
+  float: left;
+  color: #fff;
   cursor: pointer;
 }
 
-.switch-input {
-  display: none;
+.switch-toggle input:checked + .red {
+  background: red;
+  border-radius: 20px;
 }
 
-.switch-input:checked + .switch-label {
-  color: #fff;
-  transition: 0.15s ease-out;
-  transition-property: color, text-shadow;
-}
-
-.switch-input:checked + .switch-label-y ~ .switch-selector {
-  transform: translateX(0%);
-  background-color: #1ab394;
-}
-.switch-input:checked + .switch-label-i ~ .switch-selector {
-  transform: translateX(100%);
-  background-color: #f8ac59;
-}
-.switch-input:checked + .switch-label-n ~ .switch-selector {
-  transform: translateX(200%);
-  background-color: #ed5565;
-}
-
-.switch-selector {
-  position: absolute;
-  z-index: 1;
-  top: 0px;
-  left: 0px;
-  display: block;
-  width: 50px; /* reduced from 100px */
-  height: 20px; /* reduced from 32px */
-  border-radius: 20px; /* reduced from 32px */
-  background-color: #1ab394;
-  transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+.switch-toggle input:checked + .green {
+  background: green;
+  border-radius: 20px;
 }
 .question-container {
   display: flex;
