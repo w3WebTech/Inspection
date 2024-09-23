@@ -368,15 +368,15 @@ export default {
       this.getLocation(),
       this.fetchData(),
       (this.yesNoAnswers = new Array(this.questions.length).fill(false))
-    this.cusId = this.$route.query.customerId ? this.$route.query.customerId : 'GZ10219'
+    this.cusId = this.$route.query.customerId ? this.$route.query.customerId : ''
     console.log(this.cusId, ' this.cusId')
-    this.empName = this.$route.query.employeeName ? this.$route.query.employeeName : 'GZ10219'
+    this.empName = this.$route.query.employeeName ? this.$route.query.employeeName : ''
     console.log(this.empName, ' this.empName')
-    this.empId = this.$route.query.employeeId ? this.$route.query.employeeId : 'GZ10219'
+    this.empId = this.$route.query.employeeId ? this.$route.query.employeeId : ''
     console.log(this.empId, ' this.empId')
-    this.companyName = this.$route.query.clientCompanyName ? this.$route.query.clientCompanyName : 'GZ10219'
+    this.companyName = this.$route.query.clientCompanyName ? this.$route.query.clientCompanyName : ''
     console.log(this.companyName, ' this.companyName')
-    this.state = this.$route.query.state ? this.$route.query.state : 'GZ10219'
+    this.state = this.$route.query.state ? this.$route.query.state : ''
     console.log(this.state, ' this.state')
     // userStore.setUser(this.empName, this.empId)
   },
