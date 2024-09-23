@@ -2,11 +2,11 @@
   <div class="rounded-md shadow-md bg-white">
     <!-- Your page content here -->
     <div class="flex justify-between items-center px-3 py-0.5">
-      <h2 class="text-xl text-blue-900 font-bold">{{ displayCusId }}</h2>
+      <h2 class="text-xl text-blue-900 font-bold">A101</h2>
     </div>
     <div class="border-b">
-      <h3 class="font-medium mb-1 px-3">{{ displayCompanyName }}</h3>
-      <p class="text-gray-600 font-medium px-3">{{ displayState }}</p>
+      <h3 class="font-medium mb-1 px-3">Finy Wealth</h3>
+      <p class="text-gray-600 font-medium px-3">Andhra Pradesh</p>
       <p
         class="px-3"
         :class="coordinates ? 'text-gray-500' : 'text-error'"
@@ -28,282 +28,130 @@
     </div>
 
     <div v-if="questions[currentIndex]">
-      <div>
-        <!-- ... -->
-
-        <div
-          v-if="questions[currentIndex].isclientImage == true"
-          class="mb-2 px-3"
-        >
+      <div class="mb-2 px-3">
+        <div class="question-container">
           <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
-          <div v-if="questions[currentIndex].isLiveCameraMandatory == true">
-            <div class="w-full border-dotted border-2 rounded h-40 relative my-4">
-              <!-- Show picture image initially -->
-
-              <div
-                class="absolute inset-0 flex flex-col justify-center items-center py-20"
-                v-if="!showClientCamera && !capturedClientImage"
-                @click="toggleClientCamera"
-              >
-                <img
-                  src="@/public/picture.png"
-                  alt="Placeholder"
-                  class="w-10 h-10 object-cover"
-                />
-                <div>
-                  <div class="mt-2 font-bold">Live Capture <span class="text-error"> *</span></div>
-                </div>
-              </div>
-
-              <!-- Live Camera Feed -->
-
-              <video
-                ref="clientVideo"
-                v-if="showClientCamera && !capturedClientImage"
-                class="absolute inset-0 w-full h-full object-cover"
-                autoplay
-              ></video>
-
-              <!-- Captured Image -->
-              <img
-                v-if="capturedClientImage"
-                :src="capturedClientImage"
-                class="absolute inset-0 w-full h-full object-cover"
-              />
-            </div>
-            <!-- Capture button only shown when live camera feed is displayed -->
+          <div v-if="questions[currentIndex].parts">
             <div
-              v-if="showClientCamera && !capturedClientImage"
-              class="py-3"
+              v-for="(part, index) in questions[currentIndex].parts"
+              :key="index"
             >
-              <button
-                @click="captureClientImage"
-                class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 rounded w-full"
-              >
-                Capture
-              </button>
-            </div>
-            <div
-              v-if="capturedClientImage"
-              class="py-3"
-            >
-              <button
-                @click="retakeClientImage"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded w-100"
-              >
-                Retake
-              </button>
+              <h5 class="text-md text-blue-900 font-medium mb-1">{{ part.part }}</h5>
             </div>
           </div>
-        </div>
-
-        <div
-          v-else-if="questions[currentIndex].isEmployeeImage == true"
-          class="mb-2 px-3"
-        >
-          <!-- Show question and back camera -->
-          <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
-          <div v-if="questions[currentIndex].isLiveCameraMandatory == true">
-            <div class="w-full border-dotted border-2 rounded h-40 relative my-4">
-              <!-- Show picture image initially -->
-
-              <div
-                class="absolute inset-0 flex flex-col justify-center items-center py-20"
-                v-if="!showCamera && !capturedImages[currentIndex]"
-                @click="toggleCamera"
-              >
-                <img
-                  src="@/public/picture.png"
-                  alt="Placeholder"
-                  class="w-10 h-10 object-cover"
-                />
-                <div>
-                  <div class="mt-2 font-bold">Live Capture <span class="text-error"> *</span></div>
-                </div>
-              </div>
-
-              <!-- Live Camera Feed -->
-
-              <video
-                ref="video"
-                v-if="showCamera && !capturedImage"
-                class="absolute inset-0 w-full h-full object-cover"
-                autoplay
-              ></video>
-
-              <!-- Captured Image -->
-              <!-- <img
-                v-if="capturedImage"
-                :src="capturedImage"
-                class="absolute inset-0 w-full h-full object-cover"
-              /> -->
-              <img
-                v-if="capturedImages[currentIndex]"
-                :src="capturedImages[currentIndex]"
-                class="absolute inset-0 w-full h-full object-cover"
+          <div class="flex justify-between mb-2">
+            <p class="text-gray-600">Question {{ currentIndex + 1 }} of {{ questions.length }}</p>
+            <label class="inline-flex items-center mb-5 cursor-pointer">
+              <span class="mx-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300">no</span>
+              <input
+                type="checkbox"
+                :value="this.questions[currentIndex].isMessageMandatory"
+                :checked="this.questions[currentIndex].isMessageMandatory"
+                @input="
+                  updateYesNoAnswer(
+                    questions[currentIndex].questionId,
+                    $event.target.checked,
+                    questions[currentIndex].isMessageMandatory,
+                  )
+                "
+                class="sr-only peer"
               />
-            </div>
-            <!-- Capture button only shown when live camera feed is displayed -->
+              <div
+                class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+              ></div>
+              <span class="ms-3 text-sm font-medium text-gray-700 dark:text-gray-300">yes</span>
+            </label>
+          </div>
+          <!-- rest of the question content -->
+        </div>
+        <div v-if="questions[currentIndex].isLiveCameraMandatory == true">
+          <div class="w-full border-dotted border-2 rounded h-40 relative my-4">
+            <!-- Show picture image initially -->
             <div
+              class="absolute inset-0 flex flex-col justify-center items-center py-20"
+              v-if="!showCamera && !capturedImages[currentIndex]"
+              @click="toggleCamera"
+            >
+              <img
+                src="@/public/picture.png"
+                alt="Placeholder"
+                class="w-10 h-10 object-cover"
+              />
+              <div>
+                <div class="mt-2 font-bold">Live Capture <span class="text-error"> *</span></div>
+              </div>
+            </div>
+
+            <!-- Live Camera Feed -->
+
+            <video
+              ref="video"
               v-if="showCamera && !capturedImage"
-              class="py-3"
-            >
-              <button
-                @click="capture"
-                class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 rounded w-full"
-              >
-                Capture
-              </button>
-              <!-- <button
-            @click="switchCamera"
-            class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-100"
-          >
-            Switch Camera
-          </button> -->
-            </div>
-            <div
-              v-if="capturedImages[currentIndex]"
-              class="py-3"
-            >
-              <button
-                @click="retake"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded w-100"
-              >
-                Retake
-              </button>
-            </div>
-          </div>
-        </div>
+              class="absolute inset-0 w-full h-full object-cover"
+              autoplay
+            ></video>
 
-        <div
-          class="mb-2 px-3"
-          v-else
-        >
-          <div class="question-container">
-            <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
-            <div v-if="questions[currentIndex].parts">
-              <div
-                v-for="(part, index) in questions[currentIndex].parts"
-                :key="index"
-              >
-                <h5 class="text-md text-blue-900 font-medium mb-1">{{ part.part }}</h5>
-              </div>
-            </div>
-            <div class="flex justify-between mb-2">
-              <label class="inline-flex items-center mb-5 cursor-pointer">
-                <span class="mr-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300">yes</span>
-                <input
-                  type="checkbox"
-                  :value="this.questions[currentIndex].isMessageMandatory"
-                  :checked="this.questions[currentIndex].isMessageMandatory"
-                  @input="
-                    updateYesNoAnswer(
-                      questions[currentIndex].questionId,
-                      $event.target.checked,
-                      questions[currentIndex].isMessageMandatory,
-                    )
-                  "
-                  class="sr-only peer"
-                />
-                <div
-                  class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
-                ></div>
-                <span class="ms-3 text-sm font-medium text-gray-700 dark:text-gray-300">no</span>
-              </label>
-            </div>
-            <!-- rest of the question content -->
-          </div>
-          <div v-if="questions[currentIndex].isLiveCameraMandatory == true">
-            <div class="w-full border-dotted border-2 rounded h-40 relative my-4">
-              <!-- Show picture image initially -->
-              <div
-                class="absolute inset-0 flex flex-col justify-center items-center py-20"
-                v-if="!showCamera && !capturedImages[currentIndex]"
-                @click="toggleCamera"
-              >
-                <img
-                  src="@/public/picture.png"
-                  alt="Placeholder"
-                  class="w-10 h-10 object-cover"
-                />
-                <div>
-                  <div class="mt-2 font-bold">Live Capture <span class="text-error"> *</span></div>
-                </div>
-              </div>
-
-              <!-- Live Camera Feed -->
-
-              <video
-                ref="video"
-                v-if="showCamera && !capturedImage"
-                class="absolute inset-0 w-full h-full object-cover"
-                autoplay
-              ></video>
-
-              <!-- Captured Image -->
-              <!-- <img
+            <!-- Captured Image -->
+            <!-- <img
             v-if="capturedImage"
             :src="capturedImage"
             class="absolute inset-0 w-full h-full object-cover"
           /> -->
-              <img
-                v-if="capturedImages[currentIndex]"
-                :src="capturedImages[currentIndex]"
-                class="absolute inset-0 w-full h-full object-cover"
-              />
-            </div>
-            <!-- Capture button only shown when live camera feed is displayed -->
-            <div
-              v-if="showCamera && !capturedImage"
-              class="py-3"
+            <img
+              v-if="capturedImages[currentIndex]"
+              :src="capturedImages[currentIndex]"
+              class="absolute inset-0 w-full h-full object-cover"
+            />
+          </div>
+          <!-- Capture button only shown when live camera feed is displayed -->
+          <div
+            v-if="showCamera && !capturedImage"
+            class="py-3"
+          >
+            <button
+              @click="capture"
+              class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 rounded w-full"
             >
-              <button
-                @click="capture"
-                class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 rounded w-full"
-              >
-                Capture
-              </button>
-              <!-- <button
+              Capture
+            </button>
+            <!-- <button
             @click="switchCamera"
             class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-100"
           >
             Switch Camera
           </button> -->
-            </div>
-            <div
-              v-if="capturedImages[currentIndex]"
-              class="py-3"
+          </div>
+          <div
+            v-if="capturedImages[currentIndex]"
+            class="py-3"
+          >
+            <button
+              @click="retake"
+              class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded w-100"
             >
-              <button
-                @click="retake"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded w-100"
-              >
-                Retake
-              </button>
-            </div>
+              Retake
+            </button>
           </div>
-          <div>
-            <div v-if="questions[currentIndex].isMessageMandatory">
-              <textarea
-                id="message"
-                rows="3"
-                v-model="notes[currentIndex]"
-                placeholder="  Optional Message / Notes  "
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              ></textarea>
-            </div>
-
-            <div v-else>
-              <textarea
-                id="message"
-                rows="3"
-                v-model="notes[currentIndex]"
-                placeholder="  Optional Message / Notes *  "
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              ></textarea>
-            </div>
+        </div>
+        <div>
+          <div v-if="questions[currentIndex].isMessageMandatory">
+            <textarea
+              id="message"
+              rows="3"
+              v-model="notes[currentIndex]"
+              placeholder="  Optional Message / Notes * "
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            ></textarea>
           </div>
-          <div class="text-gray-600">Question {{ currentIndex + 1 }} of {{ questions.length }}</div>
+          <div v-else>
+            <textarea
+              id="message"
+              rows="3"
+              v-model="notes[currentIndex]"
+              placeholder="  Optional Message / Notes "
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            ></textarea>
+          </div>
         </div>
       </div>
       <div class="flex justify-between p-3">
@@ -335,13 +183,10 @@
 
 <script lang="ts">
 import axios from 'axios'
-// import { userDataStore } from '~/stores/tableData'
-// const userStore = userDataStore()
+
 export default {
   data() {
     return {
-      showClientCamera: false,
-      capturedClientImage: null,
       yesNoAnswers: {},
       image: null,
       currentStream: null,
@@ -356,70 +201,15 @@ export default {
       next: null,
       capturedImages: [],
       isLastQuestion: false,
-      cusId: null,
-      empId: null,
-      empName: null,
-      companyName: null,
-      state: null,
     }
   },
   mounted() {
     this.startCamera(),
       this.getLocation(),
       this.fetchData(),
-      (this.yesNoAnswers = new Array(this.questions.length).fill(false))
-    this.cusId = this.$route.query.customerId ? this.$route.query.customerId : 'GZ10219'
-    console.log(this.cusId, ' this.cusId')
-    this.empName = this.$route.query.employeeName ? this.$route.query.employeeName : 'GZ10219'
-    console.log(this.empName, ' this.empName')
-    this.empId = this.$route.query.employeeId ? this.$route.query.employeeId : 'GZ10219'
-    console.log(this.empId, ' this.empId')
-    this.companyName = this.$route.query.clientCompanyName ? this.$route.query.clientCompanyName : 'GZ10219'
-    console.log(this.companyName, ' this.companyName')
-    this.state = this.$route.query.state ? this.$route.query.state : 'GZ10219'
-    console.log(this.state, ' this.state')
-    // userStore.setUser(this.empName, this.empId)
-  },
-  computed: {
-    displayCusId() {
-      return this.cusId ? this.cusId : ''
-    },
-    displayCompanyName() {
-      return this.companyName ? this.companyName : ''
-    },
-    displayState() {
-      return this.state ? this.state : ''
-    },
+      (this.yesNoAnswers = new Array(this.questions.length).fill(false)) // initialize array with null values
   },
   methods: {
-    async startClientCamera() {
-      this.currentStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
-      this.$refs.clientVideo.srcObject = this.currentStream
-    },
-
-    toggleClientCamera() {
-      this.showClientCamera = !this.showClientCamera
-      if (this.showClientCamera) {
-        this.startClientCamera()
-      }
-    },
-
-    captureClientImage() {
-      const canvas = document.createElement('canvas')
-      const video = this.$refs.clientVideo
-      const context = canvas.getContext('2d')
-      canvas.width = video.videoWidth
-      canvas.height = video.videoHeight
-      context.drawImage(video, 0, 0, canvas.width, canvas.height)
-      this.capturedClientImage = canvas.toDataURL('image/png')
-      this.showClientCamera = false
-    },
-
-    retakeClientImage() {
-      this.showClientCamera = true
-      this.capturedClientImage = null
-      this.startClientCamera()
-    },
     updateYesNoAnswer(questionId, value, index) {
       console.log(index, 'index')
       const currentQuestionIndex = this.questions.findIndex(question => question.questionId === questionId)
@@ -800,26 +590,6 @@ export default {
               "28 The AP's mobile number, and email address are not mapped to any of its client in UCC uploaded to Exchange.",
             isMessageMandatory: false,
             isLiveCameraMandatory: false,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
-          },
-          {
-            questionId: '32',
-            question: 'client image',
-            isMessageMandatory: false,
-            isLiveCameraMandatory: true,
-            isclientImage: true,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
-          },
-          {
-            questionId: '33',
-            question: 'employee image',
-            isMessageMandatory: false,
-            isLiveCameraMandatory: true,
-            isEmployeeImage: true,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
             date: 'date',

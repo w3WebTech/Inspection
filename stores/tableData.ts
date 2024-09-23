@@ -2,16 +2,19 @@ import { defineStore } from 'pinia';
 export const userDataStore = defineStore('todos', {
   state: () => ({
     todos: [],
-    employeeName:'',
-    employeeId:''
+    userId:'',
+    password:''
   }),
   actions: {
-    setUser(employeeName: string,employeeId: string) {
-      this.employeeName =employeeName
-      this.employeeId=employeeId
-     console.log(this.employeeName,  this.employeeId)
+    setUser(email: string,pword: string) {
+      this.userId =email
+      this.password=pword
+     console.log(this.userId,  this.password)
     },
-  
+    removeUser() {
+      this.userId =''
+      this.password=''
+    },
       
   },
 })

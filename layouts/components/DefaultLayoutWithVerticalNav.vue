@@ -6,22 +6,6 @@ import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
-import { ref } from 'vue'
-import { onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-const empName = ref('')
-const empId = ref('')
-
-onMounted(() => {
-  const route = useRoute()
-  empName.value = route.query.employeeName ? route.query.employeeName : 'GZ10219'
-  console.log(empName.value, ' empName')
-  empId.value = route.query.employeeId ? route.query.employeeId : 'GZ10219'
-  console.log(empId.value, ' empId')
-})
-
-// import { userDataStore } from '~/stores/tableData'
-// const userStore = userDataStore()
 </script>
 
 <template>
@@ -41,8 +25,8 @@ onMounted(() => {
 
         <VSpacer />
         <div class="px-4 font-bold py-1 text-sm">
-          <div>{{ empName ? empName : 'hh' }}</div>
-          <div>{{ empId ? empId : 'hh' }}</div>
+          <div>GUD001</div>
+          <div>Praveen</div>
         </div>
         <!-- <NavbarThemeSwitcher class="me-2" /> -->
         <UserProfile />
