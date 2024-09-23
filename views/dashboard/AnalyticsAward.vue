@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import trophy from '@images/misc/trophy.png'
-import { userDataStore } from '~/stores/tableData'
+// import { userDataStore } from '~/stores/tableData'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 const router = useRouter()
-const userStore = userDataStore()
+// const userStore = userDataStore()
 let totalClient = ref(0)
 onMounted(() => {
-  const userId = userStore.userId || ''
-  const password = userStore.password || ''
-  if (userId == null || userId == '' || userId == undefined) {
-    router.push('/login')
-  }
-  console.log(userId, password, 'password')
+  // const userId = userStore.userId || ''
+  // const password = userStore.password || ''
+  // if (userId == null || userId == '' || userId == undefined) {
+  //   router.push('/login')
+  // }
+  // console.log(userId, password, 'password')
   fetchData()
 })
 const routeto = () => {

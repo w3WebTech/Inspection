@@ -148,8 +148,8 @@ import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
 import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@images/pages/auth-v1-tree.png'
-import { userDataStore } from '~/stores/tableData'
-const userStore = userDataStore()
+// import { userDataStore } from '~/stores/tableData'
+// const userStore = userDataStore()
 const router = useRouter()
 let allowedIps = ref([])
 let userIp = ref('')
@@ -183,7 +183,7 @@ const handleLogin = async () => {
     const foundUser = userIdArray.find(user => user.eMail === enteredEmail && user.passWord === enteredPassword)
 
     if (foundUser) {
-      userStore.setUser(enteredEmail, enteredPassword)
+      // userStore.setUser(enteredEmail, enteredPassword)
 
       router.push('/tableData')
     } else {

@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import avatar1 from '@images/avatars/avatar-1.png'
-import { userDataStore } from '~/stores/tableData'
+// import { userDataStore } from '~/stores/tableData'
 import { useRouter } from 'vue-router'
 const router = useRouter()
-const userStore = userDataStore()
-const userName = userStore.userId
+// const userStore = userDataStore()
+// const userName = userStore.userId
 const routeCheck = () => {
-  const userId = userStore.userId
-  const password = userStore.password
-  console.log(userId, password, 'password')
-
-  if (userId != '' && password != '' && userId != undefined && password != undefined) {
-    userStore.removeUser()
-    router.push('/login')
-  } else {
-    alert('Login Credentials Not Available')
-  }
+  // const userId = userStore.userId
+  // const password = userStore.password
+  // console.log(userId, password, 'password')
+  // if (userId != '' && password != '' && userId != undefined && password != undefined) {
+  // userStore.removeUser()
+  // router.push('/login')
+  // } else {
+  //   alert('Login Credentials Not Available')
+  // }
 }
 </script>
 

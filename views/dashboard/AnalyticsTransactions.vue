@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { userDataStore } from '~/stores/tableData'
+// import { userDataStore } from '~/stores/tableData'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 const router = useRouter()
-const userStore = userDataStore()
+// const userStore = userDataStore()
 let totalClient = ref(0)
 let totalOrder = ref(0)
 let progressdata = ref(0)
@@ -35,12 +35,12 @@ const statistics = computed(() => [
 ])
 
 onMounted(() => {
-  const userId = userStore.userId || ''
-  const password = userStore.password || ''
-  if (userId == null || userId == '' || userId == undefined) {
-    router.push('/login')
-  }
-  console.log(userId, password, 'password')
+  // const userId = userStore.userId || ''
+  // const password = userStore.password || ''
+  // if (userId == null || userId == '' || userId == undefined) {
+  //   router.push('/login')
+  // }
+  // console.log(userId, password, 'password')
   fetchData()
   placeOrderData()
   progressData()
