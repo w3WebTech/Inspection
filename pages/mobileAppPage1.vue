@@ -37,7 +37,7 @@
         >
           <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
           <div v-if="questions[currentIndex].isLiveCameraMandatory == true">
-            <div class="w-full border-dotted border-2 rounded h-40 relative my-4">
+            <div class="w-full border-dotted border-2 rounded h-60 relative my-4">
               <!-- Show picture image initially -->
 
               <div
@@ -104,7 +104,7 @@
           <!-- Show question and back camera -->
           <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
           <div v-if="questions[currentIndex].isLiveCameraMandatory == true">
-            <div class="w-full border-dotted border-2 rounded h-40 relative my-4">
+            <div class="w-full border-dotted border-2 rounded h-60 relative my-4">
               <!-- Show picture image initially -->
 
               <div
@@ -125,7 +125,7 @@
               <!-- Live Camera Feed -->
 
               <video
-                ref="video"
+                ref="clientVideo"
                 v-if="showCamera && !capturedImage"
                 class="absolute inset-0 w-full h-full object-cover"
                 autoplay
@@ -149,7 +149,7 @@
               class="py-3"
             >
               <button
-                @click="capture"
+                @click="capturecheck"
                 class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 rounded w-full"
               >
                 Capture
@@ -392,6 +392,18 @@ export default {
     },
   },
   methods: {
+    capturecheck() {
+      const canvas = document.createElement('canvas')
+      const video = this.$refs.clientVideo
+      const context = canvas.getContext('2d')
+      canvas.width = video.videoWidth
+      canvas.height = video.videoHeight
+      context.drawImage(video, 0, 0, canvas.width, canvas.height)
+      const capturedImage = canvas.toDataURL('image/png')
+      this.capturedImages[this.currentIndex] = capturedImage // store the captured image for the current question
+      this.showCamera = false
+      console.log(this.capturedImages, 'this.capturedImages')
+    },
     async startClientCamera() {
       this.currentStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
       this.$refs.clientVideo.srcObject = this.currentStream
