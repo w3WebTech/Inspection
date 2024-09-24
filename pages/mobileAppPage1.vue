@@ -101,7 +101,6 @@
           v-else-if="questions[currentIndex].isEmployeeImage == true"
           class="mb-2 px-3"
         >
-          <!-- Show question and back camera -->
           <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
           <div v-if="questions[currentIndex].isLiveCameraMandatory == true">
             <div class="w-full border-dotted border-2 rounded h-60 relative my-4">
@@ -109,7 +108,7 @@
 
               <div
                 class="absolute inset-0 flex flex-col justify-center items-center py-20"
-                v-if="!showCamera && !capturedImages[currentIndex]"
+                v-if="!showEmployeeCamera && !capturedEmployeeImage"
                 @click="toggleEmployeeCamera"
               >
                 <img
@@ -126,26 +125,21 @@
 
               <video
                 ref="clientVideo"
-                v-if="showCamera && !capturedImage"
+                v-if="showEmployeeCamera && !capturedEmployeeImage"
                 class="absolute inset-0 w-full h-full object-cover"
                 autoplay
               ></video>
 
               <!-- Captured Image -->
-              <!-- <img
-                v-if="capturedImage"
-                :src="capturedImage"
-                class="absolute inset-0 w-full h-full object-cover"
-              /> -->
               <img
-                v-if="capturedImages[currentIndex]"
-                :src="capturedImages[currentIndex]"
+                v-if="capturedEmployeeImage"
+                :src="capturedEmployeeImage"
                 class="absolute inset-0 w-full h-full object-cover"
               />
             </div>
             <!-- Capture button only shown when live camera feed is displayed -->
             <div
-              v-if="showCamera && !capturedImage"
+              v-if="showEmployeeCamera && !capturedEmployeeImage"
               class="py-3"
             >
               <button
@@ -154,15 +148,9 @@
               >
                 Capture
               </button>
-              <!-- <button
-            @click="switchCamera"
-            class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-100"
-          >
-            Switch Camera
-          </button> -->
             </div>
             <div
-              v-if="capturedImages[currentIndex]"
+              v-if="capturedEmployeeImage"
               class="py-3"
             >
               <button
@@ -549,7 +537,7 @@ export default {
             questionId: '1',
             question: '1.  Whether all clients are registered directly with the Trading Member only.',
             isMessageMandatory: true,
-            isLiveCameraMandatory: true,
+            isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
             date: 'date',
@@ -918,7 +906,6 @@ export default {
           this.currentIndex++
           this.showCamera = false
           this.capturedImage = null
-          this.capturedClientImage = null
         }
         if (
           this.questions[this.currentIndex].isclientImage &&
@@ -928,7 +915,7 @@ export default {
           this.currentIndex++
           this.showCamera = false
           this.capturedImage = null
-          this.capturedClientImage = null
+          // this.capturedClientImage = null
         }
       } else {
         this.next = null
