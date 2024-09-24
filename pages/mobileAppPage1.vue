@@ -110,7 +110,7 @@
               <div
                 class="absolute inset-0 flex flex-col justify-center items-center py-20"
                 v-if="!showCamera && !capturedImages[currentIndex]"
-                @click="toggleCamera"
+                @click="toggleEmployeeCamera"
               >
                 <img
                   src="@/public/picture.png"
@@ -149,7 +149,7 @@
               class="py-3"
             >
               <button
-                @click="capturecheck"
+                @click="captureEmployeeImage"
                 class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 rounded w-full"
               >
                 Capture
@@ -166,7 +166,7 @@
               class="py-3"
             >
               <button
-                @click="retake"
+                @click="retakeEmployeeImage"
                 class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded w-100"
               >
                 Retake
@@ -179,6 +179,9 @@
           class="mb-2 px-3"
           v-else
         >
+          <div class="text-gray-600 py-3">
+            Question {{ questions[currentIndex].questionId }} of {{ questions.length - 5 }}
+          </div>
           <div class="question-container">
             <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
             <div v-if="questions[currentIndex].parts">
@@ -288,7 +291,7 @@
                 id="message"
                 rows="3"
                 v-model="notes[currentIndex]"
-                placeholder="  Optional Message / Notes  "
+                placeholder="  Optional Message / Notes * "
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               ></textarea>
             </div>
@@ -298,12 +301,11 @@
                 id="message"
                 rows="3"
                 v-model="notes[currentIndex]"
-                placeholder="  Optional Message / Notes *  "
+                placeholder="  Optional Message / Notes   "
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               ></textarea>
             </div>
           </div>
-          <div class="text-gray-600">Question {{ currentIndex + 1 }} of {{ questions.length }}</div>
         </div>
       </div>
       <div class="flex justify-between p-3">
@@ -342,6 +344,8 @@ export default {
     return {
       showClientCamera: false,
       capturedClientImage: null,
+      showEmployeeCamera: false,
+      capturedEmployeeImage: null,
       yesNoAnswers: {},
       image: null,
       currentStream: null,
@@ -408,7 +412,6 @@ export default {
       this.currentStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
       this.$refs.clientVideo.srcObject = this.currentStream
     },
-
     toggleClientCamera() {
       this.showClientCamera = !this.showClientCamera
       if (this.showClientCamera) {
@@ -431,6 +434,32 @@ export default {
       this.showClientCamera = true
       this.capturedClientImage = null
       this.startClientCamera()
+    },
+    toggleEmployeeCamera() {
+      this.showEmployeeCamera = !this.showEmployeeCamera
+      if (this.showEmployeeCamera) {
+        this.startEmployeeCamera()
+      }
+    },
+    async startEmployeeCamera() {
+      this.currentStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
+      this.$refs.clientVideo.srcObject = this.currentStream
+    },
+    captureEmployeeImage() {
+      const canvas = document.createElement('canvas')
+      const video = this.$refs.clientVideo
+      const context = canvas.getContext('2d')
+      canvas.width = video.videoWidth
+      canvas.height = video.videoHeight
+      context.drawImage(video, 0, 0, canvas.width, canvas.height)
+      this.capturedEmployeeImage = canvas.toDataURL('image/png')
+      this.showEmployeeCamera = false
+    },
+
+    retakeEmployeeImage() {
+      this.showEmployeeCamera = true
+      this.capturedEmployeeImage = null
+      this.startEmployeeCamera()
     },
     updateYesNoAnswer(questionId, value, index) {
       console.log(index, 'index')
@@ -518,17 +547,17 @@ export default {
         const response = [
           {
             questionId: '1',
-            question: '1 Whether all clients are registered directly with the Trading Member only.',
-            isMessageMandatory: false,
-            isLiveCameraMandatory: false,
+            question: '1.  Whether all clients are registered directly with the Trading Member only.',
+            isMessageMandatory: true,
+            isLiveCameraMandatory: true,
             type_name: 'Dealing with clients',
             time: 'time',
             date: 'date',
           },
           {
             questionId: '2',
-            question: '2 There is no movement of Funds and securities between the clients and AP.',
-            isMessageMandatory: false,
+            question: '2.  There is no movement of Funds and securities between the clients and AP.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -536,8 +565,8 @@ export default {
           },
           {
             questionId: '3',
-            question: '3 There are no fixed payments at regular intervals to the clients mapped to AP.',
-            isMessageMandatory: false,
+            question: '3.  There are no fixed payments at regular intervals to the clients mapped to AP.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -545,8 +574,8 @@ export default {
           },
           {
             questionId: '4',
-            question: '4 There are no cash dealings done with clients by AP.',
-            isMessageMandatory: false,
+            question: '4.  There are no cash dealings done with clients by AP.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -555,8 +584,8 @@ export default {
           {
             questionId: '5',
             question:
-              '5 The AP is not involved in any fund-based activities / collecting deposits from investors / unauthorised trading or any other such schemes.',
-            isMessageMandatory: false,
+              '5.  The AP is not involved in any fund-based activities / collecting deposits from investors / unauthorised trading or any other such schemes.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -564,8 +593,8 @@ export default {
           },
           {
             questionId: '6',
-            question: '6 The AP is not involved in any illegal/dabba/paper trading.',
-            isMessageMandatory: false,
+            question: '6.  The AP is not involved in any illegal/dabba/paper trading.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -573,8 +602,8 @@ export default {
           },
           {
             questionId: '7',
-            question: '7 The AP has not dealt with any unregistered intermediary on behalf of its clients/self.',
-            isMessageMandatory: false,
+            question: '7.  The AP has not dealt with any unregistered intermediary on behalf of its clients/self.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -583,8 +612,8 @@ export default {
           {
             questionId: '8',
             question:
-              '8 The AP is not involved in accepting deposits from the public and giving assured returns to their clients.',
-            isMessageMandatory: false,
+              '8.  The AP is not involved in accepting deposits from the public and giving assured returns to their clients.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -593,8 +622,8 @@ export default {
           {
             questionId: '9',
             question:
-              '9 Complaints received against AP pertaining to Assured Returns / Unauthorised Trading / Dabba Trading / associated with unregistered intermediary.',
-            isMessageMandatory: false,
+              '9.  Complaints received against AP pertaining to Assured Returns / Unauthorised Trading / Dabba Trading / associated with unregistered intermediary.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: true,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -602,8 +631,8 @@ export default {
           },
           {
             questionId: '10',
-            question: '10 The AP does not offer any incentives to clients for opening trading accounts.',
-            isMessageMandatory: false,
+            question: '10.  The AP does not offer any incentives to clients for opening trading accounts.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -611,8 +640,8 @@ export default {
           },
           {
             questionId: '11',
-            question: '11 AP has sought any authorisation to trade on behalf of its clients.',
-            isMessageMandatory: false,
+            question: '11.  AP has sought any authorisation to trade on behalf of its clients.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -621,8 +650,8 @@ export default {
           {
             questionId: '12',
             question:
-              '12 Advertisements for soliciting business are not issued by the APs in newspapers / pamphlets / journals / magazines / emails including social media like Facebook, Instagram, telegram channels etc., without seeking appropriate approvals from the Exchange, through the Trading Member. This includes not publishing performance returns etc.',
-            isMessageMandatory: false,
+              '12.  Advertisements for soliciting business are not issued by the APs in newspapers / pamphlets / journals / magazines / emails including social media like Facebook, Instagram, telegram channels etc., without seeking appropriate approvals from the Exchange, through the Trading Member. This includes not publishing performance returns etc.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -630,8 +659,8 @@ export default {
           },
           {
             questionId: '13',
-            question: '13 All AP terminals are as per the information reported to the Exchange.',
-            isMessageMandatory: false,
+            question: '13.  All AP terminals are as per the information reported to the Exchange.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
             type_name: 'Terminal operations and related systems',
             time: 'time',
@@ -639,8 +668,8 @@ export default {
           },
           {
             questionId: '14',
-            question: '14 Trading terminals are operated by approved and certified users.',
-            isMessageMandatory: false,
+            question: '14.  Trading terminals are operated by approved and certified users.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: true,
             type_name: 'Terminal operations and related systems',
             time: 'time',
@@ -649,8 +678,8 @@ export default {
           {
             questionId: '15',
             question:
-              '15 Adequate systems, including voice recording, have been put in place, with a view to ensure recording of order placement from clients. Trading Members must ensure that APs who do not have trading terminals assigned to them, cannot place trades on behalf of the Trading Member’s clients.',
-            isMessageMandatory: false,
+              '15.  Adequate systems, including voice recording, have been put in place, with a view to ensure recording of order placement from clients. Trading Members must ensure that APs who do not have trading terminals assigned to them, cannot place trades on behalf of the Trading Member’s clients.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
             type_name: 'Terminal operations and related systems',
             time: 'time',
@@ -659,8 +688,8 @@ export default {
           {
             questionId: '16',
             question:
-              '16 Documents like contract notes, statement of funds, daily margin statement are not generated and issued by the AP. However, AP may provide	administrative assistance in procurement of documents from the Trading Member, after maintaining proper records of the same . ',
-            isMessageMandatory: false,
+              '16.  Documents like contract notes, statement of funds, daily margin statement are not generated and issued by the AP. However, AP may provide	administrative assistance in procurement of documents from the Trading Member, after maintaining proper records of the same . ',
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -669,8 +698,8 @@ export default {
           {
             questionId: '17',
             question:
-              '17 The AP has not dealt with / or associated with any other Trading Member/AP on behalf of its clients/self on the same Stock Exchange.',
-            isMessageMandatory: false,
+              '17.  The AP has not dealt with / or associated with any other Trading Member/AP on behalf of its clients/self on the same Stock Exchange.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -679,8 +708,8 @@ export default {
           {
             questionId: '18',
             question:
-              '18 Trading activities/Turnover of AP/Clients mapped with the AP	are	monitored,	and necessary actions/investigations are undertaken on a timely basis.',
-            isMessageMandatory: false,
+              '18.  Trading activities/Turnover of AP/Clients mapped with the AP	are	monitored,	and necessary actions/investigations are undertaken on a timely basis.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: true,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -689,8 +718,8 @@ export default {
           {
             questionId: '19',
             question:
-              '19 The AP has the necessary infrastructure like adequate office space, equipment, and manpower to effectively discharge the activities on behalf of the Trading Member.',
-            isMessageMandatory: false,
+              '19.  The AP has the necessary infrastructure like adequate office space, equipment, and manpower to effectively discharge the activities on behalf of the Trading Member.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: true,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -699,8 +728,8 @@ export default {
           {
             questionId: '20',
             question:
-              '20 Complaints received by and against the APs are handled appropriately and proper records are maintained',
-            isMessageMandatory: false,
+              '20.  Complaints received by and against the APs are handled appropriately and proper records are maintained',
+            isMessageMandatory: true,
             isLiveCameraMandatory: true,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -708,8 +737,8 @@ export default {
           },
           {
             questionId: '21',
-            question: '21 Proper segregation and demarcation are maintained at AP office.',
-            isMessageMandatory: false,
+            question: '21.  Proper segregation and demarcation are maintained at AP office.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -718,8 +747,8 @@ export default {
           {
             questionId: '22',
             question:
-              '22 Notice board of the Trading Member	containing	all details/information prescribed from time to time, are displayed at the AP/s location.',
-            isMessageMandatory: false,
+              '22.  Notice board of the Trading Member	containing	all details/information prescribed from time to time, are displayed at the AP/s location.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: true,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -728,8 +757,8 @@ export default {
           {
             questionId: '23',
             question:
-              '23 SEBI registration certificate of the Trading Member and registration letter issued by the Exchange is displayed at the location.',
-            isMessageMandatory: false,
+              '23.  SEBI registration certificate of the Trading Member and registration letter issued by the Exchange is displayed at the location.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: true,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -738,8 +767,8 @@ export default {
           {
             questionId: '24',
             question:
-              '24 As required by SEBI circular CIR/MIRSD/3/2014 dated August 28, 2014, information about the grievance redressal mechanism available to investors is prominently displayed at the location.',
-            isMessageMandatory: false,
+              '24.  As required by SEBI circular CIR/MIRSD/3/2014 dated August 28, 2014, information about the grievance redressal mechanism available to investors is prominently displayed at the location.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: true,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -748,78 +777,78 @@ export default {
           {
             questionId: '25',
             question:
-              '25 Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup.',
-            isMessageMandatory: false,
+              '25.  Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup.',
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
             date: 'date',
           },
           {
-            questionId: '26',
+            questionId: '26.1',
             question:
-              '26.1 Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup. a) All clients mapped to the AP/Branch are notified at least thirty days before the change.',
+              '26.1.  Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup. a) All clients mapped to the AP/Branch are notified at least thirty days before the change.',
             type_name: 'Management of branches / AP and internal control',
-            isMessageMandatory: false,
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
             time: 'time',
             date: 'date',
           },
 
           {
+            questionId: '26.2',
+            question:
+              '26.2.  Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup.b) Notice Board and applicable SEBI registration certificates are immediately put up at the new location.',
+            type_name: 'Management of branches / AP and internal control',
+            isMessageMandatory: true,
+            isLiveCameraMandatory: false,
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '26.3',
+            question:
+              '26.3.  Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup.c) The new location, including details of terminals if any, have been duly reported to the Exchange, and the old location, including terminals at the old location if any have been deactivated.',
+            type_name: 'Management of branches / AP and internal control',
+            isMessageMandatory: true,
+            isLiveCameraMandatory: false,
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '26.4',
+            question:
+              '26.4.  Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup.d) At the new location, adequate systems including voice recording, display of Notice Board and SEBI Registration certificates, and terminals etc. have been promptly installed to ensure the smooth functioning of business operations and the recording of order placements  from clients.',
+            type_name: 'Management of branches / AP and internal control',
+            isMessageMandatory: true,
+            isLiveCameraMandatory: false,
+            time: 'time',
+            date: 'date',
+          },
+          {
             questionId: '27',
             question:
-              '26.2 Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup.b) Notice Board and applicable SEBI registration certificates are immediately put up at the new location.',
-            type_name: 'Management of branches / AP and internal control',
-            isMessageMandatory: false,
+              "27.  Any changes in the AP's contact details, such as registered / communication address, email address, mobile number or any changes in the Directors/ Partners of AP, are not reported/ incorrectly reported to the Members.",
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
+            type_name: 'Management of branches / AP and internal control',
             time: 'time',
             date: 'date',
           },
           {
             questionId: '28',
             question:
-              '26.3 Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup.c) The new location, including details of terminals if any, have been duly reported to the Exchange, and the old location, including terminals at the old location if any have been deactivated.',
-            type_name: 'Management of branches / AP and internal control',
-            isMessageMandatory: false,
+              "28.  The AP's mobile number, and email address are not mapped to any of its client in UCC uploaded to Exchange.",
+            isMessageMandatory: true,
             isLiveCameraMandatory: false,
+            type_name: 'Management of branches / AP and internal control',
             time: 'time',
             date: 'date',
           },
           {
             questionId: '29',
-            question:
-              '26.4 Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup.d) At the new location, adequate systems including voice recording, display of Notice Board and SEBI Registration certificates, and terminals etc. have been promptly installed to ensure the smooth functioning of business operations and the recording of order placements  from clients.',
-            type_name: 'Management of branches / AP and internal control',
-            isMessageMandatory: false,
-            isLiveCameraMandatory: false,
-            time: 'time',
-            date: 'date',
-          },
-          {
-            questionId: '30',
-            question:
-              "27 Any changes in the AP's contact details, such as registered / communication address, email address, mobile number or any changes in the Directors/ Partners of AP, are not reported/ incorrectly reported to the Members.",
-            isMessageMandatory: false,
-            isLiveCameraMandatory: false,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
-          },
-          {
-            questionId: '31',
-            question:
-              "28 The AP's mobile number, and email address are not mapped to any of its client in UCC uploaded to Exchange.",
-            isMessageMandatory: false,
-            isLiveCameraMandatory: false,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
-          },
-          {
-            questionId: '32',
-            question: 'client image',
-            isMessageMandatory: false,
+            question: 'A P Image',
+            isMessageMandatory: true,
             isLiveCameraMandatory: true,
             isclientImage: true,
             type_name: 'Management of branches / AP and internal control',
@@ -827,9 +856,9 @@ export default {
             date: 'date',
           },
           {
-            questionId: '33',
-            question: 'employee image',
-            isMessageMandatory: false,
+            questionId: '30',
+            question: 'Employee Image',
+            isMessageMandatory: true,
             isLiveCameraMandatory: true,
             isEmployeeImage: true,
             type_name: 'Management of branches / AP and internal control',
@@ -838,7 +867,7 @@ export default {
           },
         ]
 
-        this.questions = response.map(question => ({ ...question, isMessageMandatory: false }))
+        this.questions = response.map(question => ({ ...question, isMessageMandatory: true }))
         this.notes = new Array(this.questions.length).fill('')
 
         console.log(response.data, 'response.data')
@@ -860,13 +889,47 @@ export default {
     },
     nextStep() {
       if (this.currentIndex < this.questions.length - 1) {
-        this.currentIndex++
-        this.showCamera = false
-        this.capturedImage = null
-        console.log(
-          this.questions[this.currentIndex].isMessageMandatory,
-          'this.questions[currentIndex].isMessageMandatory',
-        )
+        const isMessageRequired = this.notes[this.currentIndex] == ''
+        const isCameraRequired =
+          this.capturedImages[this.currentIndex] == null && this.capturedImages[this.currentIndex] == undefined
+        debugger
+        console.log(this.capturedImages[this.currentIndex] == null, '44', this.capturedImages[this.currentIndex])
+        if (
+          isMessageRequired &&
+          this.questions[this.currentIndex].isMessageMandatory &&
+          this.questions[this.currentIndex].isLiveCameraMandatory &&
+          isCameraRequired &&
+          this.questions[this.currentIndex].isclientImage != true
+        ) {
+          alert('Please fill the Mandatory Fields !')
+        } else if (
+          this.questions[this.currentIndex].isLiveCameraMandatory &&
+          isCameraRequired &&
+          this.questions[this.currentIndex].isclientImage != true
+        ) {
+          alert('Please Capture Image !')
+        } else if (
+          this.questions[this.currentIndex].isMessageMandatory &&
+          isMessageRequired &&
+          this.questions[this.currentIndex].isclientImage != true
+        ) {
+          alert('Please fill Message Field !')
+        } else {
+          this.currentIndex++
+          this.showCamera = false
+          this.capturedImage = null
+          this.capturedClientImage = null
+        }
+        if (
+          this.questions[this.currentIndex].isclientImage &&
+          this.capturedClientImage != null &&
+          this.capturedClientImage != undefined
+        ) {
+          this.currentIndex++
+          this.showCamera = false
+          this.capturedImage = null
+          this.capturedClientImage = null
+        }
       } else {
         this.next = null
       }
