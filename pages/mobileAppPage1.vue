@@ -182,7 +182,7 @@
             </div>
             <div class="flex justify-between mb-2">
               <label class="inline-flex items-center mb-5 cursor-pointer">
-                <span class="mr-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300">no</span>
+                <span class="mr-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300">Yes</span>
                 <input
                   type="checkbox"
                   :value="this.questions[currentIndex].isMessageMandatory"
@@ -199,7 +199,7 @@
                 <div
                   class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
                 ></div>
-                <span class="ms-3 text-sm font-medium text-gray-700 dark:text-gray-300">yes</span>
+                <span class="ms-3 text-sm font-medium text-gray-700 dark:text-gray-300">No</span>
               </label>
             </div>
             <!-- rest of the question content -->
@@ -876,52 +876,55 @@ export default {
       }
     },
     nextStep() {
-      if (this.currentIndex < this.questions.length - 1) {
-        const isMessageRequired = this.notes[this.currentIndex] == ''
-        const isCameraRequired =
-          this.capturedImages[this.currentIndex] == null && this.capturedImages[this.currentIndex] == undefined
-        debugger
-        console.log(this.capturedImages[this.currentIndex] == null, '44', this.capturedImages[this.currentIndex])
-        if (
-          isMessageRequired &&
-          this.questions[this.currentIndex].isMessageMandatory &&
-          this.questions[this.currentIndex].isLiveCameraMandatory &&
-          isCameraRequired &&
-          this.questions[this.currentIndex].isclientImage != true
-        ) {
-          alert('Please fill the Mandatory Fields !')
-        } else if (
-          this.questions[this.currentIndex].isLiveCameraMandatory &&
-          isCameraRequired &&
-          this.questions[this.currentIndex].isclientImage != true
-        ) {
-          alert('Please Capture Image !')
-        } else if (
-          this.questions[this.currentIndex].isMessageMandatory &&
-          isMessageRequired &&
-          this.questions[this.currentIndex].isclientImage != true
-        ) {
-          alert('Please fill Message Field !')
+      if (this.coordinates && this.coordinates.latitude && this.coordinates.longitude) {
+        if (this.currentIndex < this.questions.length - 1) {
+          const isMessageRequired = this.notes[this.currentIndex] == ''
+          const isCameraRequired =
+            this.capturedImages[this.currentIndex] == null && this.capturedImages[this.currentIndex] == undefined
+          debugger
+          console.log(this.capturedImages[this.currentIndex] == null, '44', this.capturedImages[this.currentIndex])
+          if (
+            isMessageRequired &&
+            this.questions[this.currentIndex].isMessageMandatory &&
+            this.questions[this.currentIndex].isLiveCameraMandatory &&
+            isCameraRequired &&
+            this.questions[this.currentIndex].isclientImage != true
+          ) {
+            alert('Please fill the Mandatory Fields !')
+          } else if (
+            this.questions[this.currentIndex].isLiveCameraMandatory &&
+            isCameraRequired &&
+            this.questions[this.currentIndex].isclientImage != true
+          ) {
+            alert('Please Capture Image !')
+          } else if (
+            this.questions[this.currentIndex].isMessageMandatory &&
+            isMessageRequired &&
+            this.questions[this.currentIndex].isclientImage != true
+          ) {
+            alert('Please fill Message Field !')
+          } else {
+            this.currentIndex++
+            this.showCamera = false
+            this.capturedImage = null
+          }
+          if (
+            this.questions[this.currentIndex].isclientImage &&
+            this.capturedClientImage != null &&
+            this.capturedClientImage != undefined
+          ) {
+            this.currentIndex++
+            this.showCamera = false
+            this.capturedImage = null
+            // this.capturedClientImage = null
+          }
         } else {
-          this.currentIndex++
-          this.showCamera = false
-          this.capturedImage = null
-        }
-        if (
-          this.questions[this.currentIndex].isclientImage &&
-          this.capturedClientImage != null &&
-          this.capturedClientImage != undefined
-        ) {
-          this.currentIndex++
-          this.showCamera = false
-          this.capturedImage = null
-          // this.capturedClientImage = null
+          this.next = null
         }
       } else {
-        this.next = null
+        alert('Please Enable Location in your device !')
       }
     },
-
     previousStep() {
       if (this.currentIndex > 0) {
         this.currentIndex--
