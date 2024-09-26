@@ -536,7 +536,7 @@ export default {
           {
             questionId: '1',
             question: '1.  Whether all clients are registered directly with the Trading Member only.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -545,7 +545,7 @@ export default {
           {
             questionId: '2',
             question: '2.  There is no movement of Funds and securities between the clients and AP.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -554,7 +554,7 @@ export default {
           {
             questionId: '3',
             question: '3.  There are no fixed payments at regular intervals to the clients mapped to AP.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -563,7 +563,7 @@ export default {
           {
             questionId: '4',
             question: '4.  There are no cash dealings done with clients by AP.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -573,7 +573,7 @@ export default {
             questionId: '5',
             question:
               '5.  The AP is not involved in any fund-based activities / collecting deposits from investors / unauthorised trading or any other such schemes.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -582,7 +582,7 @@ export default {
           {
             questionId: '6',
             question: '6.  The AP is not involved in any illegal/dabba/paper trading.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -591,7 +591,7 @@ export default {
           {
             questionId: '7',
             question: '7.  The AP has not dealt with any unregistered intermediary on behalf of its clients/self.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -601,7 +601,7 @@ export default {
             questionId: '8',
             question:
               '8.  The AP is not involved in accepting deposits from the public and giving assured returns to their clients.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -611,7 +611,7 @@ export default {
             questionId: '9',
             question:
               '9.  Complaints received against AP pertaining to Assured Returns / Unauthorised Trading / Dabba Trading / associated with unregistered intermediary.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: true,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -620,7 +620,7 @@ export default {
           {
             questionId: '10',
             question: '10.  The AP does not offer any incentives to clients for opening trading accounts.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -629,7 +629,7 @@ export default {
           {
             questionId: '11',
             question: '11.  AP has sought any authorisation to trade on behalf of its clients.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Dealing with clients',
             time: 'time',
@@ -639,7 +639,7 @@ export default {
             questionId: '12',
             question:
               '12.  Advertisements for soliciting business are not issued by the APs in newspapers / pamphlets / journals / magazines / emails including social media like Facebook, Instagram, telegram channels etc., without seeking appropriate approvals from the Exchange, through the Trading Member. This includes not publishing performance returns etc.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -648,7 +648,7 @@ export default {
           {
             questionId: '13',
             question: '13.  All AP terminals are as per the information reported to the Exchange.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Terminal operations and related systems',
             time: 'time',
@@ -657,7 +657,7 @@ export default {
           {
             questionId: '14',
             question: '14.  Trading terminals are operated by approved and certified users.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: true,
             type_name: 'Terminal operations and related systems',
             time: 'time',
@@ -667,7 +667,7 @@ export default {
             questionId: '15',
             question:
               '15.  Adequate systems, including voice recording, have been put in place, with a view to ensure recording of order placement from clients. Trading Members must ensure that APs who do not have trading terminals assigned to them, cannot place trades on behalf of the Trading Member’s clients.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Terminal operations and related systems',
             time: 'time',
@@ -677,7 +677,7 @@ export default {
             questionId: '16',
             question:
               '16.  Documents like contract notes, statement of funds, daily margin statement are not generated and issued by the AP. However, AP may provide	administrative assistance in procurement of documents from the Trading Member, after maintaining proper records of the same . ',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -687,7 +687,7 @@ export default {
             questionId: '17',
             question:
               '17.  The AP has not dealt with / or associated with any other Trading Member/AP on behalf of its clients/self on the same Stock Exchange.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -697,7 +697,7 @@ export default {
             questionId: '18',
             question:
               '18.  Trading activities/Turnover of AP/Clients mapped with the AP	are	monitored,	and necessary actions/investigations are undertaken on a timely basis.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: true,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -707,7 +707,7 @@ export default {
             questionId: '19',
             question:
               '19.  The AP has the necessary infrastructure like adequate office space, equipment, and manpower to effectively discharge the activities on behalf of the Trading Member.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: true,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -717,7 +717,7 @@ export default {
             questionId: '20',
             question:
               '20.  Complaints received by and against the APs are handled appropriately and proper records are maintained',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: true,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -726,7 +726,7 @@ export default {
           {
             questionId: '21',
             question: '21.  Proper segregation and demarcation are maintained at AP office.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -736,7 +736,7 @@ export default {
             questionId: '22',
             question:
               '22.  Notice board of the Trading Member	containing	all details/information prescribed from time to time, are displayed at the AP/s location.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: true,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -746,7 +746,7 @@ export default {
             questionId: '23',
             question:
               '23.  SEBI registration certificate of the Trading Member and registration letter issued by the Exchange is displayed at the location.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: true,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -756,7 +756,7 @@ export default {
             questionId: '24',
             question:
               '24.  As required by SEBI circular CIR/MIRSD/3/2014 dated August 28, 2014, information about the grievance redressal mechanism available to investors is prominently displayed at the location.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: true,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -766,7 +766,7 @@ export default {
             questionId: '25',
             question:
               '25.  Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup.',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -777,7 +777,7 @@ export default {
             question:
               '26.1.  Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup. a) All clients mapped to the AP/Branch are notified at least thirty days before the change.',
             type_name: 'Management of branches / AP and internal control',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             time: 'time',
             date: 'date',
@@ -788,7 +788,7 @@ export default {
             question:
               '26.2.  Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup.b) Notice Board and applicable SEBI registration certificates are immediately put up at the new location.',
             type_name: 'Management of branches / AP and internal control',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             time: 'time',
             date: 'date',
@@ -798,7 +798,7 @@ export default {
             question:
               '26.3.  Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup.c) The new location, including details of terminals if any, have been duly reported to the Exchange, and the old location, including terminals at the old location if any have been deactivated.',
             type_name: 'Management of branches / AP and internal control',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             time: 'time',
             date: 'date',
@@ -808,7 +808,7 @@ export default {
             question:
               '26.4.  Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup.d) At the new location, adequate systems including voice recording, display of Notice Board and SEBI Registration certificates, and terminals etc. have been promptly installed to ensure the smooth functioning of business operations and the recording of order placements  from clients.',
             type_name: 'Management of branches / AP and internal control',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             time: 'time',
             date: 'date',
@@ -817,7 +817,7 @@ export default {
             questionId: '27',
             question:
               "27.  Any changes in the AP's contact details, such as registered / communication address, email address, mobile number or any changes in the Directors/ Partners of AP, are not reported/ incorrectly reported to the Members.",
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -827,7 +827,7 @@ export default {
             questionId: '28',
             question:
               "28.  The AP's mobile number, and email address are not mapped to any of its client in UCC uploaded to Exchange.",
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: false,
             type_name: 'Management of branches / AP and internal control',
             time: 'time',
@@ -836,7 +836,7 @@ export default {
           {
             questionId: '29',
             question: 'A P Image',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: true,
             isclientImage: true,
             type_name: 'Management of branches / AP and internal control',
@@ -846,7 +846,7 @@ export default {
           {
             questionId: '30',
             question: 'Employee Image',
-            isMessageMandatory: true,
+            isMessageMandatory: false,
             isLiveCameraMandatory: true,
             isEmployeeImage: true,
             type_name: 'Management of branches / AP and internal control',
@@ -855,7 +855,7 @@ export default {
           },
         ]
 
-        this.questions = response.map(question => ({ ...question, isMessageMandatory: true }))
+        this.questions = response.map(question => ({ ...question, isMessageMandatory: false }))
         this.notes = new Array(this.questions.length).fill('')
 
         console.log(response.data, 'response.data')
