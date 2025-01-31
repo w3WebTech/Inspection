@@ -341,7 +341,7 @@
           <span class="text-lg">We Saved your Response.</span> </p>
 
         <!-- Optional Button (like OK) -->
-        <button @click.prevent="showConfirmationModal = false" class="mt-4 px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-green-600">
+        <button @click="reloadPage" class="mt-4 px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-green-600">
           OK
         </button>
       </div>
@@ -414,7 +414,12 @@ export default {
       return this.state ? this.state : ''
     },
   },
+
   methods: {
+    reloadPage() {
+    this.showConfirmationModal = false; // Optionally hide the modal first
+    location.reload(); // Reload the page
+  },
     capturecheck() {
       const canvas = document.createElement('canvas')
       const video = this.$refs.clientVideo
