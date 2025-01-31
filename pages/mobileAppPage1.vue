@@ -337,7 +337,8 @@
 
 
         <!-- Thank You Message -->
-        <p class="font-medium text-xl text-gray-800">Thank you !, We Saved your Response.</p>
+        <p class="font-medium text-xl text-gray-800">Thank you !<br>
+          <span class="text-lg">We Saved your Response.</span> </p>
 
         <!-- Optional Button (like OK) -->
         <button @click.prevent="showConfirmationModal = false" class="mt-4 px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-green-600">
