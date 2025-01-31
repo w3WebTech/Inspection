@@ -1,4 +1,6 @@
 <template>
+<div>
+  
   <div class="rounded-md shadow-md bg-white">
     <!-- Your page content here -->
     <div class="flex justify-between items-center px-3 py-0.5">
@@ -306,13 +308,15 @@
           ← Previous
         </button>
         <button
-          @click="nextStep"
-          class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 w-100 rounded"
-          :disabled="this.currentIndex >= this.questions.length - 1"
-          :class="{ 'bg-gray-200 hover:bg-gray-200': this.currentIndex >= this.questions.length - 1 }"
-        >
-          Next →
-        </button>
+  @click="nextStep"
+  class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 w-100 rounded"
+  :disabled="this.currentIndex >= this.questions.length - 1 || !nextEnabled"
+  :class="{
+    'bg-gray-200 hover:bg-gray-200': this.currentIndex >= this.questions.length - 1 || !nextEnabled
+  }"
+>
+  Next →
+</button>
         <Pagination
           :pages="pages"
           :prev="prev"
@@ -321,10 +325,19 @@
       </div>
     </div>
   </div>
+  <div v-if="showConfirmationModal" class="modal">
+      <div class="modal-content">
+        <span class="close" @click="showConfirmationModal = false">&times;</span>
+        <p>Image captured successfully! Click Next to proceed.</p>
+        <button @click="showConfirmationModal = false">OK</button>
+      </div>
+    </div>
+</div>
+
 </template>
 
 <script lang="ts">
-import axios from 'axios'
+import axios from 'axios';
 // import { userDataStore } from '~/stores/tableData'
 // const userStore = userDataStore()
 export default {
@@ -353,6 +366,8 @@ export default {
       empName: null,
       companyName: null,
       state: null,
+      nextEnabled: false, // To control the Next button state
+      showConfirmationModal: false,
     }
   },
   mounted() {
@@ -434,15 +449,19 @@ export default {
       this.$refs.clientVideo.srcObject = this.currentStream
     },
     captureEmployeeImage() {
-      const canvas = document.createElement('canvas')
-      const video = this.$refs.clientVideo
-      const context = canvas.getContext('2d')
-      canvas.width = video.videoWidth
-      canvas.height = video.videoHeight
-      context.drawImage(video, 0, 0, canvas.width, canvas.height)
-      this.capturedEmployeeImage = canvas.toDataURL('image/png')
-      this.showEmployeeCamera = false
-    },
+  const canvas = document.createElement('canvas')
+  const video = this.$refs.clientVideo
+  const context = canvas.getContext('2d')
+  canvas.width = video.videoWidth
+  canvas.height = video.videoHeight
+  context.drawImage(video, 0, 0, canvas.width, canvas.height)
+  this.capturedEmployeeImage = canvas.toDataURL('image/png')
+  this.showEmployeeCamera = false
+  
+  // Enable the Next button and show confirmation modal
+  this.nextEnabled = true; // Assuming you have a data property for this
+  this.showConfirmationModal = true; // Show the modal
+},
 
     retakeEmployeeImage() {
       this.showEmployeeCamera = true
@@ -991,5 +1010,32 @@ export default {
 }
 .object-cover {
   object-fit: cover;
+}
+.modal {
+  display: flex;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
 }
 </style>
