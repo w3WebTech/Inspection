@@ -895,26 +895,55 @@ export default {
       }
     },
     nextStep() {
-  if (this.coordinates && this.coordinates.latitude && this.coordinates.longitude) {
-    if (this.currentIndex < this.questions.length - 1) {
-      const isMessageRequired = this.notes[this.currentIndex] == ''
-      const isCameraRequired =
-        this.capturedImages[this.currentIndex] == null && this.capturedImages[this.currentIndex] == undefined
-
-      if (isMessageRequired && this.questions[this.currentIndex].isMessageMandatory) {
-        alert('Please fill the Mandatory Fields !')
-      } else if (this.questions[this.currentIndex].isLiveCameraMandatory && isCameraRequired) {
-        alert('Please Capture Image !')
+      if (this.coordinates && this.coordinates.latitude && this.coordinates.longitude) {
+        if (this.currentIndex < this.questions.length - 1) {
+          const isMessageRequired = this.notes[this.currentIndex] == ''
+          const isCameraRequired =
+            this.capturedImages[this.currentIndex] == null && this.capturedImages[this.currentIndex] == undefined
+          debugger
+          console.log(this.capturedImages[this.currentIndex] == null, '44', this.capturedImages[this.currentIndex])
+          if (
+            isMessageRequired &&
+            this.questions[this.currentIndex].isMessageMandatory &&
+            this.questions[this.currentIndex].isLiveCameraMandatory &&
+            isCameraRequired &&
+            this.questions[this.currentIndex].isclientImage != true
+          ) {
+            alert('Please fill the Mandatory Fields !')
+          } else if (
+            this.questions[this.currentIndex].isLiveCameraMandatory &&
+            isCameraRequired &&
+            this.questions[this.currentIndex].isclientImage != true
+          ) {
+            alert('Please Capture Image !')
+          } else if (
+            this.questions[this.currentIndex].isMessageMandatory &&
+            isMessageRequired &&
+            this.questions[this.currentIndex].isclientImage != true
+          ) {
+            alert('Please fill Message Field !')
+          } else {
+            this.currentIndex++
+            this.showCamera = false
+            this.capturedImage = null
+          }
+          if (
+            this.questions[this.currentIndex].isclientImage &&
+            this.capturedClientImage != null &&
+            this.capturedClientImage != undefined
+          ) {
+            this.currentIndex++
+            this.showCamera = false
+            this.capturedImage = null
+            // this.capturedClientImage = null
+          }
+        } else {
+          this.next = null
+        }
       } else {
-        this.currentIndex++
-        this.showCamera = false
-        this.capturedImage = null
+        alert('Please Enable Location in your device !')
       }
-    }
-  } else {
-    alert('Please Enable Location in your device !')
-  }
-},
+    },
     previousStep() {
       if (this.currentIndex > 0) {
         this.currentIndex--
