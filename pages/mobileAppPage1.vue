@@ -308,15 +308,14 @@
           ← Previous
         </button>
         <button
-  @click="nextStep"
-  class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 w-100 rounded"
-  :disabled="this.currentIndex >= this.questions.length - 1 || !nextEnabled"
-  :class="{
-    'bg-gray-200 hover:bg-gray-200': this.currentIndex >= this.questions.length - 1 || !nextEnabled
-  }"
->
-  Next →
-</button>
+          @click="nextStep"
+          class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 w-100 rounded"
+          :disabled="this.currentIndex >= this.questions.length - 1"
+          :class="{ 'bg-gray-200 hover:bg-gray-200': ( this.currentIndex >= this.questions.length - 1 || !nextEnabled ) }"
+   
+        >
+          Next →
+        </button>
         <Pagination
           :pages="pages"
           :prev="prev"
