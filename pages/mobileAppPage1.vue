@@ -324,14 +324,25 @@
         />
       </div>
     </div>
-  </div>
-  <div v-if="showConfirmationModal" class="modal">
+    <div v-if="showConfirmationModal" class="modal-overlay">
       <div class="modal-content">
+        <!-- Close Button -->
         <span class="close" @click="showConfirmationModal = false">&times;</span>
-        <p>Image captured successfully! Click Next to proceed.</p>
-        <button @click="showConfirmationModal = false">OK</button>
+
+        <!-- Green Tick Mark -->
+        <i class="pi pi-check-circle text-6xl text-green-500 mb-4"></i>
+
+        <!-- Thank You Message -->
+        <p class="font-medium text-xl text-gray-800">Thank you for your response!</p>
+
+        <!-- Optional Button (like OK) -->
+        <button @click="showConfirmationModal = false" class="mt-4 px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+          OK
+        </button>
       </div>
-    </div>
+</div>
+  </div>
+  
 </div>
 
 </template>
@@ -1011,31 +1022,67 @@ export default {
 .object-cover {
   object-fit: cover;
 }
-.modal {
-  display: flex;
+.modal-overlay {
   position: fixed;
-  z-index: 1;
-  left: 0;
   top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Slightly darkened background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease; /* Smooth fade-in animation */
 }
 
+/* Modal Content Styles */
 .modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
+  background-color: white;
   padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 300px; /* Small width for the modal */
+  max-width: 100%;
+  animation: zoomIn 0.3s ease;
 }
 
+/* Close Button Style */
 .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
   color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+}
+
+.close:hover {
+  color: #333;
+}
+
+/* Button Styling */
+button {
+  transition: background-color 0.3s ease;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.9);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 </style>
