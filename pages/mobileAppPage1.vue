@@ -308,14 +308,15 @@
           ← Previous
         </button>
         <button
-          @click="nextStep"
-          class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 w-100 rounded"
-          :disabled="this.currentIndex >= this.questions.length - 1"
-          :class="{ 'bg-gray-200 hover:bg-gray-200': ( this.currentIndex >= this.questions.length - 1 || !nextEnabled ) }"
-   
-        >
-          Next →
-        </button>
+  @click="nextStep"
+  class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 w-100 rounded"
+  :disabled="this.currentIndex >= this.questions.length - 1 || nextEnabled" 
+  :class="{
+    'bg-gray-200 hover:bg-gray-200': this.currentIndex >= this.questions.length - 1 || nextEnabled
+  }"
+>
+  Next →
+</button>
         <Pagination
           :pages="pages"
           :prev="prev"
@@ -458,7 +459,7 @@ export default {
   this.showEmployeeCamera = false
   
   // Enable the Next button and show confirmation modal
-  this.nextEnabled = true; // Assuming you have a data property for this
+  this.nextEnabled = true; // Enable the Next button
   this.showConfirmationModal = true; // Show the modal
 },
 
@@ -894,55 +895,26 @@ export default {
       }
     },
     nextStep() {
-      if (this.coordinates && this.coordinates.latitude && this.coordinates.longitude) {
-        if (this.currentIndex < this.questions.length - 1) {
-          const isMessageRequired = this.notes[this.currentIndex] == ''
-          const isCameraRequired =
-            this.capturedImages[this.currentIndex] == null && this.capturedImages[this.currentIndex] == undefined
-          debugger
-          console.log(this.capturedImages[this.currentIndex] == null, '44', this.capturedImages[this.currentIndex])
-          if (
-            isMessageRequired &&
-            this.questions[this.currentIndex].isMessageMandatory &&
-            this.questions[this.currentIndex].isLiveCameraMandatory &&
-            isCameraRequired &&
-            this.questions[this.currentIndex].isclientImage != true
-          ) {
-            alert('Please fill the Mandatory Fields !')
-          } else if (
-            this.questions[this.currentIndex].isLiveCameraMandatory &&
-            isCameraRequired &&
-            this.questions[this.currentIndex].isclientImage != true
-          ) {
-            alert('Please Capture Image !')
-          } else if (
-            this.questions[this.currentIndex].isMessageMandatory &&
-            isMessageRequired &&
-            this.questions[this.currentIndex].isclientImage != true
-          ) {
-            alert('Please fill Message Field !')
-          } else {
-            this.currentIndex++
-            this.showCamera = false
-            this.capturedImage = null
-          }
-          if (
-            this.questions[this.currentIndex].isclientImage &&
-            this.capturedClientImage != null &&
-            this.capturedClientImage != undefined
-          ) {
-            this.currentIndex++
-            this.showCamera = false
-            this.capturedImage = null
-            // this.capturedClientImage = null
-          }
-        } else {
-          this.next = null
-        }
+  if (this.coordinates && this.coordinates.latitude && this.coordinates.longitude) {
+    if (this.currentIndex < this.questions.length - 1) {
+      const isMessageRequired = this.notes[this.currentIndex] == ''
+      const isCameraRequired =
+        this.capturedImages[this.currentIndex] == null && this.capturedImages[this.currentIndex] == undefined
+
+      if (isMessageRequired && this.questions[this.currentIndex].isMessageMandatory) {
+        alert('Please fill the Mandatory Fields !')
+      } else if (this.questions[this.currentIndex].isLiveCameraMandatory && isCameraRequired) {
+        alert('Please Capture Image !')
       } else {
-        alert('Please Enable Location in your device !')
+        this.currentIndex++
+        this.showCamera = false
+        this.capturedImage = null
       }
-    },
+    }
+  } else {
+    alert('Please Enable Location in your device !')
+  }
+},
     previousStep() {
       if (this.currentIndex > 0) {
         this.currentIndex--
