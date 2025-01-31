@@ -337,11 +337,11 @@
 
 
         <!-- Thank You Message -->
-        <p class="font-medium text-xl text-gray-800">Thank you for your response!</p>
+        <p class="font-medium text-xl text-gray-800">Thank you !, We Saved your Response.</p>
 
         <!-- Optional Button (like OK) -->
-        <button @click="showConfirmationModal = false" class="mt-4 px-6 py-2 bg-blue-500 text-white rounded hover:bg-green-600">
-          OK,Thanks
+        <button @click.prevent="showConfirmationModal = false" class="mt-4 px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-green-600">
+          OK
         </button>
       </div>
 </div>
