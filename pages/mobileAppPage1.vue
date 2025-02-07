@@ -1,7 +1,7 @@
 <template>
 <div>
   
-  <div class="rounded-md shadow-md bg-white">
+  <div class="rounded-md shadow-md bg-white block md:hidden">
     <!-- Your page content here -->
     <div class="flex justify-between items-center px-3 py-0.5">
       <h2 class="text-xl text-blue-900 font-bold">{{ displayCusId }}</h2>
@@ -347,6 +347,9 @@
       </div>
 </div>
   </div>
+  <div class="hidden md:block flex justify-center text-center items-center my-20">
+Please open this page using mobile device !
+  </div>
   
 </div>
 
@@ -390,6 +393,7 @@ export default {
     this.startCamera(),
       this.getLocation(),
       this.fetchData(),
+  
       (this.yesNoAnswers = new Array(this.questions.length).fill(false))
     this.cusId = this.$route.query.customerId ? this.$route.query.customerId : ''
     console.log(this.cusId, ' this.cusId')
@@ -481,7 +485,9 @@ export default {
   
   // Enable the Next button and show confirmation modal
   this.nextEnabled = true; // Enable the Next button
-  this.showConfirmationModal = true; // Show the modal
+  this.showConfirmationModal = true;
+   this.postData();
+   
 },
 
     retakeEmployeeImage() {
@@ -916,55 +922,57 @@ export default {
       }
     },
     nextStep() {
-      if (this.coordinates && this.coordinates.latitude && this.coordinates.longitude) {
-        if (this.currentIndex < this.questions.length - 1) {
-          const isMessageRequired = this.notes[this.currentIndex] == ''
-          const isCameraRequired =
-            this.capturedImages[this.currentIndex] == null && this.capturedImages[this.currentIndex] == undefined
-          debugger
-          console.log(this.capturedImages[this.currentIndex] == null, '44', this.capturedImages[this.currentIndex])
-          if (
-            isMessageRequired &&
-            this.questions[this.currentIndex].isMessageMandatory &&
-            this.questions[this.currentIndex].isLiveCameraMandatory &&
-            isCameraRequired &&
-            this.questions[this.currentIndex].isclientImage != true
-          ) {
-            alert('Please fill the Mandatory Fields !')
-          } else if (
-            this.questions[this.currentIndex].isLiveCameraMandatory &&
-            isCameraRequired &&
-            this.questions[this.currentIndex].isclientImage != true
-          ) {
-            alert('Please Capture Image !')
-          } else if (
-            this.questions[this.currentIndex].isMessageMandatory &&
-            isMessageRequired &&
-            this.questions[this.currentIndex].isclientImage != true
-          ) {
-            alert('Please fill Message Field !')
-          } else {
-            this.currentIndex++
-            this.showCamera = false
-            this.capturedImage = null
-          }
-          if (
-            this.questions[this.currentIndex].isclientImage &&
-            this.capturedClientImage != null &&
-            this.capturedClientImage != undefined
-          ) {
-            this.currentIndex++
-            this.showCamera = false
-            this.capturedImage = null
-            // this.capturedClientImage = null
-          }
-        } else {
-          this.next = null
-        }
+  if (this.coordinates && this.coordinates.latitude && this.coordinates.longitude) {
+    if (this.currentIndex < this.questions.length - 1) {
+      const isMessageRequired = this.notes[this.currentIndex] == '';
+      const isCameraRequired =
+        this.capturedImages[this.currentIndex] == null && this.capturedImages[this.currentIndex] == undefined;
+
+      if (
+        isMessageRequired &&
+        this.questions[this.currentIndex].isMessageMandatory &&
+        this.questions[this.currentIndex].isLiveCameraMandatory &&
+        isCameraRequired &&
+        this.questions[this.currentIndex].isclientImage != true
+      ) {
+        alert('Please fill the Mandatory Fields !');
+      } else if (
+        this.questions[this.currentIndex].isLiveCameraMandatory &&
+        isCameraRequired &&
+        this.questions[this.currentIndex].isclientImage != true
+      ) {
+        alert('Please Capture Image !');
+      } else if (
+        this.questions[this.currentIndex].isMessageMandatory &&
+        isMessageRequired &&
+        this.questions[this.currentIndex].isclientImage != true
+      ) {
+        alert('Please fill Message Field !');
       } else {
-        alert('Please Enable Location in your device !')
+        // Call postData before moving to the next question
+        this.postData();
+
+        this.currentIndex++;
+        this.showCamera = false;
+        this.capturedImage = null;
       }
-    },
+
+      if (
+        this.questions[this.currentIndex].isclientImage &&
+        this.capturedClientImage != null &&
+        this.capturedClientImage != undefined
+      ) {
+        this.currentIndex++;
+        this.showCamera = false;
+        this.capturedImage = null;
+      }
+    } else {
+      this.next = null;
+    }
+  } else {
+    alert('Please Enable Location in your device !');
+  }
+},
     previousStep() {
       if (this.currentIndex > 0) {
         this.currentIndex--
@@ -975,42 +983,65 @@ export default {
       }
     },
     async postData() {
-      try {
-        // Prepare the data
-        const questions = this.questions.map((question, index) => {
-          return {
-            questionId: question.id,
-            question: question.question,
-            message: this.notes[index],
-            Image: this.capturedImages[index],
-            type: question.type,
-            EmpId: 'GUD001',
-            customerId: 'A101',
-            companyName: 'Finy Wealth',
-            state: 'Andhra Pradesh',
-            lat: this.coordinates.latitude,
-            lan: this.coordinates.longitude,
-            data: new Date().toISOString(),
-            time: new Date().toLocaleTimeString(),
-          }
-        })
+  try {
+    if (!Array.isArray(this.questions)) {
+      console.error('Questions is not defined or not an array');
+      return;
+    }
 
-        // Make a POST request to the API
-        const response = await axios.post('https://your-api-url.com/submit-questions', {
-          questions,
-        })
+    // Generate AppSessionId
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = String(now.getFullYear()).slice(-2); // Get last two digits of the year
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const appSessionId = `${day}${month}${year}${hours}${minutes}${seconds}`;
 
-        console.log(response.data)
-      } catch (err) {
-        console.error('Error:', err)
-      }
-    },
+    const questionsData = this.questions.map((question, index) => {
+      return {
+        questionId: question.questionId,
+        question: question.question,
+        message: this.notes[index] || '',
+        Image: this.capturedImages[index] || '',
+        type: question.type_name,
+        EmpId: this.empId || 'GUD001',
+        EmpName: this.empName || 'john',
+        customerId: 'A101',
+        companyName: this.companyName || 'Finy Wealth',
+        state: this.state || 'Andhra Pradesh',
+        lat: this.coordinates.latitude,
+        lan: this.coordinates.longitude,
+        data: new Date().toISOString(),
+        time: new Date().toLocaleTimeString(),
+        AppSessionId: appSessionId, // Set the AppSessionId
+      };
+    });
+
+    // Add thankyou property to the last question
+    const lastQuestionIndex = questionsData.length - 1;
+    questionsData[lastQuestionIndex].thankyou = this.notes[lastQuestionIndex] ? "1" : "0";
+    alert(questionsData);
+
+    const response = await axios.post('https://g1.gwcindia.in/ticket-api/inspection-api.php', {
+      questions: questionsData,
+    });
+
+    console.log(response.data);
+  } catch (err) {
+    console.error('Error:', err);
+  }
+}
   },
 }
 </script>
 
 
 <style scoped>
+.p-menu-list{
+  background-color: ;
+}
 .question-container {
   display: flex;
   flex-direction: column;

@@ -136,7 +136,7 @@
     },
     {
         "questionId": "16",
-        "question": "16 Documents like contract notes, statement of funds, daily margin statement are not generated and issued by the AP. However, AP may provide	administrative assistance in procurement of documents from the Trading Member, after maintaining proper records of the same . ",
+        "question": "16 Documents like contract notes, statement of funds, daily margin statement are not generated and issued by the AP. However, AP may provide administrative assistance in procurement of documents from the Trading Member, after maintaining proper records of the same.",
         "isMessageMandatory": false,
         "isLiveCameraMandatory": false,
         "type_name": "Management of branches / AP and internal control",
@@ -154,7 +154,7 @@
     },
     {
         "questionId": "18",
-        "question": "18 Trading activities/Turnover of AP/Clients mapped with the AP	are	monitored,	and necessary actions/investigations are undertaken on a timely basis.",
+        "question": "18 Trading activities/Turnover of AP/Clients mapped with the AP are monitored, and necessary actions/investigations are undertaken on a timely basis.",
         "isMessageMandatory": false,
         "isLiveCameraMandatory": false,
         "type_name": "Management of branches / AP and internal control",
@@ -172,7 +172,7 @@
     },
     {
         "questionId": "20",
-        "question": "20 Complaints received by and against the APs are handled appropriately and proper records are maintained",
+        "question": "20 Complaints received by and against the APs are handled appropriately and proper records are maintained.",
         "isMessageMandatory": false,
         "isLiveCameraMandatory": false,
         "type_name": "Management of branches / AP and internal control",
@@ -190,7 +190,7 @@
     },
     {
         "questionId": "22",
-        "question": "22 Notice board of the Trading Member	containing	all details/information prescribed from time to time, are displayed at the AP/s location.",
+        "question": "22 Notice board of the Trading Member containing all details/information prescribed from time to time, are displayed at the AP/s location.",
         "isMessageMandatory": false,
         "isLiveCameraMandatory": false,
         "type_name": "Management of branches / AP and internal control",
@@ -226,40 +226,16 @@
     },
     {
         "questionId": "26",
-        "question": "26 Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup.",
+        "question": "26 All clients mapped to the AP/Branch are notified at least thirty days before the change.",
+        "isMessageMandatory": false,
+        "isLiveCameraMandatory": false,
         "type_name": "Management of branches / AP and internal control",
         "time": "time",
-        "date": "date",
-        "parts": [
-            {
-                "partId": "a",
-                "isMessageMandatory": false,
-                "isLiveCameraMandatory": false,
-                "part": "a) All clients mapped to the AP/Branch are notified at least thirty days before the change."
-            },
-            {
-                "partId": "b",
-                "isMessageMandatory": false,
-                "isLiveCameraMandatory": false,
-                "part": "b) Notice Board and applicable SEBI registration certificates are immediately put up at the new location."
-            },
-            {
-                "partId": "c",
-                "isMessageMandatory": false,
-                "isLiveCameraMandatory": false,
-                "part": "c) The new location, including details of terminals if any, have been duly reported to the Exchange, and the old location, including terminals at the old location if any have been deactivated."
-            },
-            {
-                "partId": "d",
-                "isMessageMandatory": false,
-                "isLiveCameraMandatory": false,
-                "part": "d) At the new location, adequate systems including voice recording, display of Notice Board and SEBI Registration certificates, and terminals etc. have been promptly installed to ensure the smooth functioning of business operations and the recording of order placements  from clients."
-            }
-        ]
+        "date": "date"
     },
     {
         "questionId": "27",
-        "question": "27 Any changes in the AP's contact details, such as registered / communication address, email address, mobile number or any changes in the Directors/ Partners of AP, are not reported/ incorrectly reported to the Members.",
+        "question": "27 Notice Board and applicable SEBI registration certificates are immediately put up at the new location.",
         "isMessageMandatory": false,
         "isLiveCameraMandatory": false,
         "type_name": "Management of branches / AP and internal control",
@@ -268,7 +244,34 @@
     },
     {
         "questionId": "28",
-        "question": "28 The AP's mobile number, and email address are not mapped to any of its client in UCC uploaded to Exchange.",
+        "question": "28 The new location, including details of terminals if any, have been duly reported to the Exchange, and the old location, including terminals at the old location if any have been deactivated.",
+        "isMessageMandatory": false,
+        "isLiveCameraMandatory": false,
+        "type_name": "Management of branches / AP and internal control",
+        "time": "time",
+        "date": "date"
+    },
+    {
+        "questionId": "29",
+        "question": "29 At the new location, adequate systems including voice recording, display of Notice Board and SEBI Registration certificates, and terminals etc. have been promptly installed to ensure the smooth functioning of business operations and the recording of order placements from clients.",
+        "isMessageMandatory": false,
+        "isLiveCameraMandatory": false,
+        "type_name": "Management of branches / AP and internal control",
+        "time": "time",
+        "date": "date"
+    },
+    {
+        "questionId": "30",
+        "question": "30 Any changes in the AP's contact details, such as registered / communication address, email address, mobile number or any changes in the Directors/ Partners of AP, are not reported/ incorrectly reported to the Members.",
+        "isMessageMandatory": false,
+        "isLiveCameraMandatory": false,
+        "type_name": "Management of branches / AP and internal control",
+        "time": "time",
+        "date": "date"
+    },
+    {
+        "questionId": "31",
+        "question": "31 The AP's mobile number, and email address are not mapped to any of its client in UCC uploaded to Exchange.",
         "isMessageMandatory": false,
         "isLiveCameraMandatory": false,
         "type_name": "Management of branches / AP and internal control",
