@@ -943,57 +943,57 @@ export default {
       }
     },
     async postData() {
-  try {
-    if (!Array.isArray(this.questions)) {
-      console.error('Questions is not defined or not an array');
-      return;
+    try {
+        if (!Array.isArray(this.questions)) {
+            console.error('Questions is not defined or not an array');
+            return;
+        }
+
+        // Generate AppSessionId
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const year = String(now.getFullYear()).slice(-2); // Get last two digits of the year
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const appSessionId = `${day}${month}${year}${hours}${minutes}${seconds}`;
+
+        // Get only the questions up to the current index
+        const questionsData = this.questions.slice(0, this.currentIndex + 1).map((question, index) => {
+            return {
+                questionId: question.questionId,
+                question: question.question,
+                message: this.notes[index] || '',
+                Image: this.capturedImages[index] || '',
+                type: question.type_name,
+                EmpId: this.empId || 'GUD001',
+                EmpName: this.empName || 'john',
+                customerId: 'A101',
+                companyName: this.companyName || 'Finy Wealth',
+                state: this.state || 'Andhra Pradesh',
+                lat: this.coordinates.latitude,
+                lan: this.coordinates.longitude,
+                data: new Date().toISOString(),
+                time: new Date().toLocaleTimeString(),
+                AppSessionId: appSessionId, // Set the AppSessionId
+            };
+        });
+
+        // Add thankyou property to the last question
+        const lastQuestionIndex = questionsData.length - 1;
+        if (questionsData[lastQuestionIndex].questionId === "31") {
+            questionsData[lastQuestionIndex].thankyou = this.notes[lastQuestionIndex] ? "1" : "0";
+        }
+
+        const response = await axios.post('https://g1.gwcindia.in/ticket-api/inspection-api.php', {
+            questions: questionsData,
+        });
+        console.log(response.data);
+    } catch (err) {
+        console.error('Error:', err);
     }
-
-    // Generate AppSessionId
-    const now = new Date();
-    const day = String(now.getDate()).padStart(2, '0');
-    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-    const year = String(now.getFullYear()).slice(-2); // Get last two digits of the year
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    const appSessionId = `${day}${month}${year}${hours}${minutes}${seconds}`;
-
-    const questionsData = this.questions.map((question, index) => {
-      return {
-        questionId: question.questionId,
-        question: question.question,
-        message: this.notes[index] || '',
-        Image: this.capturedImages[index] || '',
-        type: question.type_name,
-        EmpId: this.empId || 'GUD001',
-        EmpName: this.empName || 'john',
-        customerId: 'A101',
-        companyName: this.companyName || 'Finy Wealth',
-        state: this.state || 'Andhra Pradesh',
-        lat: this.coordinates.latitude,
-        lan: this.coordinates.longitude,
-        data: new Date().toISOString(),
-        time: new Date().toLocaleTimeString(),
-        AppSessionId: appSessionId, // Set the AppSessionId
-      };
-    });
-
-    // Add thankyou property to the last question
-    const lastQuestionIndex = questionsData.length - 1;
-    questionsData[lastQuestionIndex].thankyou = this.notes[lastQuestionIndex] ? "1" : "0";
-    
-
-    const response = await axios.post('https://g1.gwcindia.in/ticket-api/inspection-api.php', {
-      questions: questionsData,
-    });
-
-    console.log(response.data);
-  } catch (err) {
-    console.error('Error:', err);
-  }
-}
-  },
+}}
 }
 </script>
 
