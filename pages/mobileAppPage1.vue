@@ -982,7 +982,7 @@ export default {
     // Add thankyou property to the last question
     const lastQuestionIndex = questionsData.length - 1;
     questionsData[lastQuestionIndex].thankyou = this.notes[lastQuestionIndex] ? "1" : "0";
-    alert(questionsData.Image);
+    
 
     const response = await axios.post('https://g1.gwcindia.in/ticket-api/inspection-api.php', {
       questions: questionsData,
