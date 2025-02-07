@@ -655,7 +655,7 @@ export default {
         "questionId": "9",
         "question": "9 Complaints received against AP pertaining to Assured Returns / Unauthorised Trading / Dabba Trading / associated with unregistered intermediary.",
         "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
+        "isLiveCameraMandatory": true,
         "type_name": "Dealing with clients",
         "time": "time",
         "date": "date"
@@ -700,7 +700,7 @@ export default {
         "questionId": "14",
         "question": "14 Trading terminals are operated by approved and certified users.",
         "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
+        "isLiveCameraMandatory": true,
         "type_name": "Terminal operations and related systems",
         "time": "time",
         "date": "date"
@@ -736,7 +736,7 @@ export default {
         "questionId": "18",
         "question": "18 Trading activities/Turnover of AP/Clients mapped with the AP are monitored, and necessary actions/investigations are undertaken on a timely basis.",
         "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
+        "isLiveCameraMandatory": true,
         "type_name": "Management of branches / AP and internal control",
         "time": "time",
         "date": "date"
@@ -745,7 +745,7 @@ export default {
         "questionId": "19",
         "question": "19 The AP has the necessary infrastructure like adequate office space, equipment, and manpower to effectively discharge the activities on behalf of the Trading Member.",
         "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
+        "isLiveCameraMandatory": true,
         "type_name": "Management of branches / AP and internal control",
         "time": "time",
         "date": "date"
@@ -754,7 +754,7 @@ export default {
         "questionId": "20",
         "question": "20 Complaints received by and against the APs are handled appropriately and proper records are maintained.",
         "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
+        "isLiveCameraMandatory": true,
         "type_name": "Management of branches / AP and internal control",
         "time": "time",
         "date": "date"
@@ -772,7 +772,7 @@ export default {
         "questionId": "22",
         "question": "22 Notice board of the Trading Member containing all details/information prescribed from time to time, are displayed at the AP/s location.",
         "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
+        "isLiveCameraMandatory": true,
         "type_name": "Management of branches / AP and internal control",
         "time": "time",
         "date": "date"
@@ -781,7 +781,7 @@ export default {
         "questionId": "23",
         "question": "23 SEBI registration certificate of the Trading Member and registration letter issued by the Exchange is displayed at the location.",
         "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
+        "isLiveCameraMandatory": true,
         "type_name": "Management of branches / AP and internal control",
         "time": "time",
         "date": "date"
@@ -790,7 +790,7 @@ export default {
         "questionId": "24",
         "question": "24 As required by SEBI circular CIR/MIRSD/3/2014 dated August 28, 2014, information about the grievance redressal mechanism available to investors is prominently displayed at the location.",
         "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
+        "isLiveCameraMandatory": true,
         "type_name": "Management of branches / AP and internal control",
         "time": "time",
         "date": "date"
