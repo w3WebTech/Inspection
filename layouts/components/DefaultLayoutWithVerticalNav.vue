@@ -5,29 +5,41 @@ import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 // Components
 import Footer from '@/layouts/components/Footer.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
-import { ref, onMounted, watchEffect } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 
 const empName = ref('')
 const empId = ref('')
 
-// Function to update local storage and reactive variables
+// Function to update local storage
 const updateLocalStorage = () => {
-  localStorage.setItem('employeeName', empName.value)
-  localStorage.setItem('employeeId', empId.value)
+  try {
+    localStorage.setItem('employeeName', empName.value)
+    localStorage.setItem('employeeId', empId.value)
+  } catch (error) {
+    console.error("Error saving to localStorage:", error)
+  }
 }
 
-// Load initial values from local storage or route
+// Function to sync state with localStorage
+const syncStateFromLocalStorage = () => {
+  empName.value = localStorage.getItem('employeeName') || ''
+  empId.value = localStorage.getItem('employeeId') || ''
+}
+
 onMounted(() => {
+  // Sync initial values from localStorage or route
   const route = useRoute()
   empName.value = route.query.employeeName || localStorage.getItem('employeeName') || ''
   empId.value = route.query.employeeId || localStorage.getItem('employeeId') || ''
+  
+  // Listen to localStorage changes
+  window.addEventListener('storage', syncStateFromLocalStorage)
 })
 
-// Watch for changes in local storage and update reactive variables
-watchEffect(() => {
-  empName.value = localStorage.getItem('employeeName') || ''
-  empId.value = localStorage.getItem('employeeId') || ''
+onBeforeUnmount(() => {
+  // Clean up listener when component is destroyed
+  window.removeEventListener('storage', syncStateFromLocalStorage)
 })
 
 // Example function to set values (you can call this when you want to update)
@@ -37,6 +49,7 @@ const setEmployeeDetails = (name, id) => {
   updateLocalStorage() // Update local storage whenever you set new values
 }
 </script>
+
 
 <template>
   <VerticalNavLayout>
@@ -56,7 +69,7 @@ const setEmployeeDetails = (name, id) => {
           <div>{{ empName || 'hh' }}</div>
           <div>{{ empId || 'hh' }}</div>
         </div>
-        <User Profile />
+        <UserProfile />
       </div>
     </template>
 
