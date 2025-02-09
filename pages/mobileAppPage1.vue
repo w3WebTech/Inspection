@@ -485,7 +485,7 @@ const storedEmpName = localStorage.getItem('employeeName');
   if (storedEmpName) {
     this.empName = storedEmpName;
     this.showInputFields = false; // Do not show input fields
-    this.loadStoredValues(); // Load other stored values if needed
+
   } else {
     this.showInputFields = true; // Show input fields
   }
@@ -597,7 +597,7 @@ console.log('Retrieved employeeId:', storedEmpId);
 reloadComponent() {
     // This method can be used to reset the component state or force a re-render
     this.showInputFields = false; // Hide input fields
-    this.loadStoredValues(); // Load other stored values if needed
+    window.location.reload()
   },
     retakeClientImage() {
       this.showClientCamera = true
