@@ -6,28 +6,37 @@ import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
-import { ref } from 'vue'
-import { onMounted } from 'vue'
+import { ref, onMounted, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
+
 const empName = ref('')
 const empId = ref('')
 
+// Function to update local storage and reactive variables
+const updateLocalStorage = () => {
+  localStorage.setItem('employeeName', empName.value)
+  localStorage.setItem('employeeId', empId.value)
+}
+
+// Load initial values from local storage or route
 onMounted(() => {
   const route = useRoute()
-   empName.value = route.query.employeeName ? route.query.employeeName : localStorage.getItem('employeeName') || '';
-  console.log(empName.value, ' empName');
-  
-  empId.value = route.query.employeeId ? route.query.employeeId : localStorage.getItem('employeeId') || '';
-  console.log(empId.value, ' empId');
-  const storedEmpName = localStorage.getItem('employeeName');
-console.log('Retrieved employeeName:', storedEmpName);
-
-const storedEmpId = localStorage.getItem('employeeId');
-console.log('Retrieved employeeId:', storedEmpId);
+  empName.value = route.query.employeeName || localStorage.getItem('employeeName') || ''
+  empId.value = route.query.employeeId || localStorage.getItem('employeeId') || ''
 })
 
-// import { userDataStore } from '~/stores/tableData'
-// const userStore = userDataStore()
+// Watch for changes in local storage and update reactive variables
+watchEffect(() => {
+  empName.value = localStorage.getItem('employeeName') || ''
+  empId.value = localStorage.getItem('employeeId') || ''
+})
+
+// Example function to set values (you can call this when you want to update)
+const setEmployeeDetails = (name, id) => {
+  empName.value = name
+  empId.value = id
+  updateLocalStorage() // Update local storage whenever you set new values
+}
 </script>
 
 <template>
@@ -43,15 +52,12 @@ console.log('Retrieved employeeId:', storedEmpId);
           <VIcon icon="ri-menu-line" />
         </IconBtn>
 
-        <!-- 👉 Search -->
-
         <VSpacer />
         <div class="px-4 font-bold py-1 text-sm">
           <div>{{ empName ? empName : 'hh' }}</div>
           <div>{{ empId ? empId : 'hh' }}</div>
         </div>
-        <!-- <NavbarThemeSwitcher class="me-2" /> -->
-        <UserProfile />
+        <User Profile />
       </div>
     </template>
 
