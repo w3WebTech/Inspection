@@ -573,7 +573,7 @@ export default {
   // Hide input fields after successful submission
   this.showInputFields = false;
 
-}
+},
 
     retakeClientImage() {
       this.showClientCamera = true
