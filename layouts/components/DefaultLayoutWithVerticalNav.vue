@@ -4,7 +4,6 @@ import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 
 // Components
 import Footer from '@/layouts/components/Footer.vue'
-import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
 import { ref, onMounted, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
@@ -54,8 +53,8 @@ const setEmployeeDetails = (name, id) => {
 
         <VSpacer />
         <div class="px-4 font-bold py-1 text-sm">
-          <div>{{ empName ? empName : 'hh' }}</div>
-          <div>{{ empId ? empId : 'hh' }}</div>
+          <div>{{ empName || 'hh' }}</div>
+          <div>{{ empId || 'hh' }}</div>
         </div>
         <User Profile />
       </div>
@@ -103,7 +102,7 @@ const setEmployeeDetails = (name, id) => {
   block-size: 1.5625rem;
   line-height: 1.3125rem;
   padding-block: 0.125rem;
-  padding-inline: 0.25rem;
+  padding-inline: 0.25 rem;
 }
 
 .prof {
