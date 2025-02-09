@@ -481,13 +481,20 @@ export default {
       this.getLocation(),
       this.fetchData(),
       (this.yesNoAnswers = new Array(this.questions.length).fill(false))
-
+const storedEmpName = localStorage.getItem('employeeName');
+  if (storedEmpName) {
+    this.empName = storedEmpName;
+    this.showInputFields = false; // Do not show input fields
+    this.loadStoredValues(); // Load other stored values if needed
+  } else {
+    this.showInputFields = true; // Show input fields
+  }
     if (
       !this.$route.query.customerId ||
       !this.$route.query.employeeName ||
       !this.$route.query.employeeId ||
       !this.$route.query.clientCompanyName ||
-      !this.$route.query.state
+      !this.$route.query.state || storedEmpName
     ) {
       this.showInputFields = true // Show input fields
     } else {
@@ -583,10 +590,15 @@ console.log('Retrieved employeeName:', storedEmpName);
 
 const storedEmpId = localStorage.getItem('employeeId');
 console.log('Retrieved employeeId:', storedEmpId);
-  this.showInputFields = false;
+  
+    this.reloadComponent();
 
 },
-
+reloadComponent() {
+    // This method can be used to reset the component state or force a re-render
+    this.showInputFields = false; // Hide input fields
+    this.loadStoredValues(); // Load other stored values if needed
+  },
     retakeClientImage() {
       this.showClientCamera = true
       this.capturedClientImage = null
