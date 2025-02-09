@@ -572,8 +572,17 @@ export default {
   this.companyName = this.inputValues.clientCompanyName;
   this.state = this.inputValues.state;
   localStorage.setItem('employeeName', this.empName);
-  localStorage.setItem('employeeId', this.empId);
-  // Hide input fields after successful submission
+console.log('Stored employeeName:', this.empName);
+
+localStorage.setItem('employeeId', this.empId);
+console.log('Stored employeeId:', this.empId);
+
+// Getting values
+const storedEmpName = localStorage.getItem('employeeName');
+console.log('Retrieved employeeName:', storedEmpName);
+
+const storedEmpId = localStorage.getItem('employeeId');
+console.log('Retrieved employeeId:', storedEmpId);
   this.showInputFields = false;
 
 },
