@@ -19,6 +19,11 @@ onMounted(() => {
   
   empId.value = route.query.employeeId ? route.query.employeeId : localStorage.getItem('employeeId') || '';
   console.log(empId.value, ' empId');
+  const storedEmpName = localStorage.getItem('employeeName');
+console.log('Retrieved employeeName:', storedEmpName);
+
+const storedEmpId = localStorage.getItem('employeeId');
+console.log('Retrieved employeeId:', storedEmpId);
 })
 
 // import { userDataStore } from '~/stores/tableData'
