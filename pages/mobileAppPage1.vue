@@ -494,9 +494,14 @@ const storedEmpName = localStorage.getItem('employeeName');
       !this.$route.query.employeeName ||
       !this.$route.query.employeeId ||
       !this.$route.query.clientCompanyName ||
-      !this.$route.query.state || storedEmpName
+      !this.$route.query.state
     ) {
-      this.showInputFields = true // Show input fields
+      if(storedEmpName){
+            this.showInputFields = false 
+      }
+      else{
+            this.showInputFields = true }
+  
     } else {
       this.cusId = this.$route.query.customerId ? this.$route.query.customerId : ''
       console.log(this.cusId, ' this.cusId')
