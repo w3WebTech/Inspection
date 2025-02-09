@@ -1,362 +1,406 @@
 <template>
-<div>
-  
-  <div class="rounded-md shadow-md bg-white block md:hidden">
-    <!-- Your page content here -->
-    <div class="flex justify-between items-center px-3 py-0.5">
-      <h2 class="text-xl text-blue-900 font-bold">{{ displayCusId }}</h2>
-    </div>
-    <div class="border-b">
-      <h3 class="font-medium mb-1 px-3">{{ displayCompanyName }}</h3>
-      <p class="text-gray-600 font-medium px-3">{{ displayState }}</p>
-      <p
-        class="px-3"
-        :class="coordinates ? 'text-gray-500' : 'text-error'"
+  <div>
+    <div class="rounded-md shadow-md bg-white block md:hidden">
+      <div
+        v-if="showInputFields"
+        class="input-fields"
       >
-        <span class="text-blue-900">GPS</span>
-        <span
-          class="px-3 text-error text-sm"
-          v-if="!coordinates"
-          ><VIcon
-            icon="ri-information-line"
-            size="18"
-            color="error"
-            class="mb-1"
-          />
-          Please Enable Location & reload</span
-        >
-        {{ coordinates ? `${coordinates.latitude}, ${coordinates.longitude}` : ' ' }}
-      </p>
-    </div>
-
-    <div v-if="questions[currentIndex]">
-      <div>
-        <!-- ... -->
-
-        <div
-          v-if="questions[currentIndex].isclientImage == true"
-          class="mb-2 px-3"
-        >
-          <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
-          <div v-if="questions[currentIndex].isLiveCameraMandatory == true">
-            <div class="w-full border-dotted border-2 rounded h-60 relative my-4">
-              <!-- Show picture image initially -->
-
-              <div
-                class="absolute inset-0 flex flex-col justify-center items-center py-20"
-                v-if="!showClientCamera && !capturedClientImage"
-                @click="toggleClientCamera"
-              >
-                <img
-                  src="@/public/picture.png"
-                  alt="Placeholder"
-                  class="w-10 h-10 object-cover"
-                />
-                <div>
-                  <div class="mt-2 font-bold">Live Capture <span class="text-error"> *</span></div>
-                </div>
-              </div>
-
-              <!-- Live Camera Feed -->
-
-              <video
-                ref="clientVideo"
-                v-if="showClientCamera && !capturedClientImage"
-                class="absolute inset-0 w-full h-full object-cover"
-                autoplay
-              ></video>
-
-              <!-- Captured Image -->
-              <img
-                v-if="capturedClientImage"
-                :src="capturedClientImage"
-                class="absolute inset-0 w-full h-full object-cover"
+        <h2>Please enter the following details:</h2>
+        <input
+          v-model="inputValues.customerId"
+          placeholder="Customer ID"
+        />
+        <input
+          v-model="inputValues.employeeName"
+          placeholder="Employee Name"
+        />
+        <input
+          v-model="inputValues.employeeId"
+          placeholder="Employee ID"
+        />
+        <input
+          v-model="inputValues.clientCompanyName"
+          placeholder="Client Company Name"
+        />
+        <input
+          v-model="inputValues.state"
+          placeholder="State"
+        />
+        <button @click="submitInputValues">Submit</button>
+      </div>
+      <div v-else>
+        <div class="flex justify-between items-center px-3 py-0.5">
+          <h2 class="text-xl text-blue-900 font-bold">{{ displayCusId }}</h2>
+        </div>
+        <div class="border-b">
+          <h3 class="font-medium mb-1 px-3">{{ displayCompanyName }}</h3>
+          <p class="text-gray-600 font-medium px-3">{{ displayState }}</p>
+          <p
+            class="px-3"
+            :class="coordinates ? 'text-gray-500' : 'text-error'"
+          >
+            <span class="text-blue-900">GPS</span>
+            <span
+              class="px-3 text-error text-sm"
+              v-if="!coordinates"
+              ><VIcon
+                icon="ri-information-line"
+                size="18"
+                color="error"
+                class="mb-1"
               />
-            </div>
-            <!-- Capture button only shown when live camera feed is displayed -->
-            <div
-              v-if="showClientCamera && !capturedClientImage"
-              class="py-3"
+              Please Enable Location & reload</span
             >
-              <button
-                @click="captureClientImage"
-                class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 rounded w-full"
-              >
-                Capture
-              </button>
-            </div>
-            <div
-              v-if="capturedClientImage"
-              class="py-3"
-            >
-              <button
-                @click="retakeClientImage"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded w-100"
-              >
-                Retake
-              </button>
-            </div>
-          </div>
+            {{ coordinates ? `${coordinates.latitude}, ${coordinates.longitude}` : ' ' }}
+          </p>
         </div>
 
-        <div
-          v-else-if="questions[currentIndex].isEmployeeImage == true"
-          class="mb-2 px-3"
-        >
-          <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
-          <div v-if="questions[currentIndex].isLiveCameraMandatory == true">
-            <div class="w-full border-dotted border-2 rounded h-60 relative my-4">
-              <!-- Show picture image initially -->
+        <div v-if="questions[currentIndex]">
+          <div>
+            <!-- ... -->
 
-              <div
-                class="absolute inset-0 flex flex-col justify-center items-center py-20"
-                v-if="!showEmployeeCamera && !capturedEmployeeImage"
-                @click="toggleEmployeeCamera"
-              >
-                <img
-                  src="@/public/picture.png"
-                  alt="Placeholder"
-                  class="w-10 h-10 object-cover"
-                />
-                <div>
-                  <div class="mt-2 font-bold">Live Capture <span class="text-error"> *</span></div>
+            <div
+              v-if="questions[currentIndex].isclientImage == true"
+              class="mb-2 px-3"
+            >
+              <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
+              <div v-if="questions[currentIndex].isLiveCameraMandatory == true">
+                <div class="w-full border-dotted border-2 rounded h-60 relative my-4">
+                  <!-- Show picture image initially -->
+
+                  <div
+                    class="absolute inset-0 flex flex-col justify-center items-center py-20"
+                    v-if="!showClientCamera && !capturedClientImage"
+                    @click="toggleClientCamera"
+                  >
+                    <img
+                      src="@/public/picture.png"
+                      alt="Placeholder"
+                      class="w-10 h-10 object-cover"
+                    />
+                    <div>
+                      <div class="mt-2 font-bold">Live Capture <span class="text-error"> *</span></div>
+                    </div>
+                  </div>
+
+                  <!-- Live Camera Feed -->
+
+                  <video
+                    ref="clientVideo"
+                    v-if="showClientCamera && !capturedClientImage"
+                    class="absolute inset-0 w-full h-full object-cover"
+                    autoplay
+                  ></video>
+
+                  <!-- Captured Image -->
+                  <img
+                    v-if="capturedClientImage"
+                    :src="capturedClientImage"
+                    class="absolute inset-0 w-full h-full object-cover"
+                  />
                 </div>
-              </div>
-
-              <!-- Live Camera Feed -->
-
-              <video
-                ref="clientVideo"
-                v-if="showEmployeeCamera && !capturedEmployeeImage"
-                class="absolute inset-0 w-full h-full object-cover"
-                autoplay
-              ></video>
-
-              <!-- Captured Image -->
-              <img
-                v-if="capturedEmployeeImage"
-                :src="capturedEmployeeImage"
-                class="absolute inset-0 w-full h-full object-cover"
-              />
-            </div>
-            <!-- Capture button only shown when live camera feed is displayed -->
-            <div
-              v-if="showEmployeeCamera && !capturedEmployeeImage"
-              class="py-3"
-            >
-              <button
-                @click="captureEmployeeImage"
-                class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 rounded w-full"
-              >
-                Capture
-              </button>
-            </div>
-            <div
-              v-if="capturedEmployeeImage"
-              class="py-3"
-            >
-              <button
-                @click="retakeEmployeeImage"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded w-100"
-              >
-                Retake
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="mb-2 px-3"
-          v-else
-        >
-          <div class="text-gray-600 py-3">
-            Question {{ questions[currentIndex].questionId }} of {{ questions.length - 5 }}
-          </div>
-          <div class="question-container">
-            <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
-            <div v-if="questions[currentIndex].parts">
-              <div
-                v-for="(part, index) in questions[currentIndex].parts"
-                :key="index"
-              >
-                <h5 class="text-md text-blue-900 font-medium mb-1">{{ part.part }}</h5>
-              </div>
-            </div>
-            <div class="flex justify-between mb-2">
-              <label class="inline-flex items-center mb-5 cursor-pointer">
-                <span class="mr-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300">Yes</span>
-                <input
-                  type="checkbox"
-                  :value="this.questions[currentIndex].isMessageMandatory"
-                  :checked="this.questions[currentIndex].isMessageMandatory"
-                  @input="
-                    updateYesNoAnswer(
-                      questions[currentIndex].questionId,
-                      $event.target.checked,
-                      questions[currentIndex].isMessageMandatory,
-                    )
-                  "
-                  class="sr-only peer"
-                />
+                <!-- Capture button only shown when live camera feed is displayed -->
                 <div
-                  class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
-                ></div>
-                <span class="ms-3 text-sm font-medium text-gray-700 dark:text-gray-300">No</span>
-              </label>
-            </div>
-            <!-- rest of the question content -->
-          </div>
-          <div v-if="questions[currentIndex].isLiveCameraMandatory == true">
-            <div class="w-full border-dotted border-2 rounded h-40 relative my-4">
-              <!-- Show picture image initially -->
-              <div
-                class="absolute inset-0 flex flex-col justify-center items-center py-20"
-                v-if="!showCamera && !capturedImages[currentIndex]"
-                @click="toggleCamera"
-              >
-                <img
-                  src="@/public/picture.png"
-                  alt="Placeholder"
-                  class="w-10 h-10 object-cover"
-                />
-                <div>
-                  <div class="mt-2 font-bold">Live Capture <span class="text-error"> *</span></div>
+                  v-if="showClientCamera && !capturedClientImage"
+                  class="py-3"
+                >
+                  <button
+                    @click="captureClientImage"
+                    class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 rounded w-full"
+                  >
+                    Capture
+                  </button>
+                </div>
+                <div
+                  v-if="capturedClientImage"
+                  class="py-3"
+                >
+                  <button
+                    @click="retakeClientImage"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded w-100"
+                  >
+                    Retake
+                  </button>
                 </div>
               </div>
+            </div>
 
-              <!-- Live Camera Feed -->
+            <div
+              v-else-if="questions[currentIndex].isEmployeeImage == true"
+              class="mb-2 px-3"
+            >
+              <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
+              <div v-if="questions[currentIndex].isLiveCameraMandatory == true">
+                <div class="w-full border-dotted border-2 rounded h-60 relative my-4">
+                  <!-- Show picture image initially -->
 
-              <video
-                ref="video"
-                v-if="showCamera && !capturedImage"
-                class="absolute inset-0 w-full h-full object-cover"
-                autoplay
-              ></video>
+                  <div
+                    class="absolute inset-0 flex flex-col justify-center items-center py-20"
+                    v-if="!showEmployeeCamera && !capturedEmployeeImage"
+                    @click="toggleEmployeeCamera"
+                  >
+                    <img
+                      src="@/public/picture.png"
+                      alt="Placeholder"
+                      class="w-10 h-10 object-cover"
+                    />
+                    <div>
+                      <div class="mt-2 font-bold">Live Capture <span class="text-error"> *</span></div>
+                    </div>
+                  </div>
 
-              <!-- Captured Image -->
-              <!-- <img
+                  <!-- Live Camera Feed -->
+
+                  <video
+                    ref="clientVideo"
+                    v-if="showEmployeeCamera && !capturedEmployeeImage"
+                    class="absolute inset-0 w-full h-full object-cover"
+                    autoplay
+                  ></video>
+
+                  <!-- Captured Image -->
+                  <img
+                    v-if="capturedEmployeeImage"
+                    :src="capturedEmployeeImage"
+                    class="absolute inset-0 w-full h-full object-cover"
+                  />
+                </div>
+                <!-- Capture button only shown when live camera feed is displayed -->
+                <div
+                  v-if="showEmployeeCamera && !capturedEmployeeImage"
+                  class="py-3"
+                >
+                  <button
+                    @click="captureEmployeeImage"
+                    class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 rounded w-full"
+                  >
+                    Capture
+                  </button>
+                </div>
+                <div
+                  v-if="capturedEmployeeImage"
+                  class="py-3"
+                >
+                  <button
+                    @click="retakeEmployeeImage"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded w-100"
+                  >
+                    Retake
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="mb-2 px-3"
+              v-else
+            >
+              <div class="text-gray-600 py-3">
+                Question {{ questions[currentIndex].questionId }} of {{ questions.length - 5 }}
+              </div>
+              <div class="question-container">
+                <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
+                <div v-if="questions[currentIndex].parts">
+                  <div
+                    v-for="(part, index) in questions[currentIndex].parts"
+                    :key="index"
+                  >
+                    <h5 class="text-md text-blue-900 font-medium mb-1">{{ part.part }}</h5>
+                  </div>
+                </div>
+                <div class="flex justify-between mb-2">
+                  <label class="inline-flex items-center mb-5 cursor-pointer">
+                    <span class="mr-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300">Yes</span>
+                    <input
+                      type="checkbox"
+                      :value="this.questions[currentIndex].isMessageMandatory"
+                      :checked="this.questions[currentIndex].isMessageMandatory"
+                      @input="
+                        updateYesNoAnswer(
+                          questions[currentIndex].questionId,
+                          $event.target.checked,
+                          questions[currentIndex].isMessageMandatory,
+                        )
+                      "
+                      class="sr-only peer"
+                    />
+                    <div
+                      class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+                    ></div>
+                    <span class="ms-3 text-sm font-medium text-gray-700 dark:text-gray-300">No</span>
+                  </label>
+                </div>
+                <!-- rest of the question content -->
+              </div>
+              <div v-if="questions[currentIndex].isLiveCameraMandatory == true">
+                <div class="w-full border-dotted border-2 rounded h-40 relative my-4">
+                  <!-- Show picture image initially -->
+                  <div
+                    class="absolute inset-0 flex flex-col justify-center items-center py-20"
+                    v-if="!showCamera && !capturedImages[currentIndex]"
+                    @click="toggleCamera"
+                  >
+                    <img
+                      src="@/public/picture.png"
+                      alt="Placeholder"
+                      class="w-10 h-10 object-cover"
+                    />
+                    <div>
+                      <div class="mt-2 font-bold">Live Capture <span class="text-error"> *</span></div>
+                    </div>
+                  </div>
+
+                  <!-- Live Camera Feed -->
+
+                  <video
+                    ref="video"
+                    v-if="showCamera && !capturedImage"
+                    class="absolute inset-0 w-full h-full object-cover"
+                    autoplay
+                  ></video>
+
+                  <!-- Captured Image -->
+                  <!-- <img
             v-if="capturedImage"
             :src="capturedImage"
             class="absolute inset-0 w-full h-full object-cover"
           /> -->
-              <img
-                v-if="capturedImages[currentIndex]"
-                :src="capturedImages[currentIndex]"
-                class="absolute inset-0 w-full h-full object-cover"
-              />
-            </div>
-            <!-- Capture button only shown when live camera feed is displayed -->
-            <div
-              v-if="showCamera && !capturedImage"
-              class="py-3"
-            >
-              <button
-                @click="capture"
-                class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 rounded w-full"
-              >
-                Capture
-              </button>
-              <!-- <button
+                  <img
+                    v-if="capturedImages[currentIndex]"
+                    :src="capturedImages[currentIndex]"
+                    class="absolute inset-0 w-full h-full object-cover"
+                  />
+                </div>
+                <!-- Capture button only shown when live camera feed is displayed -->
+                <div
+                  v-if="showCamera && !capturedImage"
+                  class="py-3"
+                >
+                  <button
+                    @click="capture"
+                    class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 rounded w-full"
+                  >
+                    Capture
+                  </button>
+                  <!-- <button
             @click="switchCamera"
             class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-100"
           >
             Switch Camera
           </button> -->
-            </div>
-            <div
-              v-if="capturedImages[currentIndex]"
-              class="py-3"
-            >
-              <button
-                @click="retake"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded w-100"
-              >
-                Retake
-              </button>
+                </div>
+                <div
+                  v-if="capturedImages[currentIndex]"
+                  class="py-3"
+                >
+                  <button
+                    @click="retake"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded w-100"
+                  >
+                    Retake
+                  </button>
+                </div>
+              </div>
+              <div>
+                <div v-if="questions[currentIndex].isMessageMandatory">
+                  <textarea
+                    id="message"
+                    rows="3"
+                    v-model="notes[currentIndex]"
+                    placeholder="  Optional Message / Notes * "
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  ></textarea>
+                </div>
+
+                <div v-else>
+                  <textarea
+                    id="message"
+                    rows="3"
+                    v-model="notes[currentIndex]"
+                    placeholder="  Optional Message / Notes   "
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  ></textarea>
+                </div>
+              </div>
             </div>
           </div>
-          <div>
-            <div v-if="questions[currentIndex].isMessageMandatory">
-              <textarea
-                id="message"
-                rows="3"
-                v-model="notes[currentIndex]"
-                placeholder="  Optional Message / Notes * "
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              ></textarea>
+          <div class="flex justify-between p-3">
+            <button
+              @click="previousStep"
+              :disabled="currentIndex <= 0"
+              class="border border-gray-500 text-gray-500 font-bold py-2 px-4 w-100 mr-2 rounded"
+              :class="{ 'bg-gray-200': currentIndex <= 0 }"
+            >
+              ← Previous
+            </button>
+            <button
+              @click="nextStep"
+              class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 w-100 rounded"
+              :disabled="this.currentIndex >= this.questions.length - 1 || nextEnabled"
+              :class="{
+                'bg-gray-200 hover:bg-gray-200': this.currentIndex >= this.questions.length - 1 || nextEnabled,
+              }"
+            >
+              Next →
+            </button>
+            <Pagination
+              :pages="pages"
+              :prev="prev"
+              :next="next"
+            />
+          </div>
+        </div>
+        <div
+          v-if="showConfirmationModal"
+          class="modal-overlay"
+        >
+          <div class="modal-content">
+            <!-- Close Button -->
+            <span
+              class="close"
+              @click="showConfirmationModal = false"
+              >&times;</span
+            >
+            <div class="flex justify-center items0-center text-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="green"
+                class="h-20 w-20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
             </div>
 
-            <div v-else>
-              <textarea
-                id="message"
-                rows="3"
-                v-model="notes[currentIndex]"
-                placeholder="  Optional Message / Notes   "
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              ></textarea>
-            </div>
+            <!-- Thank You Message -->
+            <p class="font-medium text-xl text-gray-800">
+              Thank you !<br />
+              <span class="text-lg">We Saved your Response.</span>
+            </p>
+
+            <!-- Optional Button (like OK) -->
+            <button
+              @click="reloadPage"
+              class="mt-4 px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-green-600"
+            >
+              OK
+            </button>
           </div>
         </div>
       </div>
-      <div class="flex justify-between p-3">
-        <button
-          @click="previousStep"
-          :disabled="currentIndex <= 0"
-          class="border border-gray-500 text-gray-500 font-bold py-2 px-4 w-100 mr-2 rounded"
-          :class="{ 'bg-gray-200': currentIndex <= 0 }"
-        >
-          ← Previous
-        </button>
-        <button
-  @click="nextStep"
-  class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 w-100 rounded"
-  :disabled="this.currentIndex >= this.questions.length - 1 || nextEnabled" 
-  :class="{
-    'bg-gray-200 hover:bg-gray-200': this.currentIndex >= this.questions.length - 1 || nextEnabled
-  }"
->
-  Next →
-</button>
-        <Pagination
-          :pages="pages"
-          :prev="prev"
-          :next="next"
-        />
-      </div>
     </div>
-    <div v-if="showConfirmationModal" class="modal-overlay">
-      <div class="modal-content">
-        <!-- Close Button -->
-        <span class="close" @click="showConfirmationModal = false">&times;</span>
-<div class="flex justify-center items0-center text-center ">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="green" class="h-20 w-20">
-  <path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
-</svg>
-</div>
-   
-
-
-        <!-- Thank You Message -->
-        <p class="font-medium text-xl text-gray-800">Thank you !<br>
-          <span class="text-lg">We Saved your Response.</span> </p>
-
-        <!-- Optional Button (like OK) -->
-        <button @click="reloadPage" class="mt-4 px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-green-600">
-          OK
-        </button>
-      </div>
-</div>
+    <div class="hidden md:block flex justify-center text-center items-center my-20">
+      Please open this page using mobile device !
+    </div>
   </div>
-  <div class="hidden md:block flex justify-center text-center items-center my-20">
-Please open this page using mobile device !
-  </div>
-  
-</div>
-
 </template>
 
 <script lang="ts">
-import axios from 'axios';
+import axios from 'axios'
 // import { userDataStore } from '~/stores/tableData'
 // const userStore = userDataStore()
 export default {
@@ -387,25 +431,42 @@ export default {
       state: null,
       nextEnabled: false, // To control the Next button state
       showConfirmationModal: false,
+      showInputFields: false, // To control the visibility of input fields
+      inputValues: {
+        customerId: '',
+        employeeName: '',
+        employeeId: '',
+        clientCompanyName: '',
+        state: '',
+      },
     }
   },
   mounted() {
     this.startCamera(),
       this.getLocation(),
       this.fetchData(),
-  
       (this.yesNoAnswers = new Array(this.questions.length).fill(false))
-    this.cusId = this.$route.query.customerId ? this.$route.query.customerId : ''
-    console.log(this.cusId, ' this.cusId')
-    this.empName = this.$route.query.employeeName ? this.$route.query.employeeName : ''
-    console.log(this.empName, ' this.empName')
-    this.empId = this.$route.query.employeeId ? this.$route.query.employeeId : ''
-    console.log(this.empId, ' this.empId')
-    this.companyName = this.$route.query.clientCompanyName ? this.$route.query.clientCompanyName : ''
-    console.log(this.companyName, ' this.companyName')
-    this.state = this.$route.query.state ? this.$route.query.state : ''
-    console.log(this.state, ' this.state')
-    // userStore.setUser(this.empName, this.empId)
+
+    if (
+      !this.$route.query.customerId ||
+      !this.$route.query.employeeName ||
+      !this.$route.query.employeeId ||
+      !this.$route.query.clientCompanyName ||
+      !this.$route.query.state
+    ) {
+      this.showInputFields = true // Show input fields
+    } else {
+      this.cusId = this.$route.query.customerId ? this.$route.query.customerId : ''
+      console.log(this.cusId, ' this.cusId')
+      this.empName = this.$route.query.employeeName ? this.$route.query.employeeName : ''
+      console.log(this.empName, ' this.empName')
+      this.empId = this.$route.query.employeeId ? this.$route.query.employeeId : ''
+      console.log(this.empId, ' this.empId')
+      this.companyName = this.$route.query.clientCompanyName ? this.$route.query.clientCompanyName : ''
+      console.log(this.companyName, ' this.companyName')
+      this.state = this.$route.query.state ? this.$route.query.state : ''
+      console.log(this.state, ' this.state')
+    }
   },
   computed: {
     displayCusId() {
@@ -421,9 +482,9 @@ export default {
 
   methods: {
     reloadPage() {
-    this.showConfirmationModal = false; // Optionally hide the modal first
-    location.reload(); // Reload the page
-  },
+      this.showConfirmationModal = false // Optionally hide the modal first
+      location.reload() // Reload the page
+    },
     capturecheck() {
       const canvas = document.createElement('canvas')
       const video = this.$refs.clientVideo
@@ -457,6 +518,17 @@ export default {
       this.capturedClientImage = canvas.toDataURL('image/png')
       this.showClientCamera = false
     },
+    submitInputValues() {
+      this.cusId = this.inputValues.customerId
+      this.empName = this.inputValues.employeeName
+      this.empId = this.inputValues.employeeId
+      this.companyName = this.inputValues.clientCompanyName
+      this.state = this.inputValues.state
+
+      // Optionally, you can navigate to the questions page here
+      this.showInputFields = false // Hide input fields after submission
+      this.$router.push('/questions') // Adjust the route as necessary
+    },
 
     retakeClientImage() {
       this.showClientCamera = true
@@ -474,21 +546,20 @@ export default {
       this.$refs.clientVideo.srcObject = this.currentStream
     },
     captureEmployeeImage() {
-  const canvas = document.createElement('canvas')
-  const video = this.$refs.clientVideo
-  const context = canvas.getContext('2d')
-  canvas.width = video.videoWidth
-  canvas.height = video.videoHeight
-  context.drawImage(video, 0, 0, canvas.width, canvas.height)
-  this.capturedEmployeeImage = canvas.toDataURL('image/png')
-  this.showEmployeeCamera = false
-  
-  // Enable the Next button and show confirmation modal
-  this.nextEnabled = true; // Enable the Next button
-  this.showConfirmationModal = true;
-   this.postData();
-   
-},
+      const canvas = document.createElement('canvas')
+      const video = this.$refs.clientVideo
+      const context = canvas.getContext('2d')
+      canvas.width = video.videoWidth
+      canvas.height = video.videoHeight
+      context.drawImage(video, 0, 0, canvas.width, canvas.height)
+      this.capturedEmployeeImage = canvas.toDataURL('image/png')
+      this.showEmployeeCamera = false
+
+      // Enable the Next button and show confirmation modal
+      this.nextEnabled = true // Enable the Next button
+      this.showConfirmationModal = true
+      this.postData()
+    },
 
     retakeEmployeeImage() {
       this.showEmployeeCamera = true
@@ -579,287 +650,305 @@ export default {
       try {
         // const response = await axios.get('https://g1.gwcindia.in/ap_inspection/get-questions.php')
         const response = [
-    {
-        "questionId": "1",
-        "question": "1 Whether all clients are registered directly with the Trading Member only.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Dealing with clients",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "2",
-        "question": "2 There is no movement of Funds and securities between the clients and AP.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Dealing with clients",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "3",
-        "question": "3 There are no fixed payments at regular intervals to the clients mapped to AP.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Dealing with clients",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "4",
-        "question": "4 There are no cash dealings done with clients by AP.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Dealing with clients",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "5",
-        "question": "5 The AP is not involved in any fund-based activities / collecting deposits from investors / unauthorised trading or any other such schemes.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Dealing with clients",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "6",
-        "question": "6 The AP is not involved in any illegal/dabba/paper trading.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Dealing with clients",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "7",
-        "question": "7 The AP has not dealt with any unregistered intermediary on behalf of its clients/self.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Dealing with clients",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "8",
-        "question": "8 The AP is not involved in accepting deposits from the public and giving assured returns to their clients.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Dealing with clients",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "9",
-        "question": "9 Complaints received against AP pertaining to Assured Returns / Unauthorised Trading / Dabba Trading / associated with unregistered intermediary.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": true,
-        "type_name": "Dealing with clients",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "10",
-        "question": "10 The AP does not offer any incentives to clients for opening trading accounts.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Dealing with clients",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "11",
-        "question": "11 AP has sought any authorisation to trade on behalf of its clients.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Dealing with clients",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "12",
-        "question": "12 Advertisements for soliciting business are not issued by the APs in newspapers / pamphlets / journals / magazines / emails including social media like Facebook, Instagram, telegram channels etc., without seeking appropriate approvals from the Exchange, through the Trading Member. This includes not publishing performance returns etc.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Management of branches / AP and internal control",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "13",
-        "question": "13 All AP terminals are as per the information reported to the Exchange.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Terminal operations and related systems",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "14",
-        "question": "14 Trading terminals are operated by approved and certified users.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": true,
-        "type_name": "Terminal operations and related systems",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "15",
-        "question": "15 Adequate systems, including voice recording, have been put in place, with a view to ensure recording of order placement from clients. Trading Members must ensure that APs who do not have trading terminals assigned to them, cannot place trades on behalf of the Trading Member’s clients.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Terminal operations and related systems",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "16",
-        "question": "16 Documents like contract notes, statement of funds, daily margin statement are not generated and issued by the AP. However, AP may provide administrative assistance in procurement of documents from the Trading Member, after maintaining proper records of the same.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Management of branches / AP and internal control",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "17",
-        "question": "17 The AP has not dealt with / or associated with any other Trading Member/AP on behalf of its clients/self on the same Stock Exchange.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Management of branches / AP and internal control",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "18",
-        "question": "18 Trading activities/Turnover of AP/Clients mapped with the AP are monitored, and necessary actions/investigations are undertaken on a timely basis.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": true,
-        "type_name": "Management of branches / AP and internal control",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "19",
-        "question": "19 The AP has the necessary infrastructure like adequate office space, equipment, and manpower to effectively discharge the activities on behalf of the Trading Member.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": true,
-        "type_name": "Management of branches / AP and internal control",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "20",
-        "question": "20 Complaints received by and against the APs are handled appropriately and proper records are maintained.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": true,
-        "type_name": "Management of branches / AP and internal control",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "21",
-        "question": "21 Proper segregation and demarcation are maintained at AP office.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Management of branches / AP and internal control",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "22",
-        "question": "22 Notice board of the Trading Member containing all details/information prescribed from time to time, are displayed at the AP/s location.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": true,
-        "type_name": "Management of branches / AP and internal control",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "23",
-        "question": "23 SEBI registration certificate of the Trading Member and registration letter issued by the Exchange is displayed at the location.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": true,
-        "type_name": "Management of branches / AP and internal control",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "24",
-        "question": "24 As required by SEBI circular CIR/MIRSD/3/2014 dated August 28, 2014, information about the grievance redressal mechanism available to investors is prominently displayed at the location.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": true,
-        "type_name": "Management of branches / AP and internal control",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "25",
-        "question": "25 Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Management of branches / AP and internal control",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "26",
-        "question": "26 All clients mapped to the AP/Branch are notified at least thirty days before the change.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Management of branches / AP and internal control",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "27",
-        "question": "27 Notice Board and applicable SEBI registration certificates are immediately put up at the new location.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Management of branches / AP and internal control",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "28",
-        "question": "28 The new location, including details of terminals if any, have been duly reported to the Exchange, and the old location, including terminals at the old location if any have been deactivated.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Management of branches / AP and internal control",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "29",
-        "question": "29 At the new location, adequate systems including voice recording, display of Notice Board and SEBI Registration certificates, and terminals etc. have been promptly installed to ensure the smooth functioning of business operations and the recording of order placements from clients.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Management of branches / AP and internal control",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "30",
-        "question": "30 Any changes in the AP's contact details, such as registered / communication address, email address, mobile number or any changes in the Directors/ Partners of AP, are not reported/ incorrectly reported to the Members.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Management of branches / AP and internal control",
-        "time": "time",
-        "date": "date"
-    },
-    {
-        "questionId": "31",
-        "question": "31 The AP's mobile number, and email address are not mapped to any of its client in UCC uploaded to Exchange.",
-        "isMessageMandatory": false,
-        "isLiveCameraMandatory": false,
-        "type_name": "Management of branches / AP and internal control",
-        "time": "time",
-        "date": "date"
-    }
-]
-
+          {
+            questionId: '1',
+            question: '1 Whether all clients are registered directly with the Trading Member only.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Dealing with clients',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '2',
+            question: '2 There is no movement of Funds and securities between the clients and AP.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Dealing with clients',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '3',
+            question: '3 There are no fixed payments at regular intervals to the clients mapped to AP.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Dealing with clients',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '4',
+            question: '4 There are no cash dealings done with clients by AP.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Dealing with clients',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '5',
+            question:
+              '5 The AP is not involved in any fund-based activities / collecting deposits from investors / unauthorised trading or any other such schemes.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Dealing with clients',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '6',
+            question: '6 The AP is not involved in any illegal/dabba/paper trading.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Dealing with clients',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '7',
+            question: '7 The AP has not dealt with any unregistered intermediary on behalf of its clients/self.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Dealing with clients',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '8',
+            question:
+              '8 The AP is not involved in accepting deposits from the public and giving assured returns to their clients.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Dealing with clients',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '9',
+            question:
+              '9 Complaints received against AP pertaining to Assured Returns / Unauthorised Trading / Dabba Trading / associated with unregistered intermediary.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: true,
+            type_name: 'Dealing with clients',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '10',
+            question: '10 The AP does not offer any incentives to clients for opening trading accounts.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Dealing with clients',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '11',
+            question: '11 AP has sought any authorisation to trade on behalf of its clients.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Dealing with clients',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '12',
+            question:
+              '12 Advertisements for soliciting business are not issued by the APs in newspapers / pamphlets / journals / magazines / emails including social media like Facebook, Instagram, telegram channels etc., without seeking appropriate approvals from the Exchange, through the Trading Member. This includes not publishing performance returns etc.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Management of branches / AP and internal control',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '13',
+            question: '13 All AP terminals are as per the information reported to the Exchange.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Terminal operations and related systems',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '14',
+            question: '14 Trading terminals are operated by approved and certified users.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: true,
+            type_name: 'Terminal operations and related systems',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '15',
+            question:
+              '15 Adequate systems, including voice recording, have been put in place, with a view to ensure recording of order placement from clients. Trading Members must ensure that APs who do not have trading terminals assigned to them, cannot place trades on behalf of the Trading Member’s clients.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Terminal operations and related systems',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '16',
+            question:
+              '16 Documents like contract notes, statement of funds, daily margin statement are not generated and issued by the AP. However, AP may provide administrative assistance in procurement of documents from the Trading Member, after maintaining proper records of the same.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Management of branches / AP and internal control',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '17',
+            question:
+              '17 The AP has not dealt with / or associated with any other Trading Member/AP on behalf of its clients/self on the same Stock Exchange.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Management of branches / AP and internal control',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '18',
+            question:
+              '18 Trading activities/Turnover of AP/Clients mapped with the AP are monitored, and necessary actions/investigations are undertaken on a timely basis.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: true,
+            type_name: 'Management of branches / AP and internal control',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '19',
+            question:
+              '19 The AP has the necessary infrastructure like adequate office space, equipment, and manpower to effectively discharge the activities on behalf of the Trading Member.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: true,
+            type_name: 'Management of branches / AP and internal control',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '20',
+            question:
+              '20 Complaints received by and against the APs are handled appropriately and proper records are maintained.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: true,
+            type_name: 'Management of branches / AP and internal control',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '21',
+            question: '21 Proper segregation and demarcation are maintained at AP office.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Management of branches / AP and internal control',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '22',
+            question:
+              '22 Notice board of the Trading Member containing all details/information prescribed from time to time, are displayed at the AP/s location.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: true,
+            type_name: 'Management of branches / AP and internal control',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '23',
+            question:
+              '23 SEBI registration certificate of the Trading Member and registration letter issued by the Exchange is displayed at the location.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: true,
+            type_name: 'Management of branches / AP and internal control',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '24',
+            question:
+              '24 As required by SEBI circular CIR/MIRSD/3/2014 dated August 28, 2014, information about the grievance redressal mechanism available to investors is prominently displayed at the location.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: true,
+            type_name: 'Management of branches / AP and internal control',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '25',
+            question:
+              '25 Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Management of branches / AP and internal control',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '26',
+            question: '26 All clients mapped to the AP/Branch are notified at least thirty days before the change.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Management of branches / AP and internal control',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '27',
+            question:
+              '27 Notice Board and applicable SEBI registration certificates are immediately put up at the new location.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Management of branches / AP and internal control',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '28',
+            question:
+              '28 The new location, including details of terminals if any, have been duly reported to the Exchange, and the old location, including terminals at the old location if any have been deactivated.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Management of branches / AP and internal control',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '29',
+            question:
+              '29 At the new location, adequate systems including voice recording, display of Notice Board and SEBI Registration certificates, and terminals etc. have been promptly installed to ensure the smooth functioning of business operations and the recording of order placements from clients.',
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Management of branches / AP and internal control',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '30',
+            question:
+              "30 Any changes in the AP's contact details, such as registered / communication address, email address, mobile number or any changes in the Directors/ Partners of AP, are not reported/ incorrectly reported to the Members.",
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Management of branches / AP and internal control',
+            time: 'time',
+            date: 'date',
+          },
+          {
+            questionId: '31',
+            question:
+              "31 The AP's mobile number, and email address are not mapped to any of its client in UCC uploaded to Exchange.",
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: 'Management of branches / AP and internal control',
+            time: 'time',
+            date: 'date',
+          },
+        ]
 
         this.questions = response.map(question => ({ ...question, isMessageMandatory: false }))
         this.notes = new Array(this.questions.length).fill('')
@@ -882,57 +971,57 @@ export default {
       }
     },
     nextStep() {
-  if (this.coordinates && this.coordinates.latitude && this.coordinates.longitude) {
-    if (this.currentIndex < this.questions.length - 1) {
-      const isMessageRequired = this.notes[this.currentIndex] == '';
-      const isCameraRequired =
-        this.capturedImages[this.currentIndex] == null && this.capturedImages[this.currentIndex] == undefined;
+      if (this.coordinates && this.coordinates.latitude && this.coordinates.longitude) {
+        if (this.currentIndex < this.questions.length - 1) {
+          const isMessageRequired = this.notes[this.currentIndex] == ''
+          const isCameraRequired =
+            this.capturedImages[this.currentIndex] == null && this.capturedImages[this.currentIndex] == undefined
 
-      if (
-        isMessageRequired &&
-        this.questions[this.currentIndex].isMessageMandatory &&
-        this.questions[this.currentIndex].isLiveCameraMandatory &&
-        isCameraRequired &&
-        this.questions[this.currentIndex].isclientImage != true
-      ) {
-        alert('Please fill the Mandatory Fields !');
-      } else if (
-        this.questions[this.currentIndex].isLiveCameraMandatory &&
-        isCameraRequired &&
-        this.questions[this.currentIndex].isclientImage != true
-      ) {
-        alert('Please Capture Image !');
-      } else if (
-        this.questions[this.currentIndex].isMessageMandatory &&
-        isMessageRequired &&
-        this.questions[this.currentIndex].isclientImage != true
-      ) {
-        alert('Please fill Message Field !');
+          if (
+            isMessageRequired &&
+            this.questions[this.currentIndex].isMessageMandatory &&
+            this.questions[this.currentIndex].isLiveCameraMandatory &&
+            isCameraRequired &&
+            this.questions[this.currentIndex].isclientImage != true
+          ) {
+            alert('Please fill the Mandatory Fields !')
+          } else if (
+            this.questions[this.currentIndex].isLiveCameraMandatory &&
+            isCameraRequired &&
+            this.questions[this.currentIndex].isclientImage != true
+          ) {
+            alert('Please Capture Image !')
+          } else if (
+            this.questions[this.currentIndex].isMessageMandatory &&
+            isMessageRequired &&
+            this.questions[this.currentIndex].isclientImage != true
+          ) {
+            alert('Please fill Message Field !')
+          } else {
+            // Call postData before moving to the next question
+            this.postData()
+
+            this.currentIndex++
+            this.showCamera = false
+            this.capturedImage = null
+          }
+
+          if (
+            this.questions[this.currentIndex].isclientImage &&
+            this.capturedClientImage != null &&
+            this.capturedClientImage != undefined
+          ) {
+            this.currentIndex++
+            this.showCamera = false
+            this.capturedImage = null
+          }
+        } else {
+          this.next = null
+        }
       } else {
-        // Call postData before moving to the next question
-        this.postData();
-
-        this.currentIndex++;
-        this.showCamera = false;
-        this.capturedImage = null;
+        alert('Please Enable Location in your device !')
       }
-
-      if (
-        this.questions[this.currentIndex].isclientImage &&
-        this.capturedClientImage != null &&
-        this.capturedClientImage != undefined
-      ) {
-        this.currentIndex++;
-        this.showCamera = false;
-        this.capturedImage = null;
-      }
-    } else {
-      this.next = null;
-    }
-  } else {
-    alert('Please Enable Location in your device !');
-  }
-},
+    },
     previousStep() {
       if (this.currentIndex > 0) {
         this.currentIndex--
@@ -943,63 +1032,64 @@ export default {
       }
     },
     async postData() {
-    try {
+      try {
         if (!Array.isArray(this.questions)) {
-            console.error('Questions is not defined or not an array');
-            return;
+          console.error('Questions is not defined or not an array')
+          return
         }
 
         // Generate AppSessionId
-        const now = new Date();
-        const day = String(now.getDate()).padStart(2, '0');
-        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-        const year = String(now.getFullYear()).slice(-2); // Get last two digits of the year
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-        const appSessionId = `${day}${month}${year}${hours}${minutes}${seconds}`;
+        const now = new Date()
+        const day = String(now.getDate()).padStart(2, '0')
+        const month = String(now.getMonth() + 1).padStart(2, '0') // Months are 0-based
+        const year = String(now.getFullYear()).slice(-2) // Get last two digits of the year
+        const hours = String(now.getHours()).padStart(2, '0')
+        const minutes = String(now.getMinutes()).padStart(2, '0')
+        const seconds = String(now.getSeconds()).padStart(2, '0')
+        const appSessionId = `${day}${month}${year}${hours}${minutes}${seconds}`
 
         // Get only the questions up to the current index
         const questionsData = this.questions.slice(0, this.currentIndex + 1).map((question, index) => {
-            return {
-                questionId: question.questionId,
-                question: question.question,
-                message: this.notes[index] || '',
-                Image: this.capturedImages[index] || '',
-                type: question.type_name,
-                EmpId: this.empId || 'GUD001',
-                EmpName: this.empName || 'john',
-                customerId: 'A101',
-                companyName: this.companyName || 'Finy Wealth',
-                state: this.state || 'Andhra Pradesh',
-                lat: this.coordinates.latitude,
-                lan: this.coordinates.longitude,
-                data: new Date().toISOString(),
-                time: new Date().toLocaleTimeString(),
-                AppSessionId: appSessionId, // Set the AppSessionId
-            };
-        });
+          return {
+            questionId: question.questionId,
+            question: question.question,
+            message: this.notes[index] || '',
+            Image: this.capturedImages[index] || '',
+            type: question.type_name,
+            EmpId: this.empId || 'GUD001',
+            EmpName: this.empName || 'john',
+            customerId: 'A101',
+            companyName: this.companyName || 'Finy Wealth',
+            state: this.state || 'Andhra Pradesh',
+            lat: this.coordinates.latitude,
+            lan: this.coordinates.longitude,
+            data: new Date().toISOString(),
+            time: new Date().toLocaleTimeString(),
+            AppSessionId: appSessionId, // Set the AppSessionId
+          }
+        })
 
         // Add thankyou property to the last question
-        const lastQuestionIndex = questionsData.length - 1;
-        if (questionsData[lastQuestionIndex].questionId === "31") {
-            questionsData[lastQuestionIndex].thankyou = this.notes[lastQuestionIndex] ? "1" : "0";
+        const lastQuestionIndex = questionsData.length - 1
+        if (questionsData[lastQuestionIndex].questionId === '31') {
+          questionsData[lastQuestionIndex].thankyou = this.notes[lastQuestionIndex] ? '1' : '0'
         }
 
         const response = await axios.post('https://g1.gwcindia.in/ticket-api/inspection-api.php', {
-            questions: questionsData,
-        });
-        console.log(response.data);
-    } catch (err) {
-        console.error('Error:', err);
-    }
-}}
+          questions: questionsData,
+        })
+        console.log(response.data)
+      } catch (err) {
+        console.error('Error:', err)
+      }
+    },
+  },
 }
 </script>
 
 
 <style scoped>
-.p-menu-list{
+.p-menu-list {
   background-color: ;
 }
 .question-container {
