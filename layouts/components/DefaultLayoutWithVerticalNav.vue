@@ -5,7 +5,7 @@ import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 // Components
 import Footer from '@/layouts/components/Footer.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const empName = ref('')
@@ -37,6 +37,11 @@ onMounted(() => {
   window.addEventListener('storage', syncStateFromLocalStorage)
 })
 
+// Watch empName and empId and update localStorage if they change
+watch([empName, empId], () => {
+  updateLocalStorage()
+})
+
 onBeforeUnmount(() => {
   // Clean up listener when component is destroyed
   window.removeEventListener('storage', syncStateFromLocalStorage)
@@ -49,6 +54,7 @@ const setEmployeeDetails = (name, id) => {
   updateLocalStorage() // Update local storage whenever you set new values
 }
 </script>
+
 
 
 <template>
@@ -66,8 +72,8 @@ const setEmployeeDetails = (name, id) => {
 
         <VSpacer />
         <div class="px-4 font-bold py-1 text-sm">
-          <div>{{ empName || 'hh' }}</div>
-          <div>{{ empId || 'hh' }}</div>
+          <div>{{ empName || '' }}</div>
+          <div>{{ empId || '' }}</div>
         </div>
         <UserProfile />
       </div>
