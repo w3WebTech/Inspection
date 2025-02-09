@@ -434,6 +434,7 @@
 
 <script lang="ts">
 import axios from 'axios'
+  import { useRoute } from 'vue-router'
 // import { userDataStore } from '~/stores/tableData'
 // const userStore = userDataStore()
 export default {
@@ -475,6 +476,7 @@ export default {
     }
   },
   mounted() {
+      const route = useRoute();
     this.startCamera(),
       this.getLocation(),
       this.fetchData(),
