@@ -14,10 +14,11 @@ const empId = ref('')
 
 onMounted(() => {
   const route = useRoute()
-  empName.value = route.query.employeeName ? route.query.employeeName : 'Praveen'
-  console.log(empName.value, ' empName')
-  empId.value = route.query.employeeId ? route.query.employeeId : '012345'
-  console.log(empId.value, ' empId')
+   empName.value = route.query.employeeName ? route.query.employeeName : localStorage.getItem('employeeName') || '';
+  console.log(empName.value, ' empName');
+  
+  empId.value = route.query.employeeId ? route.query.employeeId : localStorage.getItem('employeeId') || '';
+  console.log(empId.value, ' empId');
 })
 
 // import { userDataStore } from '~/stores/tableData'
