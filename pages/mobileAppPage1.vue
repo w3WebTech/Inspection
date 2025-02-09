@@ -569,7 +569,8 @@ export default {
   this.empId = this.inputValues.employeeId;
   this.companyName = this.inputValues.clientCompanyName;
   this.state = this.inputValues.state;
-
+  localStorage.setItem('employeeName', this.empName);
+  localStorage.setItem('employeeId', this.empId);
   // Hide input fields after successful submission
   this.showInputFields = false;
 
