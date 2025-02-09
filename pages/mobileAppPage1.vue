@@ -1,33 +1,66 @@
 <template>
   <div>
     <div class="rounded-md shadow-md bg-white block md:hidden">
-      <div
-        v-if="showInputFields"
-        class="input-fields"
-      >
-        <h2>Please enter the following details:</h2>
-        <input
-          v-model="inputValues.customerId"
-          placeholder="Customer ID"
-        />
-        <input
-          v-model="inputValues.employeeName"
-          placeholder="Employee Name"
-        />
-        <input
-          v-model="inputValues.employeeId"
-          placeholder="Employee ID"
-        />
-        <input
-          v-model="inputValues.clientCompanyName"
-          placeholder="Client Company Name"
-        />
-        <input
-          v-model="inputValues.state"
-          placeholder="State"
-        />
-        <button @click="submitInputValues">Submit</button>
-      </div>
+ <div v-if="showInputFields" class="input-fields p-6 bg-white rounded-md shadow-md">
+  <h2 class="text-xl font-bold mb-2">Please enter the following details:</h2>
+  
+  <div class="mb-2">
+    <label for="customerId" class="block text-sm font-medium text-gray-700 mb-1">Customer ID</label>
+    <input
+      id="customerId"
+      v-model="inputValues.customerId"
+      placeholder="Enter Customer ID"
+      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+    />
+  </div>
+
+  <div class="mb-2">
+    <label for="employeeName" class="block text-sm font-medium text-gray-700 mb-1">Employee Name</label>
+    <input
+      id="employeeName"
+      v-model="inputValues.employeeName"
+      placeholder="Enter Employee Name"
+      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+    />
+  </div>
+
+  <div class="mb-2">
+    <label for="employeeId" class="block text-sm font-medium text-gray-700 mb-1">Employee ID</label>
+    <input
+      id="employeeId"
+      v-model="inputValues.employeeId"
+      placeholder="Enter Employee ID"
+      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+    />
+  </div>
+
+  <div class="mb-2">
+    <label for="clientCompanyName" class="block text-sm font-medium text-gray-700 mb-1">Client Company Name</label>
+    <input
+      id="clientCompanyName"
+      v-model="inputValues.clientCompanyName"
+      placeholder="Enter Client Company Name"
+      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+    />
+  </div>
+
+  <div class="mb-2">
+    <label for="state" class="block text-sm font-medium text-gray-700 mb-1">State</label>
+    <input
+      id="state"
+      v-model="inputValues.state"
+      placeholder="Enter State"
+      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+    />
+  </div>
+
+  <button
+    @click="submitInputValues"
+    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-md transition duration-200"
+  >
+    Submit
+  </button>
+</div>
       <div v-else>
         <div class="flex justify-between items-center px-3 py-0.5">
           <h2 class="text-xl text-blue-900 font-bold">{{ displayCusId }}</h2>
@@ -527,7 +560,7 @@ export default {
 
       // Optionally, you can navigate to the questions page here
       this.showInputFields = false // Hide input fields after submission
-      this.$router.push('/questions') // Adjust the route as necessary
+      
     },
 
     retakeClientImage() {
