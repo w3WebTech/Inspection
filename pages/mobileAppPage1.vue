@@ -551,17 +551,29 @@ export default {
       this.capturedClientImage = canvas.toDataURL('image/png')
       this.showClientCamera = false
     },
-    submitInputValues() {
-      this.cusId = this.inputValues.customerId
-      this.empName = this.inputValues.employeeName
-      this.empId = this.inputValues.employeeId
-      this.companyName = this.inputValues.clientCompanyName
-      this.state = this.inputValues.state
+  submitInputValues() {
+  // Check if any input values are empty
+  if (!this.inputValues.customerId || 
+      !this.inputValues.employeeName || 
+      !this.inputValues.employeeId || 
+      !this.inputValues.clientCompanyName || 
+      !this.inputValues.state) {
+    alert('Please fill all the details!');
 
-      // Optionally, you can navigate to the questions page here
-      this.showInputFields = false // Hide input fields after submission
-      
-    },
+    return; 
+  }
+
+  // If all fields are filled, assign the values
+  this.cusId = this.inputValues.customerId;
+  this.empName = this.inputValues.employeeName;
+  this.empId = this.inputValues.employeeId;
+  this.companyName = this.inputValues.clientCompanyName;
+  this.state = this.inputValues.state;
+
+  // Hide input fields after successful submission
+  this.showInputFields = false;
+
+}
 
     retakeClientImage() {
       this.showClientCamera = true
