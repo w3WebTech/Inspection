@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { Component } from 'vue'
+import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import { useDisplay } from 'vuetify'
 
 interface Props {
@@ -38,8 +39,8 @@ const handleNavScroll = (evt: Event) => {
 </script>
 
 <template>
-
-  <!-- <Component
+  <!-- eslint-disable vue/no-v-html -->
+  <Component
     :is="props.tag"
     ref="refNav"
     class="layout-vertical-nav"
@@ -51,8 +52,8 @@ const handleNavScroll = (evt: Event) => {
       },
     ]"
   >
-   
-    <div class="nav-header">
+    <!-- 👉 Header -->
+    <!-- <div class="nav-header">
       <slot name="nav-header">
         <NuxtLink
           to="/"
@@ -66,7 +67,7 @@ const handleNavScroll = (evt: Event) => {
           <h1 class="font-weight-medium leading-normal text-xl text-uppercase">powerStocks</h1>
         </NuxtLink>
       </slot>
-    </div>
+    </div> -->
     <slot name="before-nav-items">
       <div class="vertical-nav-items-shadow" />
     </slot>
@@ -85,7 +86,7 @@ const handleNavScroll = (evt: Event) => {
     </slot>
 
     <slot name="after-nav-items" />
-  </Component> -->
+  </Component>
 </template>
 
 <style lang="scss" scoped>
