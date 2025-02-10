@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import avatar1 from '@images/avatars/avatar-1.png';
-import { useRouter } from 'vue-router';
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const router = useRouter();
 
@@ -49,69 +50,75 @@ const routeCheck = () => {
   // Clear user data from localStorage
   localStorage.removeItem('employeeName');
   localStorage.removeItem('employeeId');
-  window.location.reload()
-  // Redirect to login page
-  // router.push('/login');
+  router.push('/login'); // Redirect to login page
 };
-
 </script>
 
+
 <template>
-  <VBadge
-    dot
-    location="bottom right"
-    offset-x="3"
-    offset-y="3"
-    color="success"
-    bordered
-  >
-    <VAvatar class="cursor-pointer" color="primary" variant="tonal">
-      <VImg :src="avatar1" />
-      
-      <!-- User Menu -->
-      <VMenu
-        activator="parent"
-        width="230"
-        location="bottom end"
-        offset="14px"
-      >
-        <VList>
-          <!-- User Avatar & Name -->
-          <VListItem>
-            <template #prepend>
-              <VListItemAction start>
-                <VBadge
-                  dot
-                  location="bottom right"
-                  offset-x="3"
-                  offset-y="3"
-                  color="success"
-                >
-                  <VAvatar color="primary" variant="tonal">
-                    <VImg :src="avatar1" />
-                  </VAvatar>
-                </VBadge>
-              </VListItemAction>
-            </template>
+  <div v-if="empName && empId">
+    <VBadge
+      dot
+      location="bottom right"
+      offset-x="3"
+      offset-y="3"
+      color="success"
+      bordered
+    >
+      <VAvatar class="cursor-pointer" color="primary" variant="tonal">
+        <VImg :src="avatar1" />
+        
+        <!-- User Menu -->
+        <VMenu
+          activator="parent"
+          width="230"
+          location="bottom end"
+          offset="14px"
+        >
+          <VList>
+            <!-- User Avatar & Name -->
+            <VListItem>
+              <template #prepend>
+                <VListItemAction start>
+                  <VBadge
+                    dot
+                    location="bottom right"
+                    offset-x="3"
+                    offset-y="3"
+                    color="success"
+                  >
+                    <VAvatar color="primary" variant="tonal">
+                      <VImg :src="avatar1" />
+                    </VAvatar>
+                  </VBadge>
+                </VListItemAction>
+              </template>
 
-            <VListItemTitle class="font-weight-semibold">{{ empName || 'UNKNOWN' }} </VListItemTitle>
-            <VListItemSubtitle>{{ empId || '' }}</VListItemSubtitle>
-          </VListItem>
-          <VDivider class="my-2" />
+              <VListItemTitle class="font-weight-semibold">{{ empName || 'UNKNOWN' }} </VListItemTitle>
+              <VListItemSubtitle>{{ empId || '' }}</VListItemSubtitle>
+            </VListItem>
+            <VDivider class="my-2" />
 
-          <!-- Logout Button -->
-          <VListItem @click="routeCheck">
-            <template #prepend>
-              <VIcon class="me-2" icon="ri-logout-box-r-line" size="22" />
-            </template>
-            <VListItemTitle>Logout</VListItemTitle>
-          </VListItem>
-        </VList>
-      </VMenu>
-      <!-- End User Menu -->
-    </VAvatar>
-  </VBadge>
+            <!-- Logout Button -->
+            <VListItem @click="routeCheck">
+              <template #prepend>
+                <VIcon class="me-2" icon="ri-logout-box-r-line" size="22" />
+              </template>
+              <VListItemTitle>Logout</VListItemTitle>
+            </VListItem>
+          </VList>
+        </VMenu>
+        <!-- End User Menu -->
+      </VAvatar>
+    </VBadge>
+  </div>
+
+  <!-- Loading state or fallback if empName or empId is not available -->
+  <div v-else class="loading-state">
+    UNKNOWN
+  </div>
 </template>
+
 
 <style lang="scss" scoped>
 .prof {
