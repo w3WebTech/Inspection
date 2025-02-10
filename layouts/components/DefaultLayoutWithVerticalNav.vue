@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import NavItems from '@/layouts/components/NavItems.vue'
 import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 
 // Components
+import Footer from '@/layouts/components/Footer.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -61,12 +63,12 @@ const setEmployeeDetails = (name, id) => {
     <template #navbar="{ toggleVerticalOverlayNavActive }">
       <div class="d-flex h-100 align-center prof">
         <!-- 👉 Vertical nav toggle in overlay mode -->
-        <!-- <IconBtn
+        <IconBtn
           class="ms-n3 d-lg-none"
           @click="toggleVerticalOverlayNavActive(true)"
         >
-          <VIcon icon="ri-menu-line" /> -->
-        <!-- </IconBtn> -->
+          <VIcon icon="ri-menu-line" />
+        </IconBtn>
 
         <VSpacer />
         <div class="px-4 font-bold py-1 text-sm">
@@ -98,17 +100,17 @@ const setEmployeeDetails = (name, id) => {
       </IconBtn>
     </template> -->
 
-    <!-- <template #vertical-nav-content>
+    <template #vertical-nav-content>
       <NavItems />
-    </template> -->
+    </template>
 
     <!-- 👉 Pages -->
     <slot />
 
     <!-- 👉 Footer -->
-    <!-- <template #footer>
+    <template #footer>
       <Footer />
-    </template> -->
+    </template>
   </VerticalNavLayout>
 </template>
 
