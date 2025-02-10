@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import NavItems from '@/layouts/components/NavItems.vue'
 import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 
 // Components
@@ -63,12 +62,12 @@ const setEmployeeDetails = (name, id) => {
     <template #navbar="{ toggleVerticalOverlayNavActive }">
       <div class="d-flex h-100 align-center prof">
         <!-- 👉 Vertical nav toggle in overlay mode -->
-        <IconBtn
+        <!-- <IconBtn
           class="ms-n3 d-lg-none"
           @click="toggleVerticalOverlayNavActive(true)"
         >
           <VIcon icon="ri-menu-line" />
-        </IconBtn>
+        </IconBtn> -->
 
         <VSpacer />
         <div class="px-4 font-bold py-1 text-sm">
@@ -100,9 +99,9 @@ const setEmployeeDetails = (name, id) => {
       </IconBtn>
     </template> -->
 
-    <template #vertical-nav-content>
+    <!-- <template #vertical-nav-content>
       <NavItems />
-    </template>
+    </template> -->
 
     <!-- 👉 Pages -->
     <slot />
