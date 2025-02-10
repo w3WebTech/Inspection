@@ -46,11 +46,14 @@ onBeforeUnmount(() => {
 
 // Logout function
 const routeCheck = () => {
-  localStorage.removeItem('employeeName')
-  localStorage.removeItem('employeeId')
-  localStorage.removeItem('CustomerId')
-  localStorage.removeItem('OrgName')
-  window.location.reload()
+  // Clear local storage items
+  localStorage.removeItem('employeeName');
+  localStorage.removeItem('employeeId');
+  localStorage.removeItem('CustomerId');
+  localStorage.removeItem('OrgName');
+
+  // Redirect to the login page
+  window.location.href = '/mobileAppPage1'; // Change '/login' to your actual login route
 }
 </script>
 
