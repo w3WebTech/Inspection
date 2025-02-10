@@ -483,13 +483,7 @@ export default {
       this.fetchData(),
       (this.yesNoAnswers = new Array(this.questions.length).fill(false))
 const storedEmpName = localStorage.getItem('employeeName');
-  if (storedEmpName) {
-    this.empName = storedEmpName;
-    this.showInputFields = false; // Do not show input fields
 
-  } else {
-    this.showInputFields = true; // Show input fields
-  }
     if (
       !this.$route.query.customerId ||
       !this.$route.query.employeeName ||
