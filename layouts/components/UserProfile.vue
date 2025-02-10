@@ -48,6 +48,8 @@ onBeforeUnmount(() => {
 const routeCheck = () => {
   localStorage.removeItem('employeeName')
   localStorage.removeItem('employeeId')
+  localStorage.removeItem('CustomerId')
+  localStorage.removeItem('OrgName')
   window.location.reload()
 }
 </script>
@@ -88,7 +90,7 @@ const routeCheck = () => {
     </VBadge>
   </div>
   <div v-else>
-    <p>UNKNOWN</p>
+    <p></p>
   </div>
 </template>
 

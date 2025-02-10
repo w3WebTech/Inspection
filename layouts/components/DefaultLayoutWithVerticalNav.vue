@@ -7,14 +7,14 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
-const empName = ref('')
-const empId = ref('')
+const orgName = ref('')
+const cusId = ref('')
 
 // Function to update local storage
 const updateLocalStorage = () => {
   try {
-    localStorage.setItem('employeeName', empName.value)
-    localStorage.setItem('employeeId', empId.value)
+    localStorage.setItem('OrgName', orgName.value)
+    localStorage.setItem('CustomerId', cusId.value)
   } catch (error) {
     console.error("Error saving to localStorage:", error)
   }
@@ -22,22 +22,22 @@ const updateLocalStorage = () => {
 
 // Function to sync state with localStorage
 const syncStateFromLocalStorage = () => {
-  empName.value = localStorage.getItem('employeeName') || ''
-  empId.value = localStorage.getItem('employeeId') || ''
+  orgName.value = localStorage.getItem('OrgName') || ''
+  cusId.value = localStorage.getItem('CustomerId') || ''
 }
 
 onMounted(() => {
   // Sync initial values from localStorage or route
   const route = useRoute()
-  empName.value = route.query.employeeName || localStorage.getItem('employeeName') || ''
-  empId.value = route.query.employeeId || localStorage.getItem('employeeId') || ''
+  orgName.value = route.query.clientCompanyName || localStorage.getItem('OrgName') || ''
+  cusId.value = route.query.customerId || localStorage.getItem('CustomerId') || ''
   
   // Listen to localStorage changes
   window.addEventListener('storage', syncStateFromLocalStorage)
 })
 
 // Watch empName and empId and update localStorage if they change
-watch([empName, empId], () => {
+watch([orgName, cusId], () => {
   updateLocalStorage()
 })
 
@@ -48,8 +48,8 @@ onBeforeUnmount(() => {
 
 // Example function to set values (you can call this when you want to update)
 const setEmployeeDetails = (name, id) => {
-  empName.value = name
-  empId.value = id
+  orgName.value = name
+  cusId.value = id
   updateLocalStorage() // Update local storage whenever you set new values
 }
 </script>
@@ -71,8 +71,8 @@ const setEmployeeDetails = (name, id) => {
 
         <VSpacer />
         <div class="px-4 font-bold py-1 text-sm">
-          <div>{{ empName || '' }}</div>
-          <div>{{ empId || '' }}</div>
+          <div>{{ orgName || '' }}</div>
+          <div>{{ cusId || '' }}</div>
         </div>
         <UserProfile />
       </div>

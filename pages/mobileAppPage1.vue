@@ -13,6 +13,15 @@
       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
     />
   </div>
+  <div class="mb-2">
+    <label for="clientCompanyName" class="block text-sm font-medium text-gray-700 mb-1">Client Company Name</label>
+    <input
+      id="clientCompanyName"
+      v-model="inputValues.clientCompanyName"
+      placeholder="Enter Client Company Name"
+      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+    />
+  </div>
 
   <div class="mb-2">
     <label for="employeeName" class="block text-sm font-medium text-gray-700 mb-1">Employee Name</label>
@@ -34,15 +43,7 @@
     />
   </div>
 
-  <div class="mb-2">
-    <label for="clientCompanyName" class="block text-sm font-medium text-gray-700 mb-1">Client Company Name</label>
-    <input
-      id="clientCompanyName"
-      v-model="inputValues.clientCompanyName"
-      placeholder="Enter Client Company Name"
-      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
-    />
-  </div>
+  
 
   <div class="mb-2">
     <label for="state" class="block text-sm font-medium text-gray-700 mb-1">State</label>
@@ -433,8 +434,8 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios'
-  import { useRoute } from 'vue-router'
+import axios from 'axios';
+import { useRoute } from 'vue-router';
 // import { userDataStore } from '~/stores/tableData'
 // const userStore = userDataStore()
 export default {
@@ -588,6 +589,12 @@ console.log('Stored employeeName:', this.empName);
 
 localStorage.setItem('employeeId', this.empId);
 console.log('Stored employeeId:', this.empId);
+
+localStorage.setItem('CustomerId', this.cusId);
+
+
+localStorage.setItem('OrgName', this.companyName);
+
 
 // Getting values
 const storedEmpName = localStorage.getItem('employeeName');
@@ -1164,7 +1171,7 @@ reloadComponent() {
 
 <style scoped>
 .p-menu-list {
-  background-color: ;
+
 }
 .question-container {
   display: flex;
