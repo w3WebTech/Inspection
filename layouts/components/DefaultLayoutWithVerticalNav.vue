@@ -31,7 +31,8 @@ onMounted(() => {
   const route = useRoute()
   orgName.value = route.query.clientCompanyName || localStorage.getItem('OrgName') || ''
   cusId.value = route.query.customerId || localStorage.getItem('CustomerId') || ''
-  
+  console.log( orgName.value ," orgName.value ")
+  console.log( cusId.value ," cusId.value ")
   // Listen to localStorage changes
   window.addEventListener('storage', syncStateFromLocalStorage)
 })
