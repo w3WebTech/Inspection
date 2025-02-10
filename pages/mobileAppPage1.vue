@@ -1150,7 +1150,7 @@ reloadComponent() {
           questionsData[lastQuestionIndex].thankyou = this.notes[lastQuestionIndex] ? '1' : '0'
         }
 
-        const response = await axios.post('https://g1.gwcindia.in/ticket-api/inspection-api.php', {
+        const response = await axios.post('https://teamap.gwcindia.in/inspection/api/inspection-api.php', {
           questions: questionsData,
         })
         console.log(response.data)
