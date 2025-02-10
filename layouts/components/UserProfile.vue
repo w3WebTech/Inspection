@@ -48,7 +48,7 @@ onBeforeUnmount(() => {
 const routeCheck = () => {
   localStorage.removeItem('employeeName')
   localStorage.removeItem('employeeId')
-
+  window.location.reload()
 }
 </script>
 
