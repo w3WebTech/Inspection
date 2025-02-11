@@ -241,7 +241,7 @@
             <div v-else class="mb-2 px-3">
               <div class="text-gray-600 py-3">
                 Question {{ questions[currentIndex].questionId }} of
-                {{ questions.length - 5 }}
+                31
               </div>
               <div class="question-container">
                 <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">
