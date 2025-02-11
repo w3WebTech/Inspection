@@ -1,67 +1,90 @@
 <template>
   <div>
     <div class="rounded-md shadow-md bg-white block md:hidden">
- <div v-if="showInputFields" class="input-fields p-6 bg-white rounded-md shadow-md">
-  <h2 class="text-xl font-bold mb-2">Please enter the following details:</h2>
-  
-  <div class="mb-2">
-    <label for="customerId" class="block text-sm font-medium text-gray-700 mb-1">Customer ID</label>
-    <input
-      id="customerId"
-      v-model="inputValues.customerId"
-      placeholder="Enter Customer ID"
-      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
-    />
-  </div>
-  <div class="mb-2">
-    <label for="clientCompanyName" class="block text-sm font-medium text-gray-700 mb-1">Client Company Name</label>
-    <input
-      id="clientCompanyName"
-      v-model="inputValues.clientCompanyName"
-      placeholder="Enter Client Company Name"
-      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
-    />
-  </div>
+      <div
+        v-if="showInputFields"
+        class="input-fields p-6 bg-white rounded-md shadow-md"
+      >
+        <h2 class="text-xl font-bold mb-2">
+          Please enter the following details:
+        </h2>
 
-  <div class="mb-2">
-    <label for="employeeName" class="block text-sm font-medium text-gray-700 mb-1">Employee Name</label>
-    <input
-      id="employeeName"
-      v-model="inputValues.employeeName"
-      placeholder="Enter Employee Name"
-      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
-    />
-  </div>
+        <div class="mb-2">
+          <label
+            for="customerId"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >Customer ID</label
+          >
+          <input
+            id="customerId"
+            v-model="inputValues.customerId"
+            placeholder="Enter Customer ID"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+          />
+        </div>
+        <div class="mb-2">
+          <label
+            for="clientCompanyName"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >Client Company Name</label
+          >
+          <input
+            id="clientCompanyName"
+            v-model="inputValues.clientCompanyName"
+            placeholder="Enter Client Company Name"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+          />
+        </div>
 
-  <div class="mb-2">
-    <label for="employeeId" class="block text-sm font-medium text-gray-700 mb-1">Employee ID</label>
-    <input
-      id="employeeId"
-      v-model="inputValues.employeeId"
-      placeholder="Enter Employee ID"
-      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
-    />
-  </div>
+        <div class="mb-2">
+          <label
+            for="employeeName"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >Employee Name</label
+          >
+          <input
+            id="employeeName"
+            v-model="inputValues.employeeName"
+            placeholder="Enter Employee Name"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+          />
+        </div>
 
-  
+        <div class="mb-2">
+          <label
+            for="employeeId"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >Employee ID</label
+          >
+          <input
+            id="employeeId"
+            v-model="inputValues.employeeId"
+            placeholder="Enter Employee ID"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+          />
+        </div>
 
-  <div class="mb-2">
-    <label for="state" class="block text-sm font-medium text-gray-700 mb-1">State</label>
-    <input
-      id="state"
-      v-model="inputValues.state"
-      placeholder="Enter State"
-      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
-    />
-  </div>
+        <div class="mb-2">
+          <label
+            for="state"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >State</label
+          >
+          <input
+            id="state"
+            v-model="inputValues.state"
+            placeholder="Enter State"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+          />
+        </div>
 
-  <button
-    @click="submitInputValues"
-    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-md transition duration-200"
-  >
-    Submit
-  </button>
-</div>
+        <button
+          @click="submitInputValues"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-md transition duration-200"
+        >
+          Submit
+        </button>
+      </div>
       <div v-else>
         <div class="flex justify-between items-center px-3 py-0.5">
           <h2 class="text-xl text-blue-900 font-bold">{{ displayCusId }}</h2>
@@ -69,14 +92,9 @@
         <div class="border-b">
           <h3 class="font-medium mb-1 px-3">{{ displayCompanyName }}</h3>
           <p class="text-gray-600 font-medium px-3">{{ displayState }}</p>
-          <p
-            class="px-3"
-            :class="coordinates ? 'text-gray-500' : 'text-error'"
-          >
+          <p class="px-3" :class="coordinates ? 'text-gray-500' : 'text-error'">
             <span class="text-blue-900">GPS</span>
-            <span
-              class="px-3 text-error text-sm"
-              v-if="!coordinates"
+            <span class="px-3 text-error text-sm" v-if="!coordinates"
               ><VIcon
                 icon="ri-information-line"
                 size="18"
@@ -85,89 +103,28 @@
               />
               Please Enable Location & reload</span
             >
-            {{ coordinates ? `${coordinates.latitude}, ${coordinates.longitude}` : ' ' }}
+            {{
+              coordinates
+                ? `${coordinates.latitude}, ${coordinates.longitude}`
+                : " "
+            }}
           </p>
         </div>
 
         <div v-if="questions[currentIndex]">
           <div>
-            <!-- ... -->
-
+            <!-- Employee Image Section -->
             <div
-              v-if="questions[currentIndex].isclientImage == true"
+              v-if="questions[currentIndex].questionId === '32'"
               class="mb-2 px-3"
             >
-              <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
-              <div v-if="questions[currentIndex].isLiveCameraMandatory == true">
-                <div class="w-full border-dotted border-2 rounded h-60 relative my-4">
-                  <!-- Show picture image initially -->
-
-                  <div
-                    class="absolute inset-0 flex flex-col justify-center items-center py-20"
-                    v-if="!showClientCamera && !capturedClientImage"
-                    @click="toggleClientCamera"
-                  >
-                    <img
-                      src="@/public/picture.png"
-                      alt="Placeholder"
-                      class="w-10 h-10 object-cover"
-                    />
-                    <div>
-                      <div class="mt-2 font-bold">Live Capture <span class="text-error"> *</span></div>
-                    </div>
-                  </div>
-
-                  <!-- Live Camera Feed -->
-
-                  <video
-                    ref="clientVideo"
-                    v-if="showClientCamera && !capturedClientImage"
-                    class="absolute inset-0 w-full h-full object-cover"
-                    autoplay
-                  ></video>
-
-                  <!-- Captured Image -->
-                  <img
-                    v-if="capturedClientImage"
-                    :src="capturedClientImage"
-                    class="absolute inset-0 w-full h-full object-cover"
-                  />
-                </div>
-                <!-- Capture button only shown when live camera feed is displayed -->
+              <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">
+                Employee Image
+              </h4>
+              <div v-if="questions[currentIndex].isLiveCameraMandatory">
                 <div
-                  v-if="showClientCamera && !capturedClientImage"
-                  class="py-3"
+                  class="w-full border-dotted border-2 rounded h-60 relative my-4"
                 >
-                  <button
-                    @click="captureClientImage"
-                    class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 rounded w-full"
-                  >
-                    Capture
-                  </button>
-                </div>
-                <div
-                  v-if="capturedClientImage"
-                  class="py-3"
-                >
-                  <button
-                    @click="retakeClientImage"
-                    class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded w-100"
-                  >
-                    Retake
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div
-              v-else-if="questions[currentIndex].isEmployeeImage == true"
-              class="mb-2 px-3"
-            >
-              <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
-              <div v-if="questions[currentIndex].isLiveCameraMandatory == true">
-                <div class="w-full border-dotted border-2 rounded h-60 relative my-4">
-                  <!-- Show picture image initially -->
-
                   <div
                     class="absolute inset-0 flex flex-col justify-center items-center py-20"
                     v-if="!showEmployeeCamera && !capturedEmployeeImage"
@@ -179,27 +136,23 @@
                       class="w-10 h-10 object-cover"
                     />
                     <div>
-                      <div class="mt-2 font-bold">Live Capture <span class="text-error"> *</span></div>
+                      <div class="mt-2 font-bold">
+                        Live Capture <span class="text-error"> *</span>
+                      </div>
                     </div>
                   </div>
-
-                  <!-- Live Camera Feed -->
-
                   <video
-                    ref="clientVideo"
+                    ref="employeeVideo"
                     v-if="showEmployeeCamera && !capturedEmployeeImage"
                     class="absolute inset-0 w-full h-full object-cover"
                     autoplay
                   ></video>
-
-                  <!-- Captured Image -->
                   <img
                     v-if="capturedEmployeeImage"
                     :src="capturedEmployeeImage"
                     class="absolute inset-0 w-full h-full object-cover"
                   />
                 </div>
-                <!-- Capture button only shown when live camera feed is displayed -->
                 <div
                   v-if="showEmployeeCamera && !capturedEmployeeImage"
                   class="py-3"
@@ -211,10 +164,7 @@
                     Capture
                   </button>
                 </div>
-                <div
-                  v-if="capturedEmployeeImage"
-                  class="py-3"
-                >
+                <div v-if="capturedEmployeeImage" class="py-3">
                   <button
                     @click="retakeEmployeeImage"
                     class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded w-100"
@@ -225,26 +175,94 @@
               </div>
             </div>
 
+            <!-- AP Image Section -->
             <div
+              v-else-if="questions[currentIndex].questionId === '33'"
               class="mb-2 px-3"
-              v-else
             >
+              <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">
+                AP Image
+              </h4>
+              <div v-if="questions[currentIndex].isLiveCameraMandatory">
+                <div
+                  class="w-full border-dotted border-2 rounded h-60 relative my-4"
+                >
+                  <div
+                    class="absolute inset-0 flex flex-col justify-center items-center py-20"
+                    v-if="!showClientCamera && !capturedClientImage"
+                    @click="toggleClientCamera"
+                  >
+                    <img
+                      src="@/public/picture.png"
+                      alt="Placeholder"
+                      class="w-10 h-10 object-cover"
+                    />
+                    <div>
+                      <div class="mt-2 font-bold">
+                        Live Capture <span class="text-error"> *</span>
+                      </div>
+                    </div>
+                  </div>
+                  <video
+                    ref="clientVideo"
+                    v-if="showClientCamera && !capturedClientImage"
+                    class="absolute inset-0 w-full h-full object-cover"
+                    autoplay
+                  ></video>
+                  <img
+                    v-if="capturedClientImage"
+                    :src="capturedClientImage"
+                    class="absolute inset-0 w-full h-full object-cover"
+                  />
+                </div>
+                <div
+                  v-if="showClientCamera && !capturedClientImage"
+                  class="py-3"
+                >
+                  <button
+                    @click="captureClientImage"
+                    class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 rounded w-full"
+                  >
+                    Capture
+                  </button>
+                </div>
+                <div v-if="capturedClientImage" class="py-3">
+                  <button
+                    @click="retakeClientImage"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded w-100"
+                  >
+                    Retake
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Other Questions Section -->
+            <div v-else class="mb-2 px-3">
               <div class="text-gray-600 py-3">
-                Question {{ questions[currentIndex].questionId }} of {{ questions.length - 5 }}
+                Question {{ questions[currentIndex].questionId }} of
+                {{ questions.length - 5 }}
               </div>
               <div class="question-container">
-                <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">{{ questions[currentIndex].question }}</h4>
+                <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">
+                  {{ questions[currentIndex].question }}
+                </h4>
                 <div v-if="questions[currentIndex].parts">
                   <div
                     v-for="(part, index) in questions[currentIndex].parts"
                     :key="index"
                   >
-                    <h5 class="text-md text-blue-900 font-medium mb-1">{{ part.part }}</h5>
+                    <h5 class="text-md text-blue-900 font-medium mb-1">
+                      {{ part.part }}
+                    </h5>
                   </div>
                 </div>
                 <div class="flex justify-between mb-2">
                   <label class="inline-flex items-center mb-5 cursor-pointer">
-                    <span class="mr-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300">Yes</span>
+                    <span
+                      class="mr-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >Yes</span
+                    >
                     <input
                       type="checkbox"
                       :value="this.questions[currentIndex].isMessageMandatory"
@@ -253,7 +271,7 @@
                         updateYesNoAnswer(
                           questions[currentIndex].questionId,
                           $event.target.checked,
-                          questions[currentIndex].isMessageMandatory,
+                          questions[currentIndex].isMessageMandatory
                         )
                       "
                       class="sr-only peer"
@@ -261,14 +279,18 @@
                     <div
                       class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
                     ></div>
-                    <span class="ms-3 text-sm font-medium text-gray-700 dark:text-gray-300">No</span>
+                    <span
+                      class="ms-3 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >No</span
+                    >
                   </label>
                 </div>
                 <!-- rest of the question content -->
               </div>
               <div v-if="questions[currentIndex].isLiveCameraMandatory == true">
-                <div class="w-full border-dotted border-2 rounded h-40 relative my-4">
-                  <!-- Show picture image initially -->
+                <div
+                  class="w-full border-dotted border-2 rounded h-40 relative my-4"
+                >
                   <div
                     class="absolute inset-0 flex flex-col justify-center items-center py-20"
                     v-if="!showCamera && !capturedImages[currentIndex]"
@@ -280,53 +302,32 @@
                       class="w-10 h-10 object-cover"
                     />
                     <div>
-                      <div class="mt-2 font-bold">Live Capture <span class="text-error"> *</span></div>
+                      <div class="mt-2 font-bold">
+                        Live Capture <span class="text-error"> *</span>
+                      </div>
                     </div>
                   </div>
-
-                  <!-- Live Camera Feed -->
-
                   <video
                     ref="video"
                     v-if="showCamera && !capturedImage"
                     class="absolute inset-0 w-full h-full object-cover"
                     autoplay
                   ></video>
-
-                  <!-- Captured Image -->
-                  <!-- <img
-            v-if="capturedImage"
-            :src="capturedImage"
-            class="absolute inset-0 w-full h-full object-cover"
-          /> -->
                   <img
                     v-if="capturedImages[currentIndex]"
                     :src="capturedImages[currentIndex]"
                     class="absolute inset-0 w-full h-full object-cover"
                   />
                 </div>
-                <!-- Capture button only shown when live camera feed is displayed -->
-                <div
-                  v-if="showCamera && !capturedImage"
-                  class="py-3"
-                >
+                <div v-if="showCamera && !capturedImage" class="py-3">
                   <button
                     @click="capture"
                     class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 rounded w-full"
                   >
                     Capture
                   </button>
-                  <!-- <button
-            @click="switchCamera"
-            class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-100"
-          >
-            Switch Camera
-          </button> -->
                 </div>
-                <div
-                  v-if="capturedImages[currentIndex]"
-                  class="py-3"
-                >
+                <div v-if="capturedImages[currentIndex]" class="py-3">
                   <button
                     @click="retake"
                     class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded w-100"
@@ -345,7 +346,6 @@
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   ></textarea>
                 </div>
-
                 <div v-else>
                   <textarea
                     id="message"
@@ -370,29 +370,23 @@
             <button
               @click="nextStep"
               class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 w-100 rounded"
-              :disabled="this.currentIndex >= this.questions.length - 1 || nextEnabled"
+              :disabled="
+                this.currentIndex >= this.questions.length - 1 || nextEnabled
+              "
               :class="{
-                'bg-gray-200 hover:bg-gray-200': this.currentIndex >= this.questions.length - 1 || nextEnabled,
+                'bg-gray-200 hover:bg-gray-200':
+                  this.currentIndex >= this.questions.length - 1 || nextEnabled,
               }"
             >
               Next →
             </button>
-            <Pagination
-              :pages="pages"
-              :prev="prev"
-              :next="next"
-            />
+            <Pagination :pages="pages" :prev="prev" :next="next" />
           </div>
         </div>
-        <div
-          v-if="showConfirmationModal"
-          class="modal-overlay"
-        >
+        <div v-if="showConfirmationModal" class="modal-overlay">
           <div class="modal-content">
             <!-- Close Button -->
-            <span
-              class="close"
-              @click="showConfirmationModal = false"
+            <span class="close" @click="showConfirmationModal = false"
               >&times;</span
             >
             <div class="flex justify-center items0-center text-center">
@@ -427,15 +421,17 @@
         </div>
       </div>
     </div>
-    <div class="hidden md:block flex justify-center text-center items-center my-20">
+    <div
+      class="hidden md:block flex justify-center text-center items-center my-20"
+    >
       Please open this page using mobile device !
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import axios from 'axios';
-import { useRoute } from 'vue-router';
+import axios from "axios";
+import { useRoute } from "vue-router";
 // import { userDataStore } from '~/stores/tableData'
 // const userStore = userDataStore()
 export default {
@@ -448,7 +444,7 @@ export default {
       yesNoAnswers: {},
       image: null,
       currentStream: null,
-      facingMode: 'environment',
+      facingMode: "environment",
       showCamera: false,
       coordinates: null,
       questions: [],
@@ -468,21 +464,21 @@ export default {
       showConfirmationModal: false,
       showInputFields: false, // To control the visibility of input fields
       inputValues: {
-        customerId: '',
-        employeeName: '',
-        employeeId: '',
-        clientCompanyName: '',
-        state: '',
+        customerId: "",
+        employeeName: "",
+        employeeId: "",
+        clientCompanyName: "",
+        state: "",
       },
-    }
+    };
   },
   mounted() {
-      const route = useRoute();
+    const route = useRoute();
     this.startCamera(),
       this.getLocation(),
       this.fetchData(),
-      (this.yesNoAnswers = new Array(this.questions.length).fill(false))
-const storedEmpName = localStorage.getItem('employeeName');
+      (this.yesNoAnswers = new Array(this.questions.length).fill(false));
+    const storedEmpName = localStorage.getItem("employeeName");
 
     if (
       !this.$route.query.customerId ||
@@ -491,174 +487,182 @@ const storedEmpName = localStorage.getItem('employeeName');
       !this.$route.query.clientCompanyName ||
       !this.$route.query.state
     ) {
-      if(storedEmpName){
-            this.showInputFields = false 
+      if (storedEmpName) {
+        this.showInputFields = false;
+      } else {
+        this.showInputFields = true;
       }
-      else{
-            this.showInputFields = true }
-  
     } else {
-      this.cusId = this.$route.query.customerId ? this.$route.query.customerId : ''
-      console.log(this.cusId, ' this.cusId')
-      this.empName = this.$route.query.employeeName ? this.$route.query.employeeName : ''
-      console.log(this.empName, ' this.empName')
-      this.empId = this.$route.query.employeeId ? this.$route.query.employeeId : ''
-      console.log(this.empId, ' this.empId')
-      this.companyName = this.$route.query.clientCompanyName ? this.$route.query.clientCompanyName : ''
-      console.log(this.companyName, ' this.companyName')
-      this.state = this.$route.query.state ? this.$route.query.state : ''
-      console.log(this.state, ' this.state')
+      this.cusId = this.$route.query.customerId
+        ? this.$route.query.customerId
+        : "";
+      console.log(this.cusId, " this.cusId");
+      this.empName = this.$route.query.employeeName
+        ? this.$route.query.employeeName
+        : "";
+      console.log(this.empName, " this.empName");
+      this.empId = this.$route.query.employeeId
+        ? this.$route.query.employeeId
+        : "";
+      console.log(this.empId, " this.empId");
+      this.companyName = this.$route.query.clientCompanyName
+        ? this.$route.query.clientCompanyName
+        : "";
+      console.log(this.companyName, " this.companyName");
+      this.state = this.$route.query.state ? this.$route.query.state : "";
+      console.log(this.state, " this.state");
     }
   },
   computed: {
     displayCusId() {
-      return this.cusId ? this.cusId : ''
+      return this.cusId ? this.cusId : "";
     },
     displayCompanyName() {
-      return this.companyName ? this.companyName : ''
+      return this.companyName ? this.companyName : "";
     },
     displayState() {
-      return this.state ? this.state : ''
+      return this.state ? this.state : "";
     },
   },
 
   methods: {
     reloadPage() {
-      this.showConfirmationModal = false // Optionally hide the modal first
-      location.reload() // Reload the page
+      this.showConfirmationModal = false; // Optionally hide the modal first
+      location.reload(); // Reload the page
     },
     capturecheck() {
-      const canvas = document.createElement('canvas')
-      const video = this.$refs.clientVideo
-      const context = canvas.getContext('2d')
-      canvas.width = video.videoWidth
-      canvas.height = video.videoHeight
-      context.drawImage(video, 0, 0, canvas.width, canvas.height)
-      const capturedImage = canvas.toDataURL('image/png')
-      this.capturedImages[this.currentIndex] = capturedImage // store the captured image for the current question
-      this.showCamera = false
-      console.log(this.capturedImages, 'this.capturedImages')
-    },
-    async startClientCamera() {
-      this.currentStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
-      this.$refs.clientVideo.srcObject = this.currentStream
+      const canvas = document.createElement("canvas");
+      const video = this.$refs.clientVideo;
+      const context = canvas.getContext("2d");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const capturedImage = canvas.toDataURL("image/png");
+      this.capturedImages[this.currentIndex] = capturedImage; // store the captured image for the current question
+      this.showCamera = false;
+      console.log(this.capturedImages, "this.capturedImages");
     },
     toggleClientCamera() {
-      this.showClientCamera = !this.showClientCamera
-      if (this.showClientCamera) {
-        this.startClientCamera()
-      }
-    },
-
-    captureClientImage() {
-      const canvas = document.createElement('canvas')
-      const video = this.$refs.clientVideo
-      const context = canvas.getContext('2d')
-      canvas.width = video.videoWidth
-      canvas.height = video.videoHeight
-      context.drawImage(video, 0, 0, canvas.width, canvas.height)
-      this.capturedClientImage = canvas.toDataURL('image/png')
-      this.showClientCamera = false
-    },
-  submitInputValues() {
-  // Check if any input values are empty
-  if (!this.inputValues.customerId || 
-      !this.inputValues.employeeName || 
-      !this.inputValues.employeeId || 
-      !this.inputValues.clientCompanyName || 
-      !this.inputValues.state) {
-    alert('Please fill all the details!');
-
-    return; 
-  }
-
-  // If all fields are filled, assign the values
-  this.cusId = this.inputValues.customerId;
-  this.empName = this.inputValues.employeeName;
-  this.empId = this.inputValues.employeeId;
-  this.companyName = this.inputValues.clientCompanyName;
-  this.state = this.inputValues.state;
-  localStorage.setItem('employeeName', this.empName);
-console.log('Stored employeeName:', this.empName);
-
-localStorage.setItem('employeeId', this.empId);
-console.log('Stored employeeId:', this.empId);
-
-localStorage.setItem('CustomerId', this.cusId);
-
-
-localStorage.setItem('OrgName', this.companyName);
-
-
-// Getting values
-const storedEmpName = localStorage.getItem('employeeName');
-console.log('Retrieved employeeName:', storedEmpName);
-
-const storedEmpId = localStorage.getItem('employeeId');
-console.log('Retrieved employeeId:', storedEmpId);
-  
-    this.reloadComponent();
-
-},
-reloadComponent() {
-    // This method can be used to reset the component state or force a re-render
-    this.showInputFields = false; // Hide input fields
-    window.location.reload()
+    this.showClientCamera = !this.showClientCamera;
+    if (this.showClientCamera) {
+      this.startClientCamera();
+    }
   },
-    retakeClientImage() {
-      this.showClientCamera = true
-      this.capturedClientImage = null
-      this.startClientCamera()
-    },
-    toggleEmployeeCamera() {
-      this.showEmployeeCamera = !this.showEmployeeCamera
-      if (this.showEmployeeCamera) {
-        this.startEmployeeCamera()
-      }
-    },
-    async startEmployeeCamera() {
-      this.currentStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
-      this.$refs.clientVideo.srcObject = this.currentStream
-    },
-    captureEmployeeImage() {
-      const canvas = document.createElement('canvas')
-      const video = this.$refs.clientVideo
-      const context = canvas.getContext('2d')
-      canvas.width = video.videoWidth
-      canvas.height = video.videoHeight
-      context.drawImage(video, 0, 0, canvas.width, canvas.height)
-      this.capturedEmployeeImage = canvas.toDataURL('image/png')
-      this.showEmployeeCamera = false
+  async startClientCamera() {
+    this.currentStream = await navigator.mediaDevices.getUser Media({ video: { facingMode: 'user' } });
+    this.$refs.clientVideo.srcObject = this.currentStream;
+  },
+  captureClientImage() {
+    const canvas = document.createElement('canvas');
+    const video = this.$refs.clientVideo;
+    const context = canvas.getContext('2d');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    this.capturedClientImage = canvas.toDataURL('image/png');
+    this.showClientCamera = false;
+  },
+    submitInputValues() {
+      // Check if any input values are empty
+      if (
+        !this.inputValues.customerId ||
+        !this.inputValues.employeeName ||
+        !this.inputValues.employeeId ||
+        !this.inputValues.clientCompanyName ||
+        !this.inputValues.state
+      ) {
+        alert("Please fill all the details!");
 
-      // Enable the Next button and show confirmation modal
-      this.nextEnabled = true // Enable the Next button
-      this.showConfirmationModal = true
-      this.postData()
+        return;
+      }
+
+      // If all fields are filled, assign the values
+      this.cusId = this.inputValues.customerId;
+      this.empName = this.inputValues.employeeName;
+      this.empId = this.inputValues.employeeId;
+      this.companyName = this.inputValues.clientCompanyName;
+      this.state = this.inputValues.state;
+      localStorage.setItem("employeeName", this.empName);
+      console.log("Stored employeeName:", this.empName);
+
+      localStorage.setItem("employeeId", this.empId);
+      console.log("Stored employeeId:", this.empId);
+
+      localStorage.setItem("CustomerId", this.cusId);
+
+      localStorage.setItem("OrgName", this.companyName);
+
+      // Getting values
+      const storedEmpName = localStorage.getItem("employeeName");
+      console.log("Retrieved employeeName:", storedEmpName);
+
+      const storedEmpId = localStorage.getItem("employeeId");
+      console.log("Retrieved employeeId:", storedEmpId);
+
+      this.reloadComponent();
     },
+    reloadComponent() {
+      // This method can be used to reset the component state or force a re-render
+      this.showInputFields = false; // Hide input fields
+      window.location.reload();
+    },
+    retakeClientImage() {
+      this.showClientCamera = true;
+      this.capturedClientImage = null;
+      this.startClientCamera();
+    },
+ toggleEmployeeCamera() {
+    this.showEmployeeCamera = !this.showEmployeeCamera;
+    if (this.showEmployeeCamera) {
+      this.startEmployeeCamera();
+    }
+  },
+     async startEmployeeCamera() {
+    this.currentStream = await navigator.mediaDevices.getUser Media({ video: { facingMode: 'user' } });
+    this.$refs.employeeVideo.srcObject = this.currentStream;
+  },
+    captureEmployeeImage() {
+    const canvas = document.createElement('canvas');
+    const video = this.$refs.employeeVideo;
+    const context = canvas.getContext('2d');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    this.capturedEmployeeImage = canvas.toDataURL('image/png');
+    this.showEmployeeCamera = false;
+  },
 
     retakeEmployeeImage() {
-      this.showEmployeeCamera = true
-      this.capturedEmployeeImage = null
-      this.startEmployeeCamera()
+      this.showEmployeeCamera = true;
+      this.capturedEmployeeImage = null;
+      this.startEmployeeCamera();
     },
     updateYesNoAnswer(questionId, value, index) {
-      console.log(index, 'index')
-      const currentQuestionIndex = this.questions.findIndex(question => question.questionId === questionId)
-      console.log(currentQuestionIndex, 'currentQuestionIndex')
+      console.log(index, "index");
+      const currentQuestionIndex = this.questions.findIndex(
+        (question) => question.questionId === questionId
+      );
+      console.log(currentQuestionIndex, "currentQuestionIndex");
       if (currentQuestionIndex !== -1) {
-        this.questions[currentQuestionIndex].isMessageMandatory = value
+        this.questions[currentQuestionIndex].isMessageMandatory = value;
       }
-      console.log(index, 'indexfinal', this.questions[currentQuestionIndex].isMessageMandatory)
+      console.log(
+        index,
+        "indexfinal",
+        this.questions[currentQuestionIndex].isMessageMandatory
+      );
     },
     toggleCamera() {
-      this.showCamera = !this.showCamera
+      this.showCamera = !this.showCamera;
       if (this.showCamera) {
-        this.startCamera()
+        this.startCamera();
       }
     },
     async startCamera() {
-      this.currentStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: this.facingMode } })
-      this.$refs.video.srcObject = this.currentStream
+      this.currentStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: this.facingMode },
+      });
+      this.$refs.video.srcObject = this.currentStream;
     },
     // async switchCamera() {
     //   this.facingMode = this.facingMode === 'user' ? 'environment' : 'user'
@@ -676,381 +680,421 @@ reloadComponent() {
     //   console.log(this.capturedImage, '  this.capturedImage ')
     // },
     capture() {
-      const canvas = document.createElement('canvas')
-      const video = this.$refs.video
-      const context = canvas.getContext('2d')
-      canvas.width = video.videoWidth
-      canvas.height = video.videoHeight
-      context.drawImage(video, 0, 0, canvas.width, canvas.height)
-      const capturedImage = canvas.toDataURL('image/png')
-      this.capturedImages[this.currentIndex] = capturedImage // store the captured image for the current question
-      this.showCamera = false
-      console.log(this.capturedImages, 'this.capturedImages')
+      const canvas = document.createElement("canvas");
+      const video = this.$refs.video;
+      const context = canvas.getContext("2d");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const capturedImage = canvas.toDataURL("image/png");
+      this.capturedImages[this.currentIndex] = capturedImage; // store the captured image for the current question
+      this.showCamera = false;
+      console.log(this.capturedImages, "this.capturedImages");
     },
 
     async getLocation() {
       try {
         navigator.geolocation.getCurrentPosition(
-          position => {
+          (position) => {
             this.coordinates = {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
-            }
-            this.locationLoading = false
+            };
+            this.locationLoading = false;
           },
-          error => {
+          (error) => {
             if (error.code === 1) {
               // PERMISSION_DENIED
-              console.error('Location permission denied')
+              console.error("Location permission denied");
               // You can display a prompt to the user to grant permission
-              alert('Please grant location permission to continue')
+              alert("Please grant location permission to continue");
             } else {
-              console.error('Error getting location:', error)
+              console.error("Error getting location:", error);
             }
-            this.locationLoading = false
+            this.locationLoading = false;
           },
-          { enableHighAccuracy: true },
-        )
+          { enableHighAccuracy: true }
+        );
       } catch (error) {
-        console.error('Error getting location:', error)
+        console.error("Error getting location:", error);
       }
     },
     retake() {
-      this.showCamera = true
-      this.capturedImage = null
-      this.capturedImages[this.currentIndex] = null
-      this.startCamera()
+      this.showCamera = true;
+      this.capturedImage = null;
+      this.capturedImages[this.currentIndex] = null;
+      this.startCamera();
     },
     async fetchData() {
       try {
         // const response = await axios.get('https://g1.gwcindia.in/ap_inspection/get-questions.php')
         const response = [
           {
-            questionId: '1',
-            question: '1 Whether all clients are registered directly with the Trading Member only.',
-            isMessageMandatory: false,
-            isLiveCameraMandatory: false,
-            type_name: 'Dealing with clients',
-            time: 'time',
-            date: 'date',
-          },
-          {
-            questionId: '2',
-            question: '2 There is no movement of Funds and securities between the clients and AP.',
-            isMessageMandatory: false,
-            isLiveCameraMandatory: false,
-            type_name: 'Dealing with clients',
-            time: 'time',
-            date: 'date',
-          },
-          {
-            questionId: '3',
-            question: '3 There are no fixed payments at regular intervals to the clients mapped to AP.',
-            isMessageMandatory: false,
-            isLiveCameraMandatory: false,
-            type_name: 'Dealing with clients',
-            time: 'time',
-            date: 'date',
-          },
-          {
-            questionId: '4',
-            question: '4 There are no cash dealings done with clients by AP.',
-            isMessageMandatory: false,
-            isLiveCameraMandatory: false,
-            type_name: 'Dealing with clients',
-            time: 'time',
-            date: 'date',
-          },
-          {
-            questionId: '5',
+            questionId: "1",
             question:
-              '5 The AP is not involved in any fund-based activities / collecting deposits from investors / unauthorised trading or any other such schemes.',
+              "1 Whether all clients are registered directly with the Trading Member only.",
             isMessageMandatory: false,
             isLiveCameraMandatory: false,
-            type_name: 'Dealing with clients',
-            time: 'time',
-            date: 'date',
+            type_name: "Dealing with clients",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '6',
-            question: '6 The AP is not involved in any illegal/dabba/paper trading.',
-            isMessageMandatory: false,
-            isLiveCameraMandatory: false,
-            type_name: 'Dealing with clients',
-            time: 'time',
-            date: 'date',
-          },
-          {
-            questionId: '7',
-            question: '7 The AP has not dealt with any unregistered intermediary on behalf of its clients/self.',
-            isMessageMandatory: false,
-            isLiveCameraMandatory: false,
-            type_name: 'Dealing with clients',
-            time: 'time',
-            date: 'date',
-          },
-          {
-            questionId: '8',
+            questionId: "2",
             question:
-              '8 The AP is not involved in accepting deposits from the public and giving assured returns to their clients.',
+              "2 There is no movement of Funds and securities between the clients and AP.",
             isMessageMandatory: false,
             isLiveCameraMandatory: false,
-            type_name: 'Dealing with clients',
-            time: 'time',
-            date: 'date',
+            type_name: "Dealing with clients",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '9',
+            questionId: "3",
             question:
-              '9 Complaints received against AP pertaining to Assured Returns / Unauthorised Trading / Dabba Trading / associated with unregistered intermediary.',
+              "3 There are no fixed payments at regular intervals to the clients mapped to AP.",
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: "Dealing with clients",
+            time: "time",
+            date: "date",
+          },
+          {
+            questionId: "4",
+            question: "4 There are no cash dealings done with clients by AP.",
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: "Dealing with clients",
+            time: "time",
+            date: "date",
+          },
+          {
+            questionId: "5",
+            question:
+              "5 The AP is not involved in any fund-based activities / collecting deposits from investors / unauthorised trading or any other such schemes.",
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: "Dealing with clients",
+            time: "time",
+            date: "date",
+          },
+          {
+            questionId: "6",
+            question:
+              "6 The AP is not involved in any illegal/dabba/paper trading.",
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: "Dealing with clients",
+            time: "time",
+            date: "date",
+          },
+          {
+            questionId: "7",
+            question:
+              "7 The AP has not dealt with any unregistered intermediary on behalf of its clients/self.",
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: "Dealing with clients",
+            time: "time",
+            date: "date",
+          },
+          {
+            questionId: "8",
+            question:
+              "8 The AP is not involved in accepting deposits from the public and giving assured returns to their clients.",
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: "Dealing with clients",
+            time: "time",
+            date: "date",
+          },
+          {
+            questionId: "9",
+            question:
+              "9 Complaints received against AP pertaining to Assured Returns / Unauthorised Trading / Dabba Trading / associated with unregistered intermediary.",
             isMessageMandatory: false,
             isLiveCameraMandatory: true,
-            type_name: 'Dealing with clients',
-            time: 'time',
-            date: 'date',
+            type_name: "Dealing with clients",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '10',
-            question: '10 The AP does not offer any incentives to clients for opening trading accounts.',
-            isMessageMandatory: false,
-            isLiveCameraMandatory: false,
-            type_name: 'Dealing with clients',
-            time: 'time',
-            date: 'date',
-          },
-          {
-            questionId: '11',
-            question: '11 AP has sought any authorisation to trade on behalf of its clients.',
-            isMessageMandatory: false,
-            isLiveCameraMandatory: false,
-            type_name: 'Dealing with clients',
-            time: 'time',
-            date: 'date',
-          },
-          {
-            questionId: '12',
+            questionId: "10",
             question:
-              '12 Advertisements for soliciting business are not issued by the APs in newspapers / pamphlets / journals / magazines / emails including social media like Facebook, Instagram, telegram channels etc., without seeking appropriate approvals from the Exchange, through the Trading Member. This includes not publishing performance returns etc.',
+              "10 The AP does not offer any incentives to clients for opening trading accounts.",
             isMessageMandatory: false,
             isLiveCameraMandatory: false,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
+            type_name: "Dealing with clients",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '13',
-            question: '13 All AP terminals are as per the information reported to the Exchange.',
+            questionId: "11",
+            question:
+              "11 AP has sought any authorisation to trade on behalf of its clients.",
             isMessageMandatory: false,
             isLiveCameraMandatory: false,
-            type_name: 'Terminal operations and related systems',
-            time: 'time',
-            date: 'date',
+            type_name: "Dealing with clients",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '14',
-            question: '14 Trading terminals are operated by approved and certified users.',
+            questionId: "12",
+            question:
+              "12 Advertisements for soliciting business are not issued by the APs in newspapers / pamphlets / journals / magazines / emails including social media like Facebook, Instagram, telegram channels etc., without seeking appropriate approvals from the Exchange, through the Trading Member. This includes not publishing performance returns etc.",
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: "Management of branches / AP and internal control",
+            time: "time",
+            date: "date",
+          },
+          {
+            questionId: "13",
+            question:
+              "13 All AP terminals are as per the information reported to the Exchange.",
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: "Terminal operations and related systems",
+            time: "time",
+            date: "date",
+          },
+          {
+            questionId: "14",
+            question:
+              "14 Trading terminals are operated by approved and certified users.",
             isMessageMandatory: false,
             isLiveCameraMandatory: true,
-            type_name: 'Terminal operations and related systems',
-            time: 'time',
-            date: 'date',
+            type_name: "Terminal operations and related systems",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '15',
+            questionId: "15",
             question:
-              '15 Adequate systems, including voice recording, have been put in place, with a view to ensure recording of order placement from clients. Trading Members must ensure that APs who do not have trading terminals assigned to them, cannot place trades on behalf of the Trading Member’s clients.',
+              "15 Adequate systems, including voice recording, have been put in place, with a view to ensure recording of order placement from clients. Trading Members must ensure that APs who do not have trading terminals assigned to them, cannot place trades on behalf of the Trading Member’s clients.",
             isMessageMandatory: false,
             isLiveCameraMandatory: false,
-            type_name: 'Terminal operations and related systems',
-            time: 'time',
-            date: 'date',
+            type_name: "Terminal operations and related systems",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '16',
+            questionId: "16",
             question:
-              '16 Documents like contract notes, statement of funds, daily margin statement are not generated and issued by the AP. However, AP may provide administrative assistance in procurement of documents from the Trading Member, after maintaining proper records of the same.',
+              "16 Documents like contract notes, statement of funds, daily margin statement are not generated and issued by the AP. However, AP may provide administrative assistance in procurement of documents from the Trading Member, after maintaining proper records of the same.",
             isMessageMandatory: false,
             isLiveCameraMandatory: false,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
+            type_name: "Management of branches / AP and internal control",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '17',
+            questionId: "17",
             question:
-              '17 The AP has not dealt with / or associated with any other Trading Member/AP on behalf of its clients/self on the same Stock Exchange.',
+              "17 The AP has not dealt with / or associated with any other Trading Member/AP on behalf of its clients/self on the same Stock Exchange.",
             isMessageMandatory: false,
             isLiveCameraMandatory: false,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
+            type_name: "Management of branches / AP and internal control",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '18',
+            questionId: "18",
             question:
-              '18 Trading activities/Turnover of AP/Clients mapped with the AP are monitored, and necessary actions/investigations are undertaken on a timely basis.',
+              "18 Trading activities/Turnover of AP/Clients mapped with the AP are monitored, and necessary actions/investigations are undertaken on a timely basis.",
             isMessageMandatory: false,
             isLiveCameraMandatory: true,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
+            type_name: "Management of branches / AP and internal control",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '19',
+            questionId: "19",
             question:
-              '19 The AP has the necessary infrastructure like adequate office space, equipment, and manpower to effectively discharge the activities on behalf of the Trading Member.',
+              "19 The AP has the necessary infrastructure like adequate office space, equipment, and manpower to effectively discharge the activities on behalf of the Trading Member.",
             isMessageMandatory: false,
             isLiveCameraMandatory: true,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
+            type_name: "Management of branches / AP and internal control",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '20',
+            questionId: "20",
             question:
-              '20 Complaints received by and against the APs are handled appropriately and proper records are maintained.',
+              "20 Complaints received by and against the APs are handled appropriately and proper records are maintained.",
             isMessageMandatory: false,
             isLiveCameraMandatory: true,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
+            type_name: "Management of branches / AP and internal control",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '21',
-            question: '21 Proper segregation and demarcation are maintained at AP office.',
+            questionId: "21",
+            question:
+              "21 Proper segregation and demarcation are maintained at AP office.",
             isMessageMandatory: false,
             isLiveCameraMandatory: false,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
+            type_name: "Management of branches / AP and internal control",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '22',
+            questionId: "22",
             question:
-              '22 Notice board of the Trading Member containing all details/information prescribed from time to time, are displayed at the AP/s location.',
+              "22 Notice board of the Trading Member containing all details/information prescribed from time to time, are displayed at the AP/s location.",
             isMessageMandatory: false,
             isLiveCameraMandatory: true,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
+            type_name: "Management of branches / AP and internal control",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '23',
+            questionId: "23",
             question:
-              '23 SEBI registration certificate of the Trading Member and registration letter issued by the Exchange is displayed at the location.',
+              "23 SEBI registration certificate of the Trading Member and registration letter issued by the Exchange is displayed at the location.",
             isMessageMandatory: false,
             isLiveCameraMandatory: true,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
+            type_name: "Management of branches / AP and internal control",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '24',
+            questionId: "24",
             question:
-              '24 As required by SEBI circular CIR/MIRSD/3/2014 dated August 28, 2014, information about the grievance redressal mechanism available to investors is prominently displayed at the location.',
+              "24 As required by SEBI circular CIR/MIRSD/3/2014 dated August 28, 2014, information about the grievance redressal mechanism available to investors is prominently displayed at the location.",
             isMessageMandatory: false,
             isLiveCameraMandatory: true,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
+            type_name: "Management of branches / AP and internal control",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '25',
+            questionId: "25",
             question:
-              '25 Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup.',
+              "25 Branch/AP records/data are properly maintained with confidentiality in a secure manner including sufficient backup.",
             isMessageMandatory: false,
             isLiveCameraMandatory: false,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
+            type_name: "Management of branches / AP and internal control",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '26',
-            question: '26 All clients mapped to the AP/Branch are notified at least thirty days before the change.',
-            isMessageMandatory: false,
-            isLiveCameraMandatory: false,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
-          },
-          {
-            questionId: '27',
+            questionId: "26",
             question:
-              '27 Notice Board and applicable SEBI registration certificates are immediately put up at the new location.',
+              "26 All clients mapped to the AP/Branch are notified at least thirty days before the change.",
             isMessageMandatory: false,
             isLiveCameraMandatory: false,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
+            type_name: "Management of branches / AP and internal control",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '28',
+            questionId: "27",
             question:
-              '28 The new location, including details of terminals if any, have been duly reported to the Exchange, and the old location, including terminals at the old location if any have been deactivated.',
+              "27 Notice Board and applicable SEBI registration certificates are immediately put up at the new location.",
             isMessageMandatory: false,
             isLiveCameraMandatory: false,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
+            type_name: "Management of branches / AP and internal control",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '29',
+            questionId: "28",
             question:
-              '29 At the new location, adequate systems including voice recording, display of Notice Board and SEBI Registration certificates, and terminals etc. have been promptly installed to ensure the smooth functioning of business operations and the recording of order placements from clients.',
+              "28 The new location, including details of terminals if any, have been duly reported to the Exchange, and the old location, including terminals at the old location if any have been deactivated.",
             isMessageMandatory: false,
             isLiveCameraMandatory: false,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
+            type_name: "Management of branches / AP and internal control",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '30',
+            questionId: "29",
+            question:
+              "29 At the new location, adequate systems including voice recording, display of Notice Board and SEBI Registration certificates, and terminals etc. have been promptly installed to ensure the smooth functioning of business operations and the recording of order placements from clients.",
+            isMessageMandatory: false,
+            isLiveCameraMandatory: false,
+            type_name: "Management of branches / AP and internal control",
+            time: "time",
+            date: "date",
+          },
+          {
+            questionId: "30",
             question:
               "30 Any changes in the AP's contact details, such as registered / communication address, email address, mobile number or any changes in the Directors/ Partners of AP, are not reported/ incorrectly reported to the Members.",
             isMessageMandatory: false,
             isLiveCameraMandatory: false,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
+            type_name: "Management of branches / AP and internal control",
+            time: "time",
+            date: "date",
           },
           {
-            questionId: '31',
+            questionId: "31",
             question:
               "31 The AP's mobile number, and email address are not mapped to any of its client in UCC uploaded to Exchange.",
             isMessageMandatory: false,
             isLiveCameraMandatory: false,
-            type_name: 'Management of branches / AP and internal control',
-            time: 'time',
-            date: 'date',
+            type_name: "Management of branches / AP and internal control",
+            time: "time",
+            date: "date",
           },
-        ]
+          {
+            questionId: "32",
+            question: "Employee Image",
+            isMessageMandatory: false,
+            isLiveCameraMandatory: true,
+            type_name: "",
+            time: "time",
+            date: "date",
+          },
+          {
+            questionId: "33",
+            question: "AP Image",
+            isMessageMandatory: false,
+            isLiveCameraMandatory: true,
+            type_name: "",
+            time: "time",
+            date: "date",
+          },
+        ];
 
-        this.questions = response.map(question => ({ ...question, isMessageMandatory: false }))
-        this.notes = new Array(this.questions.length).fill('')
+        this.questions = response.map((question) => ({
+          ...question,
+          isMessageMandatory: false,
+        }));
+        this.notes = new Array(this.questions.length).fill("");
 
-        console.log(response.data, 'response.data')
+        console.log(response.data, "response.data");
 
         // Create pagination
         this.pages = this.questions.map((question, index) => ({
           href: `/question/${index + 1}`,
           text: `Question ${index + 1}`,
-        }))
-        this.prev = this.currentIndex > 0 ? { href: `/question/${this.currentIndex}`, text: 'Previous' } : null
+        }));
+        this.prev =
+          this.currentIndex > 0
+            ? { href: `/question/${this.currentIndex}`, text: "Previous" }
+            : null;
         this.next =
           this.currentIndex < this.questions.length - 1
-            ? { href: `/question/${this.currentIndex + 2}`, text: 'Next' }
-            : null
+            ? { href: `/question/${this.currentIndex + 2}`, text: "Next" }
+            : null;
       } catch (err) {
-        console.error('Error:', err)
+        console.error("Error:", err);
       } finally {
       }
     },
     nextStep() {
-      if (this.coordinates && this.coordinates.latitude && this.coordinates.longitude) {
+      if (
+        this.coordinates &&
+        this.coordinates.latitude &&
+        this.coordinates.longitude
+      ) {
         if (this.currentIndex < this.questions.length - 1) {
-          const isMessageRequired = this.notes[this.currentIndex] == ''
+          const isMessageRequired = this.notes[this.currentIndex] == "";
           const isCameraRequired =
-            this.capturedImages[this.currentIndex] == null && this.capturedImages[this.currentIndex] == undefined
+            this.capturedImages[this.currentIndex] == null &&
+            this.capturedImages[this.currentIndex] == undefined;
 
           if (
             isMessageRequired &&
@@ -1059,26 +1103,26 @@ reloadComponent() {
             isCameraRequired &&
             this.questions[this.currentIndex].isclientImage != true
           ) {
-            alert('Please fill the Mandatory Fields !')
+            alert("Please fill the Mandatory Fields !");
           } else if (
             this.questions[this.currentIndex].isLiveCameraMandatory &&
             isCameraRequired &&
             this.questions[this.currentIndex].isclientImage != true
           ) {
-            alert('Please Capture Image !')
+            alert("Please Capture Image !");
           } else if (
             this.questions[this.currentIndex].isMessageMandatory &&
             isMessageRequired &&
             this.questions[this.currentIndex].isclientImage != true
           ) {
-            alert('Please fill Message Field !')
+            alert("Please fill Message Field !");
           } else {
             // Call postData before moving to the next question
-            this.postData()
+            this.postData();
 
-            this.currentIndex++
-            this.showCamera = false
-            this.capturedImage = null
+            this.currentIndex++;
+            this.showCamera = false;
+            this.capturedImage = null;
           }
 
           if (
@@ -1086,86 +1130,95 @@ reloadComponent() {
             this.capturedClientImage != null &&
             this.capturedClientImage != undefined
           ) {
-            this.currentIndex++
-            this.showCamera = false
-            this.capturedImage = null
+            this.currentIndex++;
+            this.showCamera = false;
+            this.capturedImage = null;
           }
         } else {
-          this.next = null
+          this.next = null;
         }
       } else {
-        alert('Please Enable Location in your device !')
+        alert("Please Enable Location in your device !");
       }
     },
     previousStep() {
       if (this.currentIndex > 0) {
-        this.currentIndex--
-        this.showCamera = false
-        this.capturedImage = null
+        this.currentIndex--;
+        this.showCamera = false;
+        this.capturedImage = null;
       } else {
-        this.prev = null
+        this.prev = null;
       }
     },
     async postData() {
+        alert("called")
       try {
         if (!Array.isArray(this.questions)) {
-          console.error('Questions is not defined or not an array')
-          return
+          console.error("Questions is not defined or not an array");
+          return;
         }
 
         // Generate AppSessionId
-        const now = new Date()
-        const day = String(now.getDate()).padStart(2, '0')
-        const month = String(now.getMonth() + 1).padStart(2, '0') // Months are 0-based
-        const year = String(now.getFullYear()).slice(-2) // Get last two digits of the year
-        const hours = String(now.getHours()).padStart(2, '0')
-        const minutes = String(now.getMinutes()).padStart(2, '0')
-        const seconds = String(now.getSeconds()).padStart(2, '0')
-        const appSessionId = `${day}${month}${year}${hours}${minutes}${seconds}`
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, "0");
+        const month = String(now.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+        const year = String(now.getFullYear()).slice(-2); // Get last two digits of the year
+        const hours = String(now.getHours()).padStart(2, "0");
+        const minutes = String(now.getMinutes()).padStart(2, "0");
+        const seconds = String(now.getSeconds()).padStart(2, "0");
+        const appSessionId = `${day}${month}${year}${hours}${minutes}${seconds}`;
 
         // Get only the questions up to the current index
-        const questionsData = this.questions.slice(0, this.currentIndex + 1).map((question, index) => {
-          return {
-            questionId: question.questionId,
-            question: question.question,
-            message: this.notes[index] || '',
-            Image: this.capturedImages[index] || '',
-            type: question.type_name,
-            EmpId: this.empId || 'GUD001',
-            EmpName: this.empName || 'john',
-            customerId: 'A101',
-            companyName: this.companyName || 'Finy Wealth',
-            state: this.state || 'Andhra Pradesh',
-            lat: this.coordinates.latitude,
-            lan: this.coordinates.longitude,
-            data: new Date().toISOString(),
-            time: new Date().toLocaleTimeString(),
-            AppSessionId: appSessionId, // Set the AppSessionId
-          }
-        })
+        const questionsData = this.questions
+          .slice(0, this.currentIndex + 1)
+          .map((question, index) => {
+            return {
+              questionId: question.questionId,
+              question: question.question,
+              message: this.notes[index] || "",
+              Image: this.capturedImages[index] || "",
+              type: question.type_name,
+              EmpId: this.empId || "GUD001",
+              EmpName: this.empName || "john",
+              customerId: "A101",
+              companyName: this.companyName || "Finy Wealth",
+              state: this.state || "Andhra Pradesh",
+              lat: this.coordinates.latitude,
+              lan: this.coordinates.longitude,
+              data: new Date().toISOString(),
+              time: new Date().toLocaleTimeString(),
+              AppSessionId: appSessionId, // Set the AppSessionId
+            };
+          });
 
         // Add thankyou property to the last question
-        const lastQuestionIndex = questionsData.length - 1
-        if (questionsData[lastQuestionIndex].questionId === '31') {
-          questionsData[lastQuestionIndex].thankyou = this.notes[lastQuestionIndex] ? '1' : '0'
+        const lastQuestionIndex = questionsData.length - 1;
+        if (questionsData[lastQuestionIndex].questionId === "31") {
+          questionsData[lastQuestionIndex].thankyou = this.notes[
+            lastQuestionIndex
+          ]
+            ? "1"
+            : "0";
         }
 
-        const response = await axios.post('https://teamap.gwcindia.in/inspection/api/inspection-api.php', {
-          questions: questionsData,
-        })
-        console.log(response.data)
+        const response = await axios.post(
+          "https://teamap.gwcindia.in/inspection/api/inspection-api.php",
+          {
+            questions: questionsData,
+          }
+        );
+        console.log(response.data);
       } catch (err) {
-        console.error('Error:', err)
+        console.error("Error:", err);
       }
     },
   },
-}
+};
 </script>
 
 
 <style scoped>
 .p-menu-list {
-
 }
 .question-container {
   display: flex;
