@@ -549,7 +549,7 @@ export default {
     }
   },
   async startClientCamera() {
-    this.currentStream = await navigator.mediaDevices.getUser Media({ video: { facingMode: 'user' } });
+    this.currentStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
     this.$refs.clientVideo.srcObject = this.currentStream;
   },
   captureClientImage() {
@@ -618,7 +618,7 @@ export default {
     }
   },
      async startEmployeeCamera() {
-    this.currentStream = await navigator.mediaDevices.getUser Media({ video: { facingMode: 'user' } });
+    this.currentStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
     this.$refs.employeeVideo.srcObject = this.currentStream;
   },
     captureEmployeeImage() {
