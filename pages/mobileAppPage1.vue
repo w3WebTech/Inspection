@@ -478,8 +478,12 @@ export default {
       this.getLocation(),
       this.fetchData(),
       (this.yesNoAnswers = new Array(this.questions.length).fill(false));
-    const storedEmpName = localStorage.getItem("employeeName");
 
+  const storedEmpName = localStorage.getItem('employeeName');
+  const storedEmpId = localStorage.getItem('employeeId');
+  const storedCustomerId = localStorage.getItem('CustomerId');
+  const storedCompanyName = localStorage.getItem('OrgName');
+  const storedState = localStorage.getItem('state');
     if (
       !this.$route.query.customerId ||
       !this.$route.query.employeeName ||
@@ -512,6 +516,12 @@ export default {
       this.state = this.$route.query.state ? this.$route.query.state : "";
       console.log(this.state, " this.state");
     }
+     this.empName = storedEmpName || this.empName;
+  this.empId = storedEmpId || this.empId;
+  this.cusId = storedCustomerId || this.cusId;
+  this.companyName = storedCompanyName || this.companyName;
+  this.state = storedState || this.state;
+
   },
   computed: {
     displayCusId() {
@@ -582,17 +592,12 @@ export default {
       this.empId = this.inputValues.employeeId;
       this.companyName = this.inputValues.clientCompanyName;
       this.state = this.inputValues.state;
-      localStorage.setItem("employeeName", this.empName);
-      console.log("Stored employeeName:", this.empName);
+   localStorage.setItem('employeeName', this.empName);
+  localStorage.setItem('employeeId', this.empId);
+  localStorage.setItem('CustomerId', this.cusId);
+  localStorage.setItem('OrgName', this.companyName);
+  localStorage.setItem('state', this.state); 
 
-      localStorage.setItem("employeeId", this.empId);
-      console.log("Stored employeeId:", this.empId);
-
-      localStorage.setItem("CustomerId", this.cusId);
-
-      localStorage.setItem("OrgName", this.companyName);
-
-      // Getting values
       const storedEmpName = localStorage.getItem("employeeName");
       console.log("Retrieved employeeName:", storedEmpName);
 
@@ -1042,7 +1047,7 @@ export default {
             questionId: "32",
             question: "Employee Image",
             isMessageMandatory: false,
-            isLiveCameraMandatory: true,
+            isLiveCameraMandatory: false,
             type_name: "",
             time: "time",
             date: "date",
@@ -1051,7 +1056,7 @@ export default {
             questionId: "33",
             question: "AP Image",
             isMessageMandatory: false,
-            isLiveCameraMandatory: true,
+            isLiveCameraMandatory: false,
             type_name: "",
             time: "time",
             date: "date",
