@@ -1095,7 +1095,7 @@ export default {
     nextStep() {
   if (this.coordinates && this.coordinates.latitude && this.coordinates.longitude) {
     // Check if the current index is the last question
-    if (this.currentIndex === this.questions.length - 1) {
+    if (this.currentIndex === this.questions.length ) {
       // Call postData before showing the confirmation modal
       this.postData();
       this.showConfirmationModal = true; // Show the confirmation modal
