@@ -617,7 +617,9 @@ export default {
       this.startClientCamera();
     },
  toggleEmployeeCamera() {
+ 
     this.showEmployeeCamera = !this.showEmployeeCamera;
+    alert(this.showEmployeeCamera)
     if (this.showEmployeeCamera) {
       this.startEmployeeCamera();
     }
@@ -1056,6 +1058,7 @@ export default {
             type_name: "",
             time: "time",
             date: "date",
+            showEmployeeCamera:true
           },
           {
             questionId: "33",
@@ -1065,6 +1068,7 @@ export default {
             type_name: "",
             time: "time",
             date: "date",
+            showClientCamera:true
           },
         ];
 
