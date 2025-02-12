@@ -121,7 +121,7 @@
               <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">
                 Employee Image
               </h4>
-              <div v-if="questions[currentIndex].isLiveCameraMandatory">
+              <div >
                 <div
                   class="w-full border-dotted border-2 rounded h-60 relative my-4"
                 >
@@ -183,7 +183,7 @@
               <h4 class="text-lg text-blue-900 font-medium mb-2 h-200">
                 AP Image
               </h4>
-              <div v-if="questions[currentIndex].isLiveCameraMandatory">
+              <div >
                 <div
                   class="w-full border-dotted border-2 rounded h-60 relative my-4"
                 >
@@ -1058,7 +1058,7 @@ export default {
             type_name: "",
             time: "time",
             date: "date",
-            showEmployeeCamera:true
+            
           },
           {
             questionId: "33",
@@ -1068,7 +1068,7 @@ export default {
             type_name: "",
             time: "time",
             date: "date",
-            showClientCamera:true
+           
           },
         ];
 
