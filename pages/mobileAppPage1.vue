@@ -1202,7 +1202,8 @@ export default {
               AppSessionId: appSessionId, // Set the AppSessionId
             };
           });
-
+          let decodedData = atob(questionsData.Image);
+          alert(decodedData,"decode")
         // Add thankyou property to the last question
         const lastQuestionIndex = questionsData.length - 1;
         if (questionsData[lastQuestionIndex].questionId === "31") {
