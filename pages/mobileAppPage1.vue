@@ -663,6 +663,7 @@ export default {
       );
     },
     toggleCamera() {
+      debugger
       this.showCamera = !this.showCamera;
       if (this.showCamera) {
         this.startCamera();
@@ -690,6 +691,7 @@ export default {
     //   console.log(this.capturedImage, '  this.capturedImage ')
     // },
     capture() {
+      debugger
       const canvas = document.createElement("canvas");
       const video = this.$refs.video;
       const context = canvas.getContext("2d");
@@ -1213,6 +1215,7 @@ export default {
 
     // Map the questions to the required format
     const questionsData = questionsToSend.map((question, index) => {
+      debugger
       let image = this.capturedImages[index] || ""; // Default image
 
       // Set specific images for question 32 and 33
@@ -1237,7 +1240,8 @@ export default {
         lan: this.coordinates.longitude,
         data: new Date().toISOString(),
         time: new Date().toLocaleTimeString(),
-        AppSessionId: appSessionId, // Set the AppSessionId
+        AppSessionId: appSessionId,
+        qStatus:this.isMessageMandatory 
       };
     });
 
