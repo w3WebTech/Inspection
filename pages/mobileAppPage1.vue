@@ -5,7 +5,11 @@
         v-if="showInputFields"
         class="input-fields p-6 bg-white rounded-md shadow-md"
       >
-        <h2 class="text-xl font-bold mb-2">
+      <h2 class="text-xl flex justify-center font-bold mb-2">
+         Inspection AP
+        </h2>
+
+        <h2 class="text-ld font-bold mb-2">
           Please enter the following details:
         </h2>
 
@@ -1226,7 +1230,7 @@ export default {
         type: question.type_name,
         EmpId: this.empId || "GUD001",
         EmpName: this.empName || "john",
-        customerId: "A101",
+        customerId: this.cusId || "A101",
         companyName: this.companyName || "Finy Wealth",
         state: this.state || "Andhra Pradesh",
         lat: this.coordinates.latitude,
