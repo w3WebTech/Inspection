@@ -444,7 +444,7 @@ export default {
       yesNoAnswers: {},
       image: null,
       currentStream: null,
-      facingMode: "environment",
+      facingMode: 'environment',
       showCamera: false,
       coordinates: null,
       questions: [],
@@ -622,10 +622,15 @@ export default {
       this.startEmployeeCamera();
     }
   },
-     async startEmployeeCamera() {
-    this.currentStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
-    this.$refs.employeeVideo.srcObject = this.currentStream;
-  },
+  async startEmployeeCamera() {
+    try {
+        this.currentStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+        this.$refs.employeeVideo.srcObject = this.currentStream;
+        console.log("Employee camera started");
+    } catch (error) {
+        console.error("Error accessing employee camera:", error);
+    }
+}
     captureEmployeeImage() {
     const canvas = document.createElement('canvas');
     const video = this.$refs.employeeVideo;
