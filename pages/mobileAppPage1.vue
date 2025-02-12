@@ -630,7 +630,7 @@ export default {
     } catch (error) {
         console.error("Error accessing employee camera:", error);
     }
-}
+},
     captureEmployeeImage() {
     const canvas = document.createElement('canvas');
     const video = this.$refs.employeeVideo;
