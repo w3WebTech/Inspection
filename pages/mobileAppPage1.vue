@@ -1163,7 +1163,6 @@ export default {
       }
     },
     async postData() {
-  
   try {
     if (!Array.isArray(this.questions)) {
       console.error("Questions is not defined or not an array");
@@ -1180,55 +1179,86 @@ export default {
     const seconds = String(now.getSeconds()).padStart(2, "0");
     const appSessionId = `${day}${month}${year}${hours}${minutes}${seconds}`;
 
-    // Get only the questions up to the current index
-    const questionsData = this.questions
-      .slice(0, this.currentIndex + 1)
-      .map((question, index) => {
-        let image = this.capturedImages[index] || ""; // Default image
-
-        // Set specific images for question 32 and 33
-        if (question.questionId === "32") {
-          image = this.capturedEmployeeImage || ""; // Use capturedEmployeeImage for question 32
-        } else if (question.questionId === "33") {
-          image = this.capturedClientImage || ""; // Use capturedClientImage for question 33
-        }
-
-        return {
-          questionId: question.questionId,
-          question: question.question,
-          message: this.notes[index] || "",
-          Image: image,
-          type: question.type_name,
-          EmpId: this.empId || "GUD001",
-          EmpName: this.empName || "john",
-          customerId: "A101",
-          companyName: this.companyName || "Finy Wealth",
-          state: this.state || "Andhra Pradesh",
-          lat: this.coordinates.latitude,
-          lan: this.coordinates.longitude,
-          data: new Date().toISOString(),
-          time: new Date().toLocaleTimeString(),
-          AppSessionId: appSessionId, // Set the AppSessionId
-        };
-      });
-      
-    // Add thankyou property to the last question
-    const lastQuestionIndex = questionsData.length - 1;
-    if (questionsData[lastQuestionIndex].questionId === "31") {
-      questionsData[lastQuestionIndex].thankyou = this.notes[lastQuestionIndex] ? "1" : "0";
+    // Initialize sentQuestions if not already done
+    if (!this.sentQuestions) {
+      this.sentQuestions = []; // Array to keep track of sent questions
     }
 
+    // Determine the questions to send
+    let questionsToSend;
+    if (this.currentIndex === 0) {
+      // Send only the first question initially
+      questionsToSend = this.questions.slice(0, 1);
+    } else if (this.currentIndex >= 1 && this.currentIndex <= 33) {
+      // Send specific questions for IDs 2 to 33
+      questionsToSend = this.questions
+        .slice(0, this.currentIndex + 1)
+        .filter(question => ["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33"].includes(question.questionId));
+    } else {
+      console.error("Current index is out of range for sending questions.");
+      return;
+    }
+
+    // Filter out questions that have already been sent
+    questionsToSend = questionsToSend.filter(question => !this.sentQuestions.includes(question.questionId));
+
+    if (questionsToSend.length === 0) {
+      console.log("All questions have already been sent. Skipping...");
+      return;
+    }
+
+    // Map the questions to the required format
+    const questionsData = questionsToSend.map((question, index) => {
+      let image = this.capturedImages[index] || ""; // Default image
+
+      // Set specific images for question 32 and 33
+      if (question.questionId === "32") {
+        image = this.capturedEmployeeImage || ""; // Use capturedEmployeeImage for question 32
+      } else if (question.questionId === "33") {
+        image = this.capturedClientImage || ""; // Use capturedClientImage for question 33
+      }
+
+      return {
+        questionId: question.questionId,
+        question: question.question,
+        message: this.notes[this.currentIndex] || "",
+        Image: image,
+        type: question.type_name,
+        EmpId: this.empId || "GUD001",
+        EmpName: this.empName || "john",
+        customerId: "A101",
+        companyName: this.companyName || "Finy Wealth",
+        state: this.state || "Andhra Pradesh",
+        lat: this.coordinates.latitude,
+        lan: this.coordinates.longitude,
+        data: new Date().toISOString(),
+        time: new Date().toLocaleTimeString(),
+        AppSessionId: appSessionId, // Set the AppSessionId
+      };
+    });
+
+    // Log the questions data for debugging
+    console.log("Questions Data to Send:", questionsData);
+
+    // Make the API call with the questions data
     const response = await axios.post(
       "https://teamap.gwcindia.in/inspection/api/inspection-api.php",
       {
         questions: questionsData,
       }
     );
-    console.log(response.data);
+
+    // Log the response for debugging
+    console.log("API Response:", response.data);
+
+    // Add the sent question IDs to the sentQuestions array to prevent resending
+    this.sentQuestions.push(...questionsToSend.map(question => question.questionId));
+
   } catch (err) {
     console.error("Error:", err);
   }
 }
+
   },
 };
 </script>
