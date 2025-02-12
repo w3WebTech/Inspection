@@ -1240,7 +1240,7 @@ export default {
       lan: this.coordinates.longitude,
       data: new Date().toISOString(),
       time: new Date().toLocaleTimeString(),
-      AppSessionId: this.appSessionId,,
+      AppSessionId: this.appSessionId,
       qStatus: currentQuestion.isMessageMandatory
     };
 
