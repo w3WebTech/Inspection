@@ -613,7 +613,7 @@ export default {
  toggleEmployeeCamera() {
  
     this.showEmployeeCamera = !this.showEmployeeCamera;
-    alert(this.showEmployeeCamera)
+   
     if (this.showEmployeeCamera) {
       this.startEmployeeCamera();
     }
@@ -1163,7 +1163,7 @@ export default {
       }
     },
     async postData() {
-        alert("called")
+       
       try {
         if (!Array.isArray(this.questions)) {
           console.error("Questions is not defined or not an array");
