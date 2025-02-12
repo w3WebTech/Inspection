@@ -265,7 +265,7 @@
                   <label class="inline-flex items-center mb-5 cursor-pointer">
                     <span
                       class="mr-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300"
-                      >Yes</span
+                      >No</span
                     >
                     <input
                       type="checkbox"
@@ -285,7 +285,7 @@
                     ></div>
                     <span
                       class="ms-3 text-sm font-medium text-gray-700 dark:text-gray-300"
-                      >No</span
+                      >Yes</span
                     >
                   </label>
                 </div>
@@ -663,7 +663,7 @@ export default {
       );
     },
     toggleCamera() {
-      debugger
+    
       this.showCamera = !this.showCamera;
       if (this.showCamera) {
         this.startCamera();
@@ -691,7 +691,7 @@ export default {
     //   console.log(this.capturedImage, '  this.capturedImage ')
     // },
     capture() {
-      debugger
+    
       const canvas = document.createElement("canvas");
       const video = this.$refs.video;
       const context = canvas.getContext("2d");
