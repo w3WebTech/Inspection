@@ -17,7 +17,7 @@
           <label
             for="customerId"
             class="block text-sm font-medium text-gray-700 mb-1"
-            >Customer ID</label
+            >Client ID</label
           >
           <input
             id="customerId"
