@@ -17,12 +17,12 @@
           <label
             for="customerId"
             class="block text-sm font-medium text-gray-700 mb-1"
-            >Client ID</label
+            >AP ID</label
           >
           <input
             id="customerId"
             v-model="inputValues.customerId"
-            placeholder="Enter Customer ID"
+            placeholder="Enter AP ID"
             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
           />
         </div>
@@ -30,12 +30,12 @@
           <label
             for="clientCompanyName"
             class="block text-sm font-medium text-gray-700 mb-1"
-            >Client Company Name</label
+            >AP Company Name</label
           >
           <input
             id="clientCompanyName"
             v-model="inputValues.clientCompanyName"
-            placeholder="Enter Client Company Name"
+            placeholder="Enter AP Company Name"
             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
           />
         </div>
@@ -44,12 +44,12 @@
           <label
             for="state"
             class="block text-sm font-medium text-gray-700 mb-1"
-            >Client State</label
+            >AP State</label
           >
           <input
             id="state"
             v-model="inputValues.state"
-            placeholder="Enter State"
+            placeholder="Enter AP State"
             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
           />
         </div>
