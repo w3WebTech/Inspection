@@ -1243,8 +1243,18 @@ export default {
       time: new Date().toLocaleTimeString(),
       AppSessionId: this.appSessionId,
       qStatus: currentQuestion.isMessageMandatory,
-      ...(currentQuestion.questionId === "33" ? { thankyou: "1" } : {}),
+     
     };
+    switch (currentQuestion.questionId) {
+  case "33":
+    questionData.thankyou = "1";
+    break;
+ 
+  
+  default:
+  
+    break;
+}
 
     // Log the question data for debugging
     console.log("Question Data to Send:", questionData);
