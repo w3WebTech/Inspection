@@ -39,6 +39,20 @@
             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
           />
         </div>
+        
+        <div class="mb-2">
+          <label
+            for="state"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >Client State</label
+          >
+          <input
+            id="state"
+            v-model="inputValues.state"
+            placeholder="Enter State"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+          />
+        </div>
 
         <div class="mb-2">
           <label
@@ -68,19 +82,6 @@
           />
         </div>
 
-        <div class="mb-2">
-          <label
-            for="state"
-            class="block text-sm font-medium text-gray-700 mb-1"
-            >State</label
-          >
-          <input
-            id="state"
-            v-model="inputValues.state"
-            placeholder="Enter State"
-            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
-          />
-        </div>
 
         <button
           @click="submitInputValues"
@@ -1241,7 +1242,8 @@ export default {
       data: new Date().toISOString(),
       time: new Date().toLocaleTimeString(),
       AppSessionId: this.appSessionId,
-      qStatus: currentQuestion.isMessageMandatory
+      qStatus: currentQuestion.isMessageMandatory,
+      ...(currentQuestion.questionId === "33" ? { thankyou: "1" } : {}),
     };
 
     // Log the question data for debugging
