@@ -530,6 +530,8 @@ export default {
     const seconds = String(now.getSeconds()).padStart(2, "0");
     this.appSessionId = `${day}${month}${year}${hours}${minutes}${seconds}`; // Set AppSessionId
 
+
+
   },
   computed: {
     displayCusId() {
@@ -554,7 +556,7 @@ export default {
   async fetchInspectionPDF() {
     try {
       const sessionId = this.appSessionId; // Use the session ID you want to pass
-      const response = await axios.get(`https://teamap.gwcindia.in/inspection/api/Inspection_pdf.php?sessionId=${sessionId}`);
+      const response = await axios.get(`https://teamap.gwcindia.in/Inspection/api/Inspection_pdf.php?sessionId=${sessionId}`);
       
       // Handle the response as needed
       console.log("PDF Response:", response.data);
