@@ -545,9 +545,36 @@ export default {
 
   methods: {
     reloadPage() {
+      this.fetchInspectionPDF();
       this.showConfirmationModal = false; // Optionally hide the modal first
       location.reload(); // Reload the page
     },
+  
+
+  async fetchInspectionPDF() {
+    try {
+      const sessionId = this.appSessionId; // Use the session ID you want to pass
+      const response = await axios.get(`https://teamap.gwcindia.in/inspection/api/Inspection_pdf.php?sessionId=${sessionId}`);
+      
+      // Handle the response as needed
+      console.log("PDF Response:", response.data);
+      
+      // // If the response is a PDF file, you might want to download it
+      // const blob = new Blob([response.data], { type: 'application/pdf' });
+      // const url = window.URL.createObjectURL(blob);
+      // const a = document.createElement('a');
+      // a.href = url;
+      // a.download = 'inspection.pdf'; // Set the desired file name
+      // document.body.appendChild(a);
+      // a.click();
+      // a.remove();
+      // window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error fetching PDF:", error);
+      alert("Failed to fetch the PDF. Please try again.");
+    }
+  },
+
     capturecheck() {
       const canvas = document.createElement("canvas");
       const video = this.$refs.clientVideo;
