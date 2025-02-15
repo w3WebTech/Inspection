@@ -556,7 +556,7 @@ export default {
   async fetchInspectionPDF() {
     try {
       const sessionId = this.appSessionId; // Use the session ID you want to pass
-      const response = await axios.get(`https://teamap.gwcindia.in/Inspection/api/Inspection_pdf.php?sessionId=${sessionId}`);
+      const response = await axios.get(`https://teamap.gwcindia.in/inspection/api/Inspection_pdf.php?sessionId=${sessionId}`);
       
       // Handle the response as needed
       console.log("PDF Response:", response.data);
