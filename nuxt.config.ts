@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       titleTemplate: '%s - Admin',
-      title: 'PowerStocks',
+      title: 'APInspection',
 
       link: [{
         rel: 'icon',
