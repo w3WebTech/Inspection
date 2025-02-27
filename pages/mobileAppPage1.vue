@@ -22,6 +22,7 @@
           <input
             id="customerId"
             v-model="inputValues.customerId"
+            @input="fetchApData"
             placeholder="Enter AP ID"
             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
           />
@@ -53,7 +54,20 @@
             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
           />
         </div>
-
+        <div class="mb-2">
+          <label
+            for="employeeId"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >Employee ID</label
+          >
+          <input
+            id="employeeId"
+            v-model="inputValues.employeeId"
+            @input="fetchEmpData"
+            placeholder="Enter Employee ID"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+          />
+        </div>
         <div class="mb-2">
           <label
             for="employeeName"
@@ -68,16 +82,30 @@
           />
         </div>
 
+      
         <div class="mb-2">
           <label
             for="employeeId"
             class="block text-sm font-medium text-gray-700 mb-1"
-            >Employee ID</label
+            >Employee Mobile</label
           >
           <input
             id="employeeId"
-            v-model="inputValues.employeeId"
-            placeholder="Enter Employee ID"
+            v-model="inputValues.employeeMobile"
+            placeholder="Enter Employee Mobile"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
+          />
+        </div>
+        <div class="mb-2">
+          <label
+            for="employeeId"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >Employee Email</label
+          >
+          <input
+            id="employeeId"
+            v-model="inputValues.employeeEmail"
+            placeholder="Enter Employee Email"
             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
           />
         </div>
@@ -457,6 +485,8 @@ export default {
       cusId: null,
       empId: null,
       empName: null,
+      empMobile: null,
+      empEmail: null,
       companyName: null,
       state: null,
       nextEnabled: false, // To control the Next button state
@@ -468,6 +498,8 @@ export default {
         employeeId: "",
         clientCompanyName: "",
         state: "",
+        employeeMobile:"",
+        employeeEmail:""
       },
       appSessionId: "",
     };
@@ -484,6 +516,8 @@ export default {
   const storedCustomerId = localStorage.getItem('CustomerId');
   const storedCompanyName = localStorage.getItem('OrgName');
   const storedState = localStorage.getItem('state');
+  const storedEmpMobile = localStorage.getItem('employeeMobile');
+  const storedEmpEmail = localStorage.getItem('employeeEmail');
     if (
       !this.$route.query.customerId ||
       !this.$route.query.employeeName ||
@@ -521,6 +555,8 @@ export default {
   this.cusId = storedCustomerId || this.cusId;
   this.companyName = storedCompanyName || this.companyName;
   this.state = storedState || this.state;
+  this.empEmail=storedEmpEmail || this.empEmail;
+  this.empMobile=storedEmpMobile || this.empMobile;
   const now = new Date();
     const day = String(now.getDate()).padStart(2, "0");
     const month = String(now.getMonth() + 1).padStart(2, "0"); // Months are 0-based
@@ -546,13 +582,43 @@ export default {
   },
 
   methods: {
+    async fetchEmpData() {
+debugger
+    if (this.inputValues.employeeId.length > 5) {
+      try {
+        const response = await axios.get(`https://teamap.gwcindia.in/inspection/api/inspection-emp-master.php?empId=${this.inputValues.employeeId}`);
+        // Handle the response as needed
+        console.log("Employee Data:", response.data);
+        this.inputValues.employeeName=response.data.empData.empName
+        this.inputValues.employeeMobile=response.data.empData.empMobile
+     
+      } catch (error) {
+        console.error("Error fetching employee data:", error);
+        alert("Failed to fetch employee data. Please try again.");
+      }
+    }
+  },
     reloadPage() {
       this.fetchInspectionPDF();
       this.showConfirmationModal = false; // Optionally hide the modal first
       location.reload(); // Reload the page
     },
   
+    async fetchApData() {
+    if (this.inputValues.customerId.length > 3) {
+      try {
+        const response = await axios.get(`https://teamap.gwcindia.in/inspection/api/inspection-master.php?remeshireCode=G1TPSA&customerId=${this.inputValues.customerId}`);
+        // Handle the response as needed
+        console.log("Employee Data:", response.data);
+     this.inputValues.clientCompanyName=response.data.remeshireData.REMESHIRE_NAME;
+     this.inputValues.state=response.data.remeshireData.state;
 
+      } catch (error) {
+        console.error("Error fetching employee data:", error);
+        alert("Failed to fetch employee data. Please try again.");
+      }
+    }
+  },
   async fetchInspectionPDF() {
     try {
       const sessionId = this.appSessionId; // Use the session ID you want to pass
@@ -610,18 +676,24 @@ export default {
     this.showClientCamera = false;
   },
     submitInputValues() {
+      debugger
       // Check if any input values are empty
       if (
         !this.inputValues.customerId ||
         !this.inputValues.employeeName ||
         !this.inputValues.employeeId ||
         !this.inputValues.clientCompanyName ||
-        !this.inputValues.state
+        !this.inputValues.state||
+     
+        !this.inputValues.employeeEmail ||
+        !this.inputValues.employeeMobile
+
       ) {
         alert("Please fill all the details!");
 
         return;
       }
+      console.log(this.inputValues.employeeEmail,this.inputValues.employeeMobile)
 
       // If all fields are filled, assign the values
       this.cusId = this.inputValues.customerId;
@@ -629,11 +701,15 @@ export default {
       this.empId = this.inputValues.employeeId;
       this.companyName = this.inputValues.clientCompanyName;
       this.state = this.inputValues.state;
+      this.empMobile = this.inputValues.employeeMobile;
+      this.empEmail = this.inputValues.employeeEmail;
    localStorage.setItem('employeeName', this.empName);
   localStorage.setItem('employeeId', this.empId);
   localStorage.setItem('CustomerId', this.cusId);
   localStorage.setItem('OrgName', this.companyName);
   localStorage.setItem('state', this.state); 
+  localStorage.setItem('employeeEmail', this.empEmail); 
+  localStorage.setItem('employeeMobile', this.empMobile); 
 
       const storedEmpName = localStorage.getItem("employeeName");
       console.log("Retrieved employeeName:", storedEmpName);
@@ -1263,6 +1339,8 @@ export default {
       type: currentQuestion.type_name,
       EmpId: this.empId || "GUD001",
       EmpName: this.empName || "john",
+      EmpMobile: this.empMobile || "GUD001",
+      EmpEmail: this.empEmail || "john",
       customerId: this.cusId || "A101",
       companyName: this.companyName || "Finy Wealth",
       state: this.state || "Andhra Pradesh",
