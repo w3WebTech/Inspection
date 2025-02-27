@@ -40,7 +40,7 @@
             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
           />
         </div>
-        
+<!--         
         <div class="mb-2">
           <label
             for="state"
@@ -53,7 +53,7 @@
             placeholder="Enter AP State"
             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
           />
-        </div>
+        </div> -->
         <div class="mb-2">
           <label
             for="employeeId"
@@ -505,6 +505,7 @@ export default {
     };
   },
   mounted() {
+    this.fetchInspectionPDF();
     const route = useRoute();
     this.startCamera(),
       this.getLocation(),
@@ -683,7 +684,7 @@ debugger
         !this.inputValues.employeeName ||
         !this.inputValues.employeeId ||
         !this.inputValues.clientCompanyName ||
-        !this.inputValues.state||
+        // !this.inputValues.state||
      
         !this.inputValues.employeeEmail ||
         !this.inputValues.employeeMobile
@@ -1343,7 +1344,7 @@ debugger
       EmpEmail: this.empEmail || "john",
       customerId: this.cusId || "A101",
       companyName: this.companyName || "Finy Wealth",
-      state: this.state || "Andhra Pradesh",
+      // state: this.state || "Andhra Pradesh",
       lat: this.coordinates.latitude,
       lan: this.coordinates.longitude,
       data: new Date().toISOString(),
