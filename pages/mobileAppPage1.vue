@@ -113,7 +113,7 @@
 
         <button
           @click="submitInputValues"
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-md transition duration-200"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 my-4 rounded-md transition duration-200"
         >
           Submit
         </button>
