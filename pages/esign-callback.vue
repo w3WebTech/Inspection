@@ -65,11 +65,13 @@ export default {
       esigntype: null, // Initialize as null
       appSessionId: null, // Initialize appSessionId
       documentId: null, // Initialize documentId
+      RAppId: null, // Initialize RAppId
     }
   },
   mounted() {
     this.esigntype = this.getEsignTypeFromUrl() // Get esigntype when component is mounted
     this.documentId = this.getDocumentIdFromUrl() // Get documentId from the URL
+    this.RAppId = this.getRAppIdFromRouter() // Get RAppId from the router
     this.appSessionId = localStorage.getItem('appSessionId') // Get appSessionId from local storage
     this.checkEsignStatus() // Call the status API on mount
   },
@@ -88,13 +90,19 @@ export default {
       }
       return null // Return null if not in client-side context
     },
+    getRAppIdFromRouter() {
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search)
+        return urlParams.get('RAppId')
+      }
+      return null
+    },
     async checkEsignStatus() {
-      const RAppId = this.appSessionId // Use the session ID
       const esignType = this.esigntype // Use the e-sign type from the URL
 
       // Create a FormData object to send the data
       const formData = new FormData()
-      formData.append('RAppId', RAppId)
+      formData.append('RAppId', this.RAppId) // Use RAppId from the router
       formData.append('esignType', esignType)
       formData.append('documentId', this.documentId) // Use documentId from the URL
 
@@ -119,12 +127,11 @@ export default {
       }
     },
     async submitSignature() {
-      const RAppId = this.appSessionId // Use the session ID
       const esignType = this.esigntype // Use the e-sign type from the URL
 
       // Create a FormData object to send the data
       const formData = new FormData()
-      formData.append('RAppId', RAppId)
+      formData.append('RAppId', this.RAppId) // Use RAppId from the router
       formData.append('esignType', 'emp')
 
       try {
