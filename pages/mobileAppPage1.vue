@@ -403,10 +403,10 @@
         >
           <h4 class="text-lg text-blue-900 font-medium my -2">Esign for AP</h4>
           <div class="border-dotted border-2 rounded h-40 relative my-4">
-            <canvas
-              ref="signatureCanvas"
-              class="w-full h-full"
-            ></canvas>
+            <img
+              src="public/download.jpg"
+              class="absolute inset-0 w-full h-full object-cover p-4"
+            />
           </div>
           <button
             class="bg-[#1E3A8A] hover:bg-[#1E3A8A] text-white font-bold py-2 my-3 rounded-md w-full"
@@ -567,6 +567,7 @@ export default {
     const minutes = String(now.getMinutes()).padStart(2, '0')
     const seconds = String(now.getSeconds()).padStart(2, '0')
     this.appSessionId = `${day}${month}${year}${hours}${minutes}${seconds}` // Set AppSessionId
+    localStorage.setItem('appSessionId', this.appSessionId)
   },
   computed: {
     displayCusId() {
