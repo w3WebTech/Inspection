@@ -25,7 +25,7 @@
         v-else-if="esigntype === 'emp'"
         class="p-5 py-10"
       >
-        <div class="flex justify-center items0-center text-center">
+        <div class="flex justify-center items-center text-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -64,20 +64,59 @@ export default {
     return {
       esigntype: null, // Initialize as null
       appSessionId: null, // Initialize appSessionId
+      documentId: null, // Initialize documentId
     }
   },
   mounted() {
     this.esigntype = this.getEsignTypeFromUrl() // Get esigntype when component is mounted
+    this.documentId = this.getDocumentIdFromUrl() // Get documentId from the URL
     this.appSessionId = localStorage.getItem('appSessionId') // Get appSessionId from local storage
+    this.checkEsignStatus() // Call the status API on mount
   },
   methods: {
     getEsignTypeFromUrl() {
       if (typeof window !== 'undefined') {
-        // Check if window is defined
         const urlParams = new URLSearchParams(window.location.search)
         return urlParams.get('esigntype')
       }
       return null // Return null if not in client-side context
+    },
+    getDocumentIdFromUrl() {
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search)
+        return urlParams.get('documentId')
+      }
+      return null // Return null if not in client-side context
+    },
+    async checkEsignStatus() {
+      const RAppId = this.appSessionId // Use the session ID
+      const esignType = this.esigntype // Use the e-sign type from the URL
+
+      // Create a FormData object to send the data
+      const formData = new FormData()
+      formData.append('RAppId', RAppId)
+      formData.append('esignType', esignType)
+      formData.append('documentId', this.documentId) // Use documentId from the URL
+
+      try {
+        // Make the API call to check the e-sign status
+        const response = await axios.post(
+          'https://teamap.gwcindia.in/inspection/api/inspection-esign-status.php',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          },
+        )
+
+        // Handle the response
+        console.log('E-signature Status Response:', response.data)
+        // You can add logic here to handle the response as needed
+      } catch (error) {
+        console.error('Error checking e-signature status:', error)
+        alert('Failed to check e-signature status. Please try again.')
+      }
     },
     async submitSignature() {
       const RAppId = this.appSessionId // Use the session ID
@@ -86,7 +125,7 @@ export default {
       // Create a FormData object to send the data
       const formData = new FormData()
       formData.append('RAppId', RAppId)
-      formData.append('esignType', esignType)
+      formData.append('esignType', 'emp')
 
       try {
         // Make the API call
