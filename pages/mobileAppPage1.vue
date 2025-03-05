@@ -118,7 +118,7 @@
         </div>
         <div class="border-b">
           <h3 class="font-medium mb-1 px-3">{{ displayCompanyName }}</h3>
-          <p class="text-gray-600 font-medium px-3">{{ displayState }}</p>
+          <!-- <p class="text-gray-600 font-medium px-3">{{ displayState }}</p> -->
           <p
             class="px-3"
             :class="coordinates ? 'text-gray-500' : 'text-error'"
@@ -401,7 +401,7 @@
           v-if="isEsign"
           class="signature-section mb-4 px-3"
         >
-          <h4 class="text-lg text-blue-900 font-medium my -2">Esign for AP</h4>
+          <!-- <h4 class="text-lg text-blue-900 font-medium my-2">AP Esign</h4> -->
           <div class="border-dotted border-2 rounded h-40 relative my-4">
             <img
               src="public/download.jpg"
@@ -412,7 +412,10 @@
             class="bg-[#1E3A8A] hover:bg-[#1E3A8A] text-white font-bold py-2 my-3 rounded-md w-full"
             @click="submitSignature"
           >
-            Proceed to Sign
+            1. Proceed to AP Esign
+          </button>
+          <button class="bg-gray-400 hover:gray-400 text-white font-bold py-2 my-3 rounded-md w-full">
+            2. Proceed to Employee Esign
           </button>
         </div>
         <div
@@ -1481,3 +1484,4 @@ button {
   }
 }
 </style>
+https://www.canva.com/design/DAGgqkAj_rE/YB_gFSJj8sRzjQ21qhD-Sw/edit

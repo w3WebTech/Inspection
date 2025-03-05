@@ -13,26 +13,26 @@ const cusId = ref('')
 // Function to update local storage
 const updateLocalStorage = () => {
   try {
-    localStorage.setItem('OrgName', orgName.value)
-    localStorage.setItem('CustomerId', cusId.value)
+    // localStorage.setItem('OrgName', orgName.value)
+    // localStorage.setItem('CustomerId', cusId.value)
   } catch (error) {
-    console.error("Error saving to localStorage:", error)
+    console.error('Error saving to localStorage:', error)
   }
 }
 
 // Function to sync state with localStorage
 const syncStateFromLocalStorage = () => {
-  orgName.value = localStorage.getItem('OrgName') || ''
-  cusId.value = localStorage.getItem('CustomerId') || ''
+  orgName.value = localStorage.getItem('employeeName') || ''
+  cusId.value = localStorage.getItem('employeeId') || ''
 }
 
 onMounted(() => {
   // Sync initial values from localStorage or route
   const route = useRoute()
-  orgName.value = route.query.clientCompanyName || localStorage.getItem('OrgName') || ''
-  cusId.value = route.query.customerId || localStorage.getItem('CustomerId') || ''
-  console.log( orgName.value ," orgName.value ")
-  console.log( cusId.value ," cusId.value ")
+  orgName.value = route.query.clientCompanyName || localStorage.getItem('employeeName') || ''
+  cusId.value = route.query.customerId || localStorage.getItem('employeeId') || ''
+  console.log(orgName.value, ' orgName.value ')
+  console.log(cusId.value, ' cusId.value ')
   // Listen to localStorage changes
   window.addEventListener('storage', syncStateFromLocalStorage)
 })
@@ -55,21 +55,21 @@ const setEmployeeDetails = (name, id) => {
 }
 </script>
 
-
-
 <template>
   <VerticalNavLayout>
     <!-- 👉 navbar -->
     <template #navbar="{ toggleVerticalOverlayNavActive }">
       <div class="d-flex h-100 align-center prof">
         <!-- 👉 Vertical nav toggle in overlay mode -->
-        <!-- <IconBtn
-          class="ms-n3 d-lg-none"
-          @click="toggleVerticalOverlayNavActive(true)"
-        >
-          <VIcon icon="ri-menu-line" />
-        </IconBtn> -->
-
+        <!-- <IconBtn class=""> -->
+        <img
+          src="public/logochange.png"
+          alt=""
+          height="50"
+          width="50"
+        />
+        <!-- <VIcon icon="ri-menu-line" /> -->
+        <!-- </IconBtn> -->
         <VSpacer />
         <div class="px-4 font-bold py-1 text-sm">
           <div>{{ orgName || '' }}</div>

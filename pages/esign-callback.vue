@@ -5,19 +5,23 @@
         v-if="esigntype === 'ap'"
         class="signature-section mb-4 px-3"
       >
-        <h2 class="text-lg text-blue-900 font-medium my -2">Thank you for Esign Ap!!</h2>
-        <h4 class="text-lg text-blue-900 font-medium my -2">Esign for Employeee</h4>
+        <!-- <h2 class="text-lg text-blue-900 font-medium my -2">Thank you for Esign Ap!!</h2> -->
+        <!-- <h4 class="text-lg text-blue-900 font-medium my -2">Employeee Esign</h4> -->
+
         <div class="border-dotted border-2 rounded h-40 relative my-4">
           <img
             src="public/download.jpg"
             class="absolute inset-0 w-full h-full object-cover p-4"
           />
         </div>
+        <button class="bg-gray-400 hover:gray-400 text-white font-bold py-2 my-3 rounded-md w-full">
+          1.Ap Esign Completed
+        </button>
         <button
           class="bg-[#1E3A8A] hover:bg-[#1E3A8A] text-white font-bold py-2 my-3 rounded-md w-full"
           @click="submitSignature"
         >
-          Proceed to Sign
+          2.Proceed to Employee Esign
         </button>
       </div>
 
