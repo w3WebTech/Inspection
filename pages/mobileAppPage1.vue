@@ -562,15 +562,21 @@ export default {
     this.state = storedState || this.state
     this.empEmail = storedEmpEmail || this.empEmail
     this.empMobile = storedEmpMobile || this.empMobile
-    const now = new Date()
-    const day = String(now.getDate()).padStart(2, '0')
-    const month = String(now.getMonth() + 1).padStart(2, '0') // Months are 0-based
-    const year = String(now.getFullYear()).slice(-2) // Get last two digits of the year
-    const hours = String(now.getHours()).padStart(2, '0')
-    const minutes = String(now.getMinutes()).padStart(2, '0')
-    const seconds = String(now.getSeconds()).padStart(2, '0')
-    this.appSessionId = `${day}${month}${year}${hours}${minutes}${seconds}` // Set AppSessionId
-    localStorage.setItem('appSessionId', this.appSessionId)
+   let storedSessionId = localStorage.getItem('appSessionId');
+  if (!storedSessionId) {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = String(now.getFullYear()).slice(-2); // Get last two digits of the year
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    this.appSessionId = `${day}${month}${year}${hours}${minutes}${seconds}`; // Set AppSessionId
+    localStorage.setItem('appSessionId', this.appSessionId);
+  } else {
+    this.appSessionId = storedSessionId; // Use the existing session ID
+  }
+}
   },
   computed: {
     displayCusId() {
