@@ -576,7 +576,7 @@ export default {
   } else {
     this.appSessionId = storedSessionId; // Use the existing session ID
   }
-}
+
   },
   computed: {
     displayCusId() {
