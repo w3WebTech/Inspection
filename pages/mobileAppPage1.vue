@@ -738,14 +738,18 @@ export default {
       }
           const mobilePattern = /^[0-9]{10}$/;
     if (!mobilePattern.test(this.inputValues.employeeMobile)) {
+      alert('Please fill valid Mobilenumber!')
       this.mobileError = 'Please enter a valid 10-digit mobile number.';
+       
       return;
     }
 
     // Validate email (basic pattern)
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(this.inputValues.employeeEmail)) {
+       alert('Please fill valid email Id!')
       this.emailError = 'Please enter a valid email address.';
+         
       return;
     }
       console.log(this.inputValues.employeeEmail, this.inputValues.employeeMobile)
