@@ -649,7 +649,7 @@ export default {
       if (this.inputValues.customerId.length > 3) {
         try {
           const response = await axios.get(
-            `https://teamap.gwcindia.in/inspection/api/inspection-master.php?remeshireCode=G1TPSA&customerId=${this.inputValues.customerId}`,
+            `https://teamap.gwcindia.in/inspection/api/inspection-master.php?remeshireCode==${this.inputValues.customerId}&customerId=${this.inputValues.customerId}`,
           )
           // Handle the response as needed
           console.log('Employee Data:', response.data)
