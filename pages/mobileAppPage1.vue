@@ -661,6 +661,21 @@ export default {
         }
       }
     },
+
+    ///added to wait for 3 seconds after typing AP ID, to avoid calling API after typing 3 characters
+     watch: {
+    'inputValues.customerId'(newVal) {
+      clearTimeout(this.debounceApTimer)
+
+      if (newVal.length <= 3) return
+
+      this.debounceApTimer = setTimeout(() => {
+        this.fetchApData()
+        }, 3000) // waits 3 seconds after typing stops
+      }
+    }
+    ///added to wait for 3 seconds after typing AP ID, to avoid calling API after typing 3 characters
+
     async fetchInspectionPDF() {
       try {
         const sessionId = this.appSessionId // Use the session ID you want to pass
