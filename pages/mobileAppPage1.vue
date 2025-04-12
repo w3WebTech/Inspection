@@ -515,7 +515,6 @@ export default {
         employeeEmail: '',
       },
       appSessionId: '',
-      debounceApTimer: null // ⬅️ This line defines the timer for debounce
     }
   },
   mounted() {
@@ -1417,19 +1416,8 @@ export default {
       }
     },
   },
-
   
-    watch: {
-    'inputValues.customerId'(newVal) {
-      clearTimeout(this.debounceApTimer)
 
-      if (newVal.length <= 3) return
-
-      this.debounceApTimer = setTimeout(() => {
-        this.fetchApData()
-      }, 3000) // ⏳ waits 3 seconds after user stops typing
-    }
-  }
 
 
   
