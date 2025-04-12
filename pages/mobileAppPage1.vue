@@ -515,6 +515,7 @@ export default {
         employeeEmail: '',
       },
       appSessionId: '',
+      debounceApTimer: null,
     }
   },
   mounted() {
