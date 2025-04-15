@@ -638,7 +638,7 @@ export default {
             console.log('Employee Data:', response.data)
             this.inputValues.employeeName = response.data.empData.empName
             this.inputValues.employeeMobile = response.data.empData.empMobile
-          }, 2000)
+          }, 1000)
           
         } catch (error) {
           console.error('Error fetching employee data:', error)
@@ -653,7 +653,7 @@ export default {
     },
 
     async fetchApData() {
-      if (this.inputValues.customerId.length > 3) {
+      if (this.inputValues.customerId.length > 5) {
         try {
           const response = await axios.get(
             `https://teamap.gwcindia.in/inspection/api/inspection-master.php?remeshireCode=${this.inputValues.customerId}&customerId=${this.inputValues.customerId}`,
@@ -665,7 +665,7 @@ export default {
           setTimeout(() => {
             this.inputValues.clientCompanyName = response.data.remeshireData.REMESHIRE_NAME
             this.inputValues.state = response.data.remeshireData.state
-          }, 3000)
+          }, 1500)
           
         } catch (error) {
           console.error('Error fetching employee data:', error)
