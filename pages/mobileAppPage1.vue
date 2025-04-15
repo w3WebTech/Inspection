@@ -623,7 +623,7 @@ export default {
       }
     },
     async fetchEmpData() {
-      debugger
+      // debugger
       if (this.inputValues.employeeId.length > 5) {
         try {
           const response = await axios.get(
@@ -733,7 +733,7 @@ export default {
       this.showClientCamera = false
     },
     submitInputValues() {
-      debugger
+      // debugger
       // Check if any input values are empty
       if (
         !this.inputValues.customerId ||
