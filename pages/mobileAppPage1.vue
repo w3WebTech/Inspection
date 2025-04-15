@@ -619,7 +619,7 @@ export default {
         }
       } catch (error) {
         console.error('Error submitting signature:', error)
-        alert('Failed to submit signature. Please try again.')
+        // alert('Failed to submit signature. Please try again.')
       }
     },
     async fetchEmpData() {
@@ -630,9 +630,16 @@ export default {
             `https://teamap.gwcindia.in/inspection/api/inspection-emp-master.php?empId=${this.inputValues.employeeId}`,
           )
           // Handle the response as needed
-          console.log('Employee Data:', response.data)
-          this.inputValues.employeeName = response.data.empData.empName
-          this.inputValues.employeeMobile = response.data.empData.empMobile
+          // console.log('Employee Data:', response.data)
+          // this.inputValues.employeeName = response.data.empData.empName
+          // this.inputValues.employeeMobile = response.data.empData.empMobile
+
+          setTimeout(() => {
+            console.log('Employee Data:', response.data)
+            this.inputValues.employeeName = response.data.empData.empName
+            this.inputValues.employeeMobile = response.data.empData.empMobile
+          }, 2000)
+          
         } catch (error) {
           console.error('Error fetching employee data:', error)
           alert('Failed to fetch employee data. Please try again.')
@@ -652,9 +659,14 @@ export default {
             `https://teamap.gwcindia.in/inspection/api/inspection-master.php?remeshireCode=${this.inputValues.customerId}&customerId=${this.inputValues.customerId}`,
           )
           // Handle the response as needed
-          console.log('Employee Data:', response.data)
-          this.inputValues.clientCompanyName = response.data.remeshireData.REMESHIRE_NAME
-          this.inputValues.state = response.data.remeshireData.state
+          // console.log('Employee Data:', response.data)
+          // this.inputValues.clientCompanyName = response.data.remeshireData.REMESHIRE_NAME
+          // this.inputValues.state = response.data.remeshireData.state
+          setTimeout(() => {
+            this.inputValues.clientCompanyName = response.data.remeshireData.REMESHIRE_NAME
+            this.inputValues.state = response.data.remeshireData.state
+          }, 3000)
+          
         } catch (error) {
           console.error('Error fetching employee data:', error)
           alert('Failed to fetch employee data. Please try again.')
